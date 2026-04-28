@@ -1,0 +1,13 @@
+:root[data-theme="amber"] {
+    --cyan: #ffca5f;
+    --green: #ff7a3d;
+    --red: #ff4d67;
+    --violet: #ffd37a;
+}
+
+:root[data-theme="violet"] {
+    --cyan: #9b7cff;
+    --green: #5ee7ff;
+    --red: #ff7ab6;
+    --violet: #c8b8ff;
+}

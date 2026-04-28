@@ -1,0 +1,23 @@
+:root {
+    color-scheme: dark;
+    --bg: #07080b;
+    --bg-2: #0d1118;
+    --ink: #f7f4ea;
+    --muted: #c3cbd3;
+    --soft: rgba(247, 244, 234, 0.84);
+    --line: rgba(247, 244, 234, 0.22);
+    --line-strong: rgba(247, 244, 234, 0.42);
+    --panel: rgba(13, 17, 24, 0.84);
+    --cyan: #5ee7ff;
+    --green: #b8ff6a;
+    --red: #ff4d67;
+    --amber: #ffca5f;
+    --violet: #9b7cff;
+    --shadow: rgba(0, 0, 0, 0.58);
+    --max: 1180px;
+    --header: 76px;
+    --font-heading:
+        "Space Grotesk", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:
+        "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+}
