@@ -1,24 +1,20 @@
-function formatMetricLabel(value) {
-    return value.replace(/([A-Z])/g, " $1").trim();
-}
-
-export function ProjectFingerprint({ metrics = {}, title }) {
-    const entries = Object.entries(metrics);
+export function ProjectFingerprint({ project }) {
+    const entries = [
+        ["Status", project.status],
+        ["Timeline", project.timeline],
+        ["Proof note", project.privateReason],
+    ].filter(([, value]) => Boolean(value));
 
     if (!entries.length) return null;
 
     return (
-        <div
-            className="project-fingerprint"
-            aria-label={`${title} project metrics`}
-        >
-            {entries.map(([key, value]) => (
-                <article key={key}>
+        <div className="project-fingerprint" aria-label={`${project.title} proof status`}>
+            {entries.map(([label, value]) => (
+                <article key={label}>
                     <div>
-                        <span>{formatMetricLabel(key)}</span>
+                        <span>{label}</span>
                         <strong>{value}</strong>
                     </div>
-                    <i style={{ width: `${value}%` }} aria-hidden="true" />
                 </article>
             ))}
         </div>

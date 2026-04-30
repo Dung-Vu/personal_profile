@@ -1,0 +1,24 @@
+{
+  "name": "Vũ Đình Dũng Portfolio",
+  "short_name": "VD Portfolio",
+  "description": "Web developer portfolio for websites, dashboards, internal tools, and AI workflows.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#04080d",
+  "theme_color": "#07080b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

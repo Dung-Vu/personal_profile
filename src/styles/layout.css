@@ -25,24 +25,6 @@
     --scene-mode-text: rgba(214, 251, 255, 0.96);
 }
 
-:root[data-mode="cases"] .nav,
-:root[data-mode="cases"] .progress-rail,
-:root[data-mode="cases"] .chapter,
-:root[data-mode="cases"] .contact-section {
-    --scene-mode-accent: rgba(255, 77, 103, 0.14);
-    --scene-mode-line: rgba(255, 77, 103, 0.28);
-    --scene-mode-text: rgba(255, 225, 231, 0.96);
-}
-
-:root[data-mode="recruiter"] .nav,
-:root[data-mode="recruiter"] .progress-rail,
-:root[data-mode="recruiter"] .chapter,
-:root[data-mode="recruiter"] .contact-section {
-    --scene-mode-accent: rgba(184, 255, 106, 0.12);
-    --scene-mode-line: rgba(184, 255, 106, 0.24);
-    --scene-mode-text: rgba(235, 255, 206, 0.96);
-}
-
 .shell-header {
     position: fixed;
     inset: 0 0 auto;

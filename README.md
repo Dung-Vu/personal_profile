@@ -1,6 +1,6 @@
-# Signal Profile OS
+# Personal Website — Vũ Đình Dũng
 
-Static Vite + React personal profile website for Vũ Đình Dũng. The current build is a componentized "Signal Profile OS" experience with guarded desktop motion, mobile fallbacks, command panel navigation, and a canvas signal background.
+Vite + React 19 portfolio with 7 routes (`/`, `/about`, `/work`, `/stack`, `/workflow`, `/contact`, `/lab`), GSAP cinematic motion, and a Signal-OS aesthetic.
 
 ## Run
 
@@ -19,25 +19,46 @@ npm run build
 
 ## Edit Content
 
-Change profile copy, projects, and links in `src/profileData.js`.
+All content is managed in `src/content/`. Key files:
+
+- `profile.js` — name, hero image, social links
+- `projects.js` — 3 case studies with cover images
+- `about.js`, `stack.js`, `workflow.js` — per-route copy and data
+- `homeStoryScenes.js` — GSAP scrollytelling scenes (desktop)
 
 ## Architecture
 
-- `src/App.jsx` wires the shell, motion state, command panel, and sections.
-- `src/components/layout/` contains header, progress rail, command panel, transition gate, and footer.
-- `src/components/sections/` contains hero, identity, stack, projects, workflow, and contact sections.
-- `src/components/canvas/SignalCanvas.jsx` owns the particle canvas runtime.
-- `src/hooks/` owns active-section tracking, command focus trap, GSAP setup, magnetic elements, motion preference, and scroll velocity.
-- Styling stays in `styles.css`; no Tailwind migration was added.
+- `src/App.jsx` — custom History API router, lazy-loaded route pages
+- `src/components/layout/SiteShell.jsx` — global shell with skip-link, header, footer
+- `src/components/layout/` — Header, Footer, CommandPanel, ProgressRail, TransitionGate, PresentationHud
+- `src/components/sections/` — HeroSection, IdentitySection, ProjectsSection, ContactSection, Chapter
+- `src/components/lab/` — archived Lab OS sections (LabHomeSection, LabRenderedSections)
+- `src/features/` — CapabilityMatrix, CaseTheater, IntakeConsole, SignalMap, WorkflowPipeline
+- `src/hooks/` — motion hooks (GSAP, parallax, scroll velocity, magnetic), UI hooks (command panel, active section, theme)
+- `src/styles/` — CSS bundle: tokens → base → layout → sections → overlays → responsive; route CSS files lazy-loaded per page
 
-## UX / UI Features
+## Routes
 
-- GSAP reveal animations with `gsap.context()` cleanup.
-- Desktop-only custom cursor, magnetic elements, command text scramble, horizontal projects, workflow reveal cards, and parallax imagery.
-- Reduced-motion and `motion-muted` fallbacks disable heavy motion.
-- Canvas particles react to pointer repulsion and scroll velocity, and pause work when the tab is hidden.
-- Command panel opens from the terminal button or `Ctrl/Cmd+K`, traps focus, closes on `Escape`, and returns focus to the trigger.
-- Responsive profile, stack, project, workflow, and contact modules with no mobile horizontal overflow.
+| Path          | Page           | Description                                              |
+| ------------- | -------------- | -------------------------------------------------------- |
+| `/`           | HomePage       | Hero, identity, projects, workflow overview, contact CTA |
+| `/about`      | AboutPage      | Developer bio, beliefs, dossier stats                    |
+| `/work`       | WorkPage       | 3 case study cards                                       |
+| `/work/:slug` | CaseDetailPage | Full case narrative                                      |
+| `/stack`      | StackPage      | Technical capability matrix                              |
+| `/workflow`   | WorkflowPage   | 5-step operating workflow                                |
+| `/contact`    | ContactPage    | Intake console + service fit guide                       |
+| `/lab`        | LabPage        | Archived Signal OS motion lab                            |
+| `/404`        | NotFoundPage   | 404 fallback                                             |
+
+## UX / Motion
+
+- GSAP ScrollTrigger cinematic scrollytelling on Home (desktop only, `fine` pointer, ≥4GB RAM, ≥6 cores, ≥1120px)
+- Reduced-motion and `motion-muted` fallbacks for all animated sections
+- Desktop custom cursor, magnetic elements, command text scramble
+- CommandPanel via `Ctrl/Cmd+K`, focus trap, Escape to close
+- WCAG 2.4.1 skip-to-content link, WCAG 2.1 SC 4.1.2 aria compliance
+- All route pages set `document.title` via `useRouteTitle` hook
 
 ## Screenshots
 
@@ -48,16 +69,23 @@ Runtime screenshots are refreshed in `screenshots/`:
 - `projects-scroll.png`
 - `workflow-stack.png`
 
-## Image Credits
+## Images
 
-Generated project asset:
+All images live in `public/assets/` and are served at `/assets/filename`. Current images are AI-generated placeholders.
+See `docs/IMAGE_BRIEF.md` for replacement specs, dimensions, and generation prompts per slot.
 
-- `signal-hero-generated.png` - generated specifically for this website with a dark developer workstation / signal-system prompt.
-- `signal-hero-generated-1536.jpg` - optimized runtime derivative generated locally from the PNG source.
+**Active image slots:**
 
-Images were downloaded through Picsum's public image service, which references Unsplash source pages:
+| File                              | Used in                                       | Size   |
+| --------------------------------- | --------------------------------------------- | ------ |
+| `signal-workstation-hero-v2.webp` | HeroSection (Home hero bg)                    | 78 KB  |
+| `signal-workstation-hero-v2.jpg`  | `og:image`, `twitter:image` in index.html     | 221 KB |
+| `signal-hero-generated-1536.webp` | LabHomeSection (Lab hero bg)                  | 58 KB  |
+| `signal-about-dossier.webp`       | IdentitySection (portrait panel)              | 72 KB  |
+| `signal-case-tca-dashboard.webp`  | WorkPage + CaseDetailPage (TCA cover)         | 88 KB  |
+| `signal-case-bonario-hub.webp`    | WorkPage + CaseDetailPage (Bonario cover)     | 74 KB  |
+| `signal-case-ai-workflow.webp`    | WorkPage + CaseDetailPage (AI Workflow cover) | 85 KB  |
 
-- `photo-60.jpg` - Vadim Sherbakov, `https://unsplash.com/photos/Hi9GSwWkCJk`
-- `photo-84.jpg` - Johnny Lam, `https://unsplash.com/photos/63qfL0TciY8`
-- `photo-89.jpg` - Vectorbeast, `https://unsplash.com/photos/rsJtMXn3p_c`
-- `photo-1067.jpg` - Kevin Young, `https://unsplash.com/photos/-icmOdYWXuQ`
+**Missing file (link exists, file does not):**
+
+- `apple-touch-icon.png` — referenced in `<link rel="apple-touch-icon">`, needs to be created (180×180px PNG)

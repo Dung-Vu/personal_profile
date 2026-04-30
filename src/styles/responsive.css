@@ -670,6 +670,15 @@ body.ready #contact:target .reveal {
     .project-stage::before {
         inset: -0.75rem;
     }
+
+    .lab-archive-layout,
+    .lab-archive-routes {
+        grid-template-columns: 1fr;
+    }
+
+    .lab-archive-preserve {
+        position: static;
+    }
 }
 
 @media (max-width: 780px) {

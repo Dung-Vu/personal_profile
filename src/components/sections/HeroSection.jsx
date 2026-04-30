@@ -54,7 +54,7 @@ export function HeroSection({
     const activeModeProfile = modeProfiles[mode] ?? modeProfiles.story;
     const copy = getSectionModeCopy("home", mode);
 
-    const metrics = [
+    const stats = [
         {
             label: "cases",
             value: String(profile.projects.length).padStart(2, "0"),
@@ -81,7 +81,7 @@ export function HeroSection({
             data-mode-presentation={sectionMeta?.modePresentation}
         >
             <div className="hero-media parallax-image" aria-hidden="true">
-                <img src={profile.heroImage} alt="" />
+                <img src={profile.heroImage} alt="" loading="eager" decoding="async" fetchPriority="high" />
             </div>
             <div className="hero-grid">
                 <div className="hero-copy">
@@ -110,7 +110,7 @@ export function HeroSection({
                     <p className="hero-intro reveal">
                         {copy.intro ?? profile.intro}
                     </p>
-                    <MetricBand items={metrics} />
+                    <MetricBand items={stats} />
                     <div className="hero-actions reveal">
                         <a
                             className="action primary"

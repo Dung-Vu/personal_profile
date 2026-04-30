@@ -1,22 +1,25 @@
 import { Search, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
+import { getShellModeCopy } from "../../content/shellModeCopy";
 import { themePacks } from "../../content/themePacks";
 import { getNavItems } from "../../lib/sections";
 import { useCommandPanel } from "../../hooks/useCommandPanel";
 import { ScrambleText } from "../ui/ScrambleText";
 
 const densityOptions = ["comfort", "compact"];
-const modeOptions = ["story", "systems", "cases", "recruiter"];
+const modeOptions = ["story", "systems"];
 const motionProfiles = ["full", "balanced", "calm"];
 
 function formatLabel(value) {
-    return value[0].toUpperCase() + value.slice(1);
+    return (
+        getShellModeCopy(value).modeName ??
+        value[0].toUpperCase() + value.slice(1)
+    );
 }
 
 export function CommandPanel({
     commandButtonRef,
     copyEmail,
-    cycleTheme,
     density,
     jumpTo,
     mode,
@@ -191,7 +194,6 @@ export function CommandPanel({
         ],
         [
             copyEmail,
-            cycleTheme,
             density,
             jumpTo,
             mode,
@@ -209,14 +211,6 @@ export function CommandPanel({
             showToast,
             theme,
         ],
-    );
-
-    const allCommands = useMemo(
-        () =>
-            commands.flatMap((group) =>
-                group.items.map((item) => ({ ...item, group: group.title })),
-            ),
-        [commands],
     );
 
     const filteredCommands = useMemo(() => {
@@ -270,7 +264,7 @@ export function CommandPanel({
                     className="command-status"
                     aria-label="Current shell status"
                 >
-                    <span>mode / {mode}</span>
+                    <span>mode / {formatLabel(mode)}</span>
                     <span>density / {density}</span>
                     <span>motion / {motionProfile}</span>
                     <span>reel / {presentationMode ? "on" : "off"}</span>

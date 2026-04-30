@@ -1,9 +1,13 @@
 import { useMemo } from "react";
 import { Menu, Terminal } from "lucide-react";
+import { getShellModeCopy } from "../../content/shellModeCopy";
 import { getNavItems } from "../../lib/sections";
 
 function formatLabel(value) {
-    return value[0].toUpperCase() + value.slice(1);
+    return (
+        getShellModeCopy(value).modeName ??
+        value[0].toUpperCase() + value.slice(1)
+    );
 }
 
 export function Header({

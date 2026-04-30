@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { themePackIds } from "../content/themePacks";
 
 const storageKey = "signal-profile-accent";
@@ -16,14 +16,5 @@ export function useAccentTheme() {
         window.localStorage.setItem(storageKey, theme);
     }, [theme]);
 
-    const cycleTheme = useCallback(() => {
-        setTheme(
-            (current) =>
-                themePackIds[
-                    (themePackIds.indexOf(current) + 1) % themePackIds.length
-                ],
-        );
-    }, []);
-
-    return { theme, setTheme, cycleTheme };
+    return { theme, setTheme };
 }

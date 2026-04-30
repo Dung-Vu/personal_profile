@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAccentTheme } from "./useAccentTheme";
 
-const modes = ["story", "systems", "cases", "recruiter"];
+const modes = ["story", "systems"];
 const densities = ["comfort", "compact"];
 const motionProfiles = ["full", "balanced", "calm"];
 
@@ -23,7 +23,7 @@ function useStoredEnum(key, fallback, allowedValues) {
 }
 
 export function useAppShellState() {
-    const { theme, setTheme, cycleTheme } = useAccentTheme();
+    const { theme, setTheme } = useAccentTheme();
     const [mode, setMode] = useStoredEnum(
         "signal-profile-mode",
         "story",
@@ -93,7 +93,6 @@ export function useAppShellState() {
     return {
         theme,
         setTheme,
-        cycleTheme,
         mode,
         setMode,
         cycleMode,

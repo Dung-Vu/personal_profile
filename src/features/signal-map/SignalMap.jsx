@@ -1,25 +1,25 @@
 const principles = [
     {
         id: "clarity",
-        value: 92,
+        value: "Primary",
         title: "Clarity first",
         detail: "Trạng thái, hierarchy và hành động phải đọc ra được ngay từ lần chạm đầu tiên.",
     },
     {
         id: "systems",
-        value: 88,
+        value: "System",
         title: "System thinking",
         detail: "UI không đứng một mình; nó phải phản ánh được data shape, constraints và shell behavior.",
     },
     {
         id: "runtime",
-        value: 90,
+        value: "Runtime",
         title: "Runtime verification",
         detail: "Mỗi flow quan trọng đều phải kiểm bằng browser, data thật và fallback state rõ ràng.",
     },
     {
         id: "delivery",
-        value: 86,
+        value: "Delivery",
         title: "Execution loops",
         detail: "Tập trung vào các lát cắt chạy được sớm, sửa nhanh, validate nhanh và giữ context lâu.",
     },
@@ -55,7 +55,7 @@ export function SignalMap({ profile }) {
                             className="signal-principle-bar"
                             aria-hidden="true"
                         >
-                            <i style={{ width: `${item.value}%` }} />
+                            <i />
                         </div>
                         <p>{item.detail}</p>
                     </article>

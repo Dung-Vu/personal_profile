@@ -4,9 +4,8 @@ import "./styles/tokens.css";
 import "./styles/themes.css";
 import "./styles/base.css";
 import "./styles/layout.css";
-import "./styles/sections.css";
-import "./styles/overlays.css";
 import "./styles/responsive.css";
+import "./styles/routes.css";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")).render(

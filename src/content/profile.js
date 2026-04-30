@@ -9,7 +9,7 @@ export const profileBase = {
     email: "dinhdung521@gmail.com",
     github: "https://github.com/Dung-Vu",
     githubName: "Dung-Vu",
-    heroImage: "/assets/signal-hero-generated-1536.jpg",
+    heroImage: "/assets/signal-workstation-hero-v2.webp",
     intro: "Mình phát triển website, dashboard và công cụ nội bộ với trọng tâm là luồng thao tác gọn, dữ liệu dễ đọc và sản phẩm dùng được trong công việc thật.",
     birthday: "13/05/2001",
     location: "Việt Nam / Remote",
@@ -17,7 +17,7 @@ export const profileBase = {
     about: "Mình thích biến những quy trình rời rạc thành hệ thống web gọn gàng: đọc đúng bài toán, thiết kế màn hình theo hành động người dùng, kết nối API, kiểm tra bằng dữ liệu thật và dùng AI/CLI để tăng tốc vòng lặp phát triển.",
     contactText:
         "Nếu bạn cần một website, dashboard hoặc công cụ nội bộ, hãy gửi mình bối cảnh hiện tại, dữ liệu đang có và kết quả muốn đạt được. Mình sẽ phản hồi bằng hướng triển khai cụ thể, ưu tiên bản chạy được sớm.",
-    footer: "Signal Profile OS - Vũ Đình Dũng.",
+    footer: "Portfolio - Vũ Đình Dũng.",
 };
 
 export const profile = {

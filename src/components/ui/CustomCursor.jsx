@@ -23,18 +23,42 @@ export function CustomCursor({
         let raf = 0;
 
         const render = () => {
-            ringX += (dotX - ringX) * 0.18;
-            ringY += (dotY - ringY) * 0.18;
-            if (dotRef.current)
-                dotRef.current.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
-            if (ringRef.current)
+            const deltaX = dotX - ringX;
+            const deltaY = dotY - ringY;
+
+            ringX += deltaX * 0.18;
+            ringY += deltaY * 0.18;
+
+            if (ringRef.current) {
                 ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-            raf = window.requestAnimationFrame(render);
+            }
+
+            if (Math.abs(deltaX) > 0.12 || Math.abs(deltaY) > 0.12) {
+                raf = window.requestAnimationFrame(render);
+                return;
+            }
+
+            ringX = dotX;
+            ringY = dotY;
+            if (ringRef.current) {
+                ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+            }
+            raf = 0;
+        };
+
+        const scheduleRender = () => {
+            if (!raf && document.visibilityState === "visible") {
+                raf = window.requestAnimationFrame(render);
+            }
         };
 
         const move = (event) => {
             dotX = event.clientX;
             dotY = event.clientY;
+            if (dotRef.current) {
+                dotRef.current.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
+            }
+            scheduleRender();
         };
 
         const over = (event) => {
@@ -65,12 +89,19 @@ export function CustomCursor({
 
         const onVisibility = () => {
             if (document.visibilityState === "visible") {
-                if (!raf) raf = window.requestAnimationFrame(render);
+                scheduleRender();
             } else {
                 window.cancelAnimationFrame(raf);
                 raf = 0;
             }
         };
+
+        if (dotRef.current) {
+            dotRef.current.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
+        }
+        if (ringRef.current) {
+            ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+        }
 
         window.addEventListener("pointermove", move, { passive: true });
         window.addEventListener("pointerover", over, { passive: true });
@@ -78,7 +109,7 @@ export function CustomCursor({
         window.addEventListener("pointerdown", down, { passive: true });
         window.addEventListener("pointerup", up, { passive: true });
         document.addEventListener("visibilitychange", onVisibility);
-        raf = window.requestAnimationFrame(render);
+        scheduleRender();
 
         return () => {
             window.cancelAnimationFrame(raf);

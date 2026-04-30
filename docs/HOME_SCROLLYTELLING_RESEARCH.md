@@ -28,6 +28,14 @@ Hoặc theo ngôn ngữ site:
 Signal Story Sequence
 ```
 
+Để tránh drift giữa file chiến lược, phase plan và lúc code, nên chốt một cách gọi duy nhất trong toàn bộ spec:
+
+```txt
+Cinematic Scroll Story Home
+```
+
+`Signal Story Sequence` chỉ nên giữ như internal flavor label hoặc tên nhóm motion, không dùng thay cho tên pattern chính.
+
 Nó khác với Home tối giản ở chỗ:
 
 - Home tối giản: vào là hiểu nhanh, ít cảnh, ít chuyển động.
@@ -38,6 +46,16 @@ Nhưng nó cũng khác one-page cũ ở chỗ:
 - Không nhét toàn bộ project/stack/workflow/contact vào Home.
 - Không có quá nhiều panel/mode/HUD cạnh tranh nhau.
 - Chỉ kể một câu chuyện mở đầu, sau đó đẩy người xem sang Work/Stack/Contact.
+
+## 2.1 Vai trò chính của Home trong multi-page system
+
+Home trong hướng này phải làm đúng 3 việc:
+
+- Tạo ấn tượng đầu tiên đủ mạnh để người xem nhớ bạn.
+- Giải thích rất nhanh bạn làm gì và bạn mạnh ở đâu.
+- Đẩy người xem sang route đúng: Work để xem bằng chứng, Contact để bắt đầu liên hệ, Lab chỉ là nhánh phụ.
+
+Home không phải nơi thay Work, Stack hay Workflow. Nếu một ý nào cần nhiều hơn một scene ngắn để giải thích, ý đó nên đi sang route riêng.
 
 ## 3. Pattern từ các website scrollytelling cao cấp
 
@@ -132,124 +150,168 @@ Website cao cấp thường có một chỉ báo nhỏ cho người xem biết �
 
 Không nên làm progress rail phức tạp như site cũ. Chỉ cần một indicator rất gọn.
 
-## 4. Home story arc đề xuất cho Vũ Đình Dũng
+## 4. Home story arc đã chốt cho Vũ Đình Dũng
 
-Home nên có 5 cảnh. Mỗi cảnh chỉ cần một ý chính.
+Home có đúng 5 cảnh. Mỗi cảnh có một ý chính và tuân theo quy tắc: 1 headline + 1 supporting copy ngắn + 1 visual motif + 1 transition state.
 
-### Scene 01 - Signal Appears
+Copy trong phần này đã được khóa và sẵn sàng để code. Không cần "gợi ý" thêm — nếu cần điều chỉnh, sửa trực tiếp các giá trị ở đây.
 
-Mục tiêu:
+---
 
-- Giới thiệu tên.
-- Tạo cảm giác tín hiệu xuất hiện trong noise.
+### Scene 01 — Signal Appears
 
-Text gợi ý:
+**Ý chính:** Tên xuất hiện như một tín hiệu trong noise. Ấn tượng đầu tiên phải đủ mạnh để nhớ.
 
-```txt
-Vũ Đình Dũng
-I build interfaces that turn messy signals into usable systems.
+**Copy đã chốt:**
+
+```
+headline:  Vũ Đình Dũng
+body:      I build interfaces that turn messy signals into usable systems.
 ```
 
-Visual:
+Ghi chú ngôn ngữ: `body` dùng English vì đây là positioning statement cho cả international audience. Đây là ngoại lệ duy nhất được phép trong toàn site, không áp dụng cho các scene còn lại.
 
-- Nền tối sâu.
-- Noise/grain rất nhẹ.
-- Một signal line xuất hiện.
-- Tên reveal như được scan.
+**Visual:**
 
-Transition:
+- Nền tối sâu, noise/grain rất nhẹ.
+- Một signal line xuất hiện trước khi tên reveal.
+- Tên scan-in từng ký tự, không fade đơn thuần.
 
-- Signal line kéo ngang/dọc mở scene tiếp theo.
+**Accent:** `#000 / #00d4ff` (black/cyan)
 
-### Scene 02 - Interface Thinking
+**Transition out:** Signal line kéo ngang hoặc dọc để mở scene kế tiếp.
 
-Mục tiêu:
+---
 
-- Nói về cách bạn nhìn Frontend: không chỉ đẹp, mà rõ state/flow/data.
+### Scene 02 — Interface Thinking
 
-Text gợi ý:
+**Ý chính:** Frontend không phải chỉ là đẹp. Nó là cách state và data trở nên rõ ràng.
 
-```txt
-Frontend với mình không chỉ là màn hình đẹp.
-Nó là cách state, data và hành động của người dùng trở nên rõ ràng.
+**Copy đã chốt:**
+
+```
+headline:  Giao diện không chỉ là màn hình
+body:      Với mình, Frontend là cách state, data và hành động của người dùng
+           trở nên rõ ràng và có thể điều khiển được.
 ```
 
-Visual:
+**Visual:**
 
-- Background chuyển sang grid/interface blueprint.
-- Các card/state node mờ xuất hiện.
-- Một vài line kết nối state.
+- Background chuyển sang grid/interface blueprint, deep blue.
+- Các card và state node mờ dần xuất hiện.
+- Một vài connection line nhẹ kết nối các node.
 
-Transition:
+**Accent:** `#0a1628 / #2a4d8f` (deep blue)
 
-- Grid mở rộng thành layout/system board.
+**Transition out:** Grid mở rộng, layout board lộ ra như nền của scene tiếp theo.
 
-### Scene 03 - Systems From Chaos
+---
 
-Mục tiêu:
+### Scene 03 — Systems From Chaos
 
-- Nói về dashboard/internal tool/product system.
+**Ý chính:** Từ dữ liệu rời rạc, mình xây hệ thống có thể vận hành thật.
 
-Text gợi ý:
+**Copy đã chốt:**
 
-```txt
-Từ dữ liệu rời rạc, mình dựng thành dashboard, workflow và công cụ có thể dùng thật.
+```
+headline:  Từ dữ liệu rời rạc đến hệ thống dùng được
+body:      Mình xây dashboard, internal tool và workflow để biến dữ liệu thô
+           thành công cụ vận hành thật sự.
 ```
 
-Visual:
+**Visual:**
 
-- Background đổi sang deep blue/steel.
-- Module dashboard nổi lên.
-- Chart/table/card chỉ là abstract, không cần full project.
+- Background steel/dark blue.
+- Các module dashboard nổi lên: abstract chart, table, card — không cần full project screenshot.
+- Cảm giác như đang nhìn vào một hệ thống đang chạy.
 
-Transition:
+**Accent:** `#0f1c2e / #b8860b` (steel/amber)
 
-- Modules compress lại thành một project signal.
+**Transition out:** Các module compress lại thành một signal point duy nhất, dẫn vào scene 04.
 
-### Scene 04 - AI Assisted Delivery
+---
 
-Mục tiêu:
+### Scene 04 — AI Assisted Delivery
 
-- Nói về AI workflow, CLI, automation, delivery.
+**Ý chính:** AI và CLI là phần tự nhiên trong workflow của mình — để đi nhanh hơn từ concept đến sản phẩm.
 
-Text gợi ý:
+**Copy đã chốt:**
 
-```txt
-Mình dùng AI, CLI và runtime feedback để đi từ ý tưởng đến bản chạy được nhanh hơn.
+```
+headline:  Nhanh hơn từ concept đến sản phẩm
+body:      AI, CLI và runtime feedback là một phần tự nhiên trong cách mình làm việc —
+           để rút ngắn khoảng cách từ ý tưởng đến bản chạy được.
 ```
 
-Visual:
+**Visual:**
 
-- Background chuyển sang xanh lục/cyan lab.
-- Command line nhẹ, automation path, commit/build signal.
+- Background green/cyan lab.
+- Command line nhẹ, automation path, commit/build signal — thoáng qua.
 - Không biến thành terminal dày đặc.
 
-Transition:
+**Accent:** `#0a1f0a / #00c896` (dark green/cyan)
 
-- Command cursor biến thành CTA arrow.
+**Transition out:** Command cursor morph thành CTA arrow dẫn vào scene cuối.
 
-### Scene 05 - Choose The Door
+---
 
-Mục tiêu:
+### Scene 05 — Choose The Door
 
-- Kết câu chuyện và đưa người xem sang trang tiếp theo.
+**Ý chính:** Kết câu chuyện. Đưa người xem sang route phù hợp với họ.
 
-Text gợi ý:
+**Copy đã chốt:**
 
-```txt
-Nếu bạn muốn xem bằng chứng, bắt đầu từ Work.
-Nếu muốn bắt đầu một sản phẩm, đi tới Contact.
+```
+headline:  Bạn muốn bắt đầu từ đâu?
+body:      Xem bằng chứng trong Work. Bắt đầu cuộc trò chuyện ở Contact.
 ```
 
-Visual:
+**CTA đã chốt:**
 
-- Background sạch hơn.
-- 2 CTA lớn: View Work / Start Contact.
-- Link nhỏ tới Lab: Explore Signal OS.
+```
+cta_primary:    label="View Work"        route="/work"
+cta_secondary:  label="Contact"          route="/contact"
+cta_lab:        label="Explore Lab →"    route="/lab"
+```
 
-Transition:
+Ghi chú CTA: `View Work` và `Contact` dùng English vì ngắn và thống nhất với convention button. `Explore Lab →` dùng English vì tên route Lab cũng là English. Ba CTA này có weight khác nhau: primary rõ nhất, secondary nhỏ hơn, lab link nhỏ nhất.
 
-- Không cần chuyển nữa. Đây là điểm thoát.
+**Visual:**
+
+- Background tối clean hơn các scene trước — ít motif, nhiều không gian.
+- 2 CTA nổi bật. Link Lab ở vị trí phụ.
+
+**Accent:** `#080c10 / #e8e8e8` (clean dark)
+
+**Transition out:** Không có. Đây là điểm thoát.
+
+---
+
+## 4.1 Scene Data Schema
+
+Đây là cấu trúc dữ liệu chuẩn cho `homeStoryScenes.js`. Mỗi field phải được fill đủ trước khi code scene animation.
+
+```js
+// homeStoryScenes.js
+export const homeStoryScenes = [
+    {
+        id: "signal-appears", // slug dùng cho CSS class và aria-label
+        index: 0, // 0-based, dùng cho ScrollTrigger progress
+        indicatorLabel: "01", // text hiển thị trong scene indicator
+        headline: "", // text chính, render as <h1> hoặc <h2>
+        body: "", // supporting copy, render as <p>
+        accent: {
+            bg: "", // CSS color token cho background
+            line: "", // CSS color token cho signal line/motif
+        },
+        cta: null, // null cho scene 01-04; object cho scene 05
+        // cta shape: { primary, secondary, lab }
+        // primary/secondary/lab shape: { label, route }
+    },
+];
+```
+
+Copy từng scene đã khóa ở mục 4. Khi code `homeStoryScenes.js`, copy vào trực tiếp, không hard-code trong JSX.
 
 ## 5. Cấu trúc scroll hợp lý
 
@@ -275,6 +337,17 @@ Trên mobile:
 - Background vẫn đổi theo section, nhưng animation nhẹ hơn.
 - Text luôn ưu tiên đọc được.
 
+## 5.1 Quy tắc payload cho từng scene
+
+Để Home giữ được cảm giác cinematic nhưng không quay lại lỗi one-page cũ, mỗi scene nên bị giới hạn rõ:
+
+- 1 headline chính.
+- 1 supporting copy ngắn, tối đa khoảng 2 câu.
+- 1 visual motif chính.
+- 1 trạng thái chuyển cảnh phục vụ scene kế tiếp.
+
+Không nên nhét proof chi tiết, stack list dài hoặc case-study data vào từng scene. Các thứ đó thuộc về Work, Stack hoặc Workflow.
+
 ## 6. Kỹ thuật phù hợp với project hiện tại
 
 Project hiện đã có GSAP/ScrollTrigger, nên không cần đổi stack lớn.
@@ -286,7 +359,7 @@ HomePage.jsx
 -> HomeStory.jsx
 -> homeStoryScenes data
 -> useHomeStoryMotion hook
--> home-story.css
+-> styles/pages/home.css
 ```
 
 Animation engine:
@@ -294,6 +367,8 @@ Animation engine:
 - GSAP ScrollTrigger cho desktop.
 - CSS transition + IntersectionObserver fallback cho mobile/reduced-motion nếu cần.
 - Dùng timeline tổng, không tạo quá nhiều ScrollTrigger nhỏ.
+- CTA ở scene cuối phải dùng route navigation thật, không dùng anchor scroll để giả multi-page.
+- Scene data nên là một single source of truth để copy, visual state, indicator và motion phase đọc từ cùng một cấu trúc.
 
 Pattern GSAP nên dùng:
 
@@ -313,6 +388,14 @@ Lưu ý kỹ thuật:
 - Dùng function-based `end` và `invalidateOnRefresh` để responsive ổn.
 - Có reduced-motion fallback.
 - Không dùng quá nhiều canvas/blur/filter nặng cùng lúc.
+
+## 6.1 Guardrails bắt buộc
+
+- Desktop chỉ nên có một pin sequence chính cho Home story; tránh chia thành nhiều pinned zone nối nhau.
+- Mobile không cố giữ đủ mọi effect của desktop. Ưu tiên đọc, scroll mượt và tap target rõ.
+- Scene indicator phải là tín hiệu phụ, không phải nguồn thông tin duy nhất về trạng thái hiện tại.
+- Text contrast phải ổn định qua mọi scene; không hy sinh readability để giữ màu nền "đỉnh".
+- Reduced-motion không chỉ là tắt animation, mà phải giữ nguyên thứ tự kể chuyện và CTA logic.
 
 ## 7. Visual signature nên chọn
 
@@ -340,35 +423,34 @@ Cảm giác:
 - Không làm mobile nặng hoặc khó scroll.
 - Không để Home thay thế Work/About/Stack.
 
-## 9. Kết luận đề xuất
+## 9. Kết luận và checklist trước khi code
 
-Nên đổi định hướng Home từ:
+Hướng đã được chốt: **Cinematic Scroll Story Home**.
 
-```txt
-Story Signal Landing
-```
-
-thành:
+Tóm tắt những gì đã khóa:
 
 ```txt
-Cinematic Scroll Story Home
+5 cảnh — Signal Appears / Interface Thinking / Systems From Chaos / AI Assisted Delivery / Choose The Door
+Scroll dọc theo một timeline chính, pinned stage trên desktop
+Fallback vertical story trên mobile và reduced-motion
+Signal Scan Transition làm signature chuyển cảnh duy nhất
+Copy đã chốt theo cấu trúc headline + body cho tất cả 5 cảnh
+CTA Scene 05: View Work (primary) · Contact (secondary) · Explore Lab → (phụ)
+Lab chỉ là link phụ, không chiếm trọng tâm
 ```
 
-Cụ thể:
+Checklist trước khi bắt đầu code Phase 6:
 
-```txt
-Một Home 5 cảnh
-Scroll dọc để chuyển background và text
-Pinned stage trên desktop
-Fallback vertical story trên mobile
-Signal Scan Transition làm signature
-CTA rõ ở cảnh cuối
-```
+- [ ] `homeStoryScenes.js` được tạo với 5 scene entries đầy đủ theo schema ở mục 4.1.
+- [ ] Accent colors từ từng scene đã được map vào design tokens (`styles/tokens.css`).
+- [ ] Route `/work`, `/contact`, `/lab` đã hoạt động (Phase 5 done) trước khi Home CTA có ý nghĩa.
+- [ ] Quyết định về `scrub` vs `snap` trong ScrollTrigger đã được xem xét (snap hợp hơn nếu muốn cảm giác chapter rõ, scrub hợp hơn nếu muốn người xem kiểm soát tốc độ).
+- [ ] Reduced-motion fallback đã được design trước khi code animation — không phải thêm sau.
 
-Đây là hướng rất hợp với mục tiêu trình diễn vẻ đẹp Frontend, vì nó cho thấy:
+Hướng này cho thấy được:
 
-- Gu visual.
-- Khả năng motion.
-- Khả năng storytelling.
-- Khả năng kiểm soát state/scene/transition.
-- Khả năng làm trải nghiệm cao cấp mà vẫn có nội dung rõ.
+- Gu visual có chủ đích.
+- Khả năng motion có kiểm soát.
+- Khả năng storytelling qua scroll.
+- Khả năng kiểm soát state/scene/transition theo data.
+- Trải nghiệm cao cấp mà vẫn đọc được nội dung rõ.

@@ -28,8 +28,10 @@ export function IdentitySection({
             <div className="identity-layout">
                 <div className="portrait-panel parallax-image reveal">
                     <img
-                        src="/assets/photo-60.jpg"
-                        alt="Creative workstation representing web development work."
+                        src="/assets/signal-about-dossier.webp"
+                        alt="Developer workspace dossier with interface sketches and signal maps."
+                        loading="lazy"
+                        decoding="async"
                     />
                     <div className="portrait-overlay">
                         <span>VD / 2001</span>

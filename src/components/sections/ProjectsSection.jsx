@@ -105,7 +105,7 @@ export function ProjectsSection({
                         <div className="project-theater-media parallax-image">
                             <img
                                 src={project.image}
-                                alt=""
+                                alt={`${project.title} interface preview`}
                                 loading="eager"
                                 decoding="async"
                             />
@@ -129,10 +129,7 @@ export function ProjectsSection({
                                 <p>{project.summary}</p>
                             </div>
 
-                            <ProjectFingerprint
-                                metrics={project.metrics}
-                                title={project.title}
-                            />
+                            <ProjectFingerprint project={project} />
 
                             <div
                                 className="case-study-grid case-study-grid-expanded"

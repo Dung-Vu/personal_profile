@@ -17,22 +17,6 @@ const modeProfiles = {
         drift: 0.28,
         connectDistance: 122,
     },
-    cases: {
-        primary: "rgba(255, 108, 131, 0.52)",
-        secondary: "rgba(255, 202, 95, 0.4)",
-        glow: "rgba(255, 108, 131, 0.16)",
-        density: 1.02,
-        drift: 0.36,
-        connectDistance: 98,
-    },
-    recruiter: {
-        primary: "rgba(184, 255, 106, 0.42)",
-        secondary: "rgba(247, 244, 234, 0.28)",
-        glow: "rgba(184, 255, 106, 0.1)",
-        density: 0.82,
-        drift: 0.18,
-        connectDistance: 84,
-    },
 };
 
 const focusMap = {
@@ -52,6 +36,11 @@ export function SignalCanvas({
     scrollVelocityRef,
 }) {
     const canvasRef = useRef(null);
+    const activeSectionRef = useRef(activeSection);
+
+    useEffect(() => {
+        activeSectionRef.current = activeSection;
+    }, [activeSection]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -59,13 +48,14 @@ export function SignalCanvas({
 
         const ctx = canvas.getContext("2d");
         const profile = modeProfiles[mode] ?? modeProfiles.story;
-        const focusAnchor = focusMap[activeSection] ?? focusMap.home;
         const pointer = { x: -9999, y: -9999, active: false };
         let width = 0;
         let height = 0;
         let frame = 0;
+        let lastPaint = 0;
         let particles = [];
         let visible = document.visibilityState === "visible";
+        const frameInterval = presentationMode ? 1000 / 30 : 1000 / 24;
 
         const resize = () => {
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -77,11 +67,11 @@ export function SignalCanvas({
             canvas.style.height = `${height}px`;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             const count = Math.min(
-                82,
+                64,
                 Math.max(
-                    22,
+                    18,
                     Math.floor(
-                        (width / 26) *
+                        (width / 34) *
                             profile.density *
                             (presentationMode ? 1.08 : 1),
                     ),
@@ -105,7 +95,15 @@ export function SignalCanvas({
         };
 
         const draw = (time) => {
+            if (time - lastPaint < frameInterval) {
+                frame = requestAnimationFrame(draw);
+                return;
+            }
+
+            lastPaint = time;
             ctx.clearRect(0, 0, width, height);
+            const focusAnchor =
+                focusMap[activeSectionRef.current] ?? focusMap.home;
             const reelFocusX =
                 width * focusAnchor[0] +
                 Math.sin(time * 0.00022) * width * 0.08;
@@ -232,13 +230,7 @@ export function SignalCanvas({
             window.removeEventListener("pointerleave", leavePointer);
             document.removeEventListener("visibilitychange", visibility);
         };
-    }, [
-        activeSection,
-        mode,
-        motionEnabled,
-        presentationMode,
-        scrollVelocityRef,
-    ]);
+    }, [mode, motionEnabled, presentationMode, scrollVelocityRef]);
 
     return (
         <canvas className="signal-canvas" ref={canvasRef} aria-hidden="true" />

@@ -1,0 +1,288 @@
+.workflow-hero-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.34fr);
+    gap: clamp(1rem, 4vw, 3rem);
+    align-items: stretch;
+}
+
+.workflow-hero-copy,
+.workflow-radar-card,
+.workflow-step-card,
+.workflow-toolchain-panel,
+.workflow-handoff-panel,
+.workflow-route-panel {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(167, 255, 114, 0.16);
+    background: linear-gradient(
+        145deg,
+        rgba(18, 39, 24, 0.82),
+        rgba(5, 10, 14, 0.94)
+    );
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+}
+
+.workflow-hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.35rem;
+    min-height: min(66vh, 44rem);
+    padding: clamp(1.4rem, 5vw, 4.6rem);
+    border-radius: clamp(1.5rem, 4vw, 3rem);
+}
+
+.workflow-hero-copy h1,
+.workflow-section-heading h2,
+.workflow-toolchain-panel h2,
+.workflow-handoff-panel h2,
+.workflow-route-panel h2 {
+    margin: 0;
+    letter-spacing: -0.055em;
+}
+
+.workflow-hero-copy h1 {
+    max-width: 12ch;
+    font-size: clamp(2.55rem, 5.9vw, 5.7rem);
+    line-height: 0.95;
+}
+
+.workflow-hero-copy p,
+.workflow-radar-card p,
+.workflow-step-card p,
+.workflow-toolchain-grid p {
+    margin: 0;
+    color: rgba(243, 255, 233, 0.7);
+    line-height: 1.75;
+}
+
+.workflow-hero-copy p {
+    max-width: 58rem;
+    font-size: clamp(1rem, 1.8vw, 1.22rem);
+}
+
+.workflow-radar-card {
+    display: grid;
+    align-content: end;
+    gap: 1rem;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border-radius: 2rem;
+}
+
+.workflow-radar-card svg {
+    width: 3rem;
+    height: 3rem;
+    color: var(--workflow-accent);
+}
+
+.workflow-radar-card strong {
+    font-size: clamp(1.9rem, 3vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+}
+
+.workflow-section-heading {
+    display: grid;
+    gap: 0.8rem;
+    margin: clamp(4rem, 8vw, 7rem) 0 clamp(1.2rem, 3vw, 2rem);
+}
+
+.workflow-section-heading span,
+.workflow-route-panel span {
+    color: rgba(167, 255, 114, 0.78);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.workflow-section-heading h2 {
+    max-width: 18ch;
+    font-size: clamp(2.2rem, 5vw, 4.6rem);
+    line-height: 0.95;
+}
+
+.workflow-timeline {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+}
+
+.workflow-timeline::before {
+    content: "";
+    position: absolute;
+    left: clamp(1.7rem, 4vw, 2.6rem);
+    top: 2rem;
+    bottom: 2rem;
+    width: 1px;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(167, 255, 114, 0.7),
+        rgba(115, 216, 255, 0.65),
+        transparent
+    );
+}
+
+.workflow-step-card {
+    display: grid;
+    grid-template-columns: clamp(3.4rem, 7vw, 5rem) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 3vw, 2rem);
+    border-radius: 1.8rem;
+}
+
+.workflow-step-index {
+    display: grid;
+    width: clamp(3rem, 6vw, 4.4rem);
+    height: clamp(3rem, 6vw, 4.4rem);
+    place-items: center;
+    border: 1px solid rgba(167, 255, 114, 0.42);
+    border-radius: 999px;
+    background: #101a12;
+    color: var(--workflow-accent);
+    font-weight: 900;
+    z-index: 1;
+}
+
+.workflow-step-card span {
+    color: var(--workflow-blue);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.workflow-step-card h3 {
+    margin: 0.4rem 0 0.6rem;
+    color: #f8fff0;
+    font-size: clamp(1.5rem, 3vw, 2.7rem);
+    letter-spacing: -0.045em;
+}
+
+.workflow-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1rem 0;
+}
+
+.workflow-check-list small,
+.workflow-toolchain-grid span {
+    padding: 0.42rem 0.58rem;
+    border: 1px solid rgba(167, 255, 114, 0.18);
+    border-radius: 999px;
+    background: rgba(167, 255, 114, 0.07);
+    color: rgba(243, 255, 233, 0.78);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.workflow-step-card strong {
+    color: var(--workflow-accent);
+}
+
+.workflow-toolchain-panel,
+.workflow-handoff-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(1.2rem, 4vw, 3rem);
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding: clamp(1.2rem, 4vw, 3rem);
+    border-radius: 2.2rem;
+}
+
+.workflow-toolchain-panel h2,
+.workflow-handoff-panel h2,
+.workflow-route-panel h2 {
+    margin-top: 0.75rem;
+    font-size: clamp(1.9rem, 4vw, 3.7rem);
+    line-height: 0.95;
+}
+
+.workflow-toolchain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.workflow-toolchain-grid article {
+    padding: 1rem;
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.workflow-toolchain-grid svg,
+.workflow-handoff-panel svg {
+    color: var(--workflow-accent);
+}
+
+.workflow-toolchain-grid h3 {
+    margin: 0.8rem 0 0.6rem;
+    color: #f8fff0;
+}
+
+.workflow-toolchain-grid article div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 1rem;
+}
+
+.workflow-handoff-panel ul {
+    display: grid;
+    gap: 0.8rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.workflow-handoff-panel li {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.045);
+    color: rgba(243, 255, 233, 0.74);
+    line-height: 1.6;
+}
+
+.workflow-route-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.2rem;
+    align-items: center;
+    margin-top: 1rem;
+    padding: clamp(1.2rem, 4vw, 2.4rem);
+    border-radius: 2rem;
+    background: linear-gradient(
+        135deg,
+        rgba(167, 255, 114, 0.16),
+        rgba(8, 16, 22, 0.94)
+    );
+}
+
+@media (max-width: 1050px) {
+    .workflow-toolchain-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 860px) {
+    .workflow-hero-shell,
+    .workflow-toolchain-panel,
+    .workflow-handoff-panel,
+    .workflow-route-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-hero-copy h1 {
+        max-width: 11ch;
+    }
+
+    .workflow-step-card {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-timeline::before {
+        display: none;
+    }
+}

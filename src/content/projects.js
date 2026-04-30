@@ -6,7 +6,7 @@ export const projects = [
         category: "dashboard",
         importance: "flagship",
         year: "2026",
-        image: "/assets/photo-60.jpg",
+        image: "/assets/signal-case-tca-dashboard.webp",
         tech: ["Next.js", "Charts", "Binance API"],
         summary:
             "Dashboard theo dõi crypto market, gom biểu đồ, tín hiệu và dữ liệu biến động vào một trải nghiệm đọc nhanh.",
@@ -16,10 +16,22 @@ export const projects = [
         outcome:
             "Tạo một màn hình tập trung giúp ưu tiên tín hiệu quan trọng, giảm thao tác chuyển tab và hỗ trợ ra quyết định nhanh hơn.",
         status: "Private build",
+        timeline: "Prototype + dashboard iteration",
+        privateReason: "Private because market data and account context are not public.",
+        team: "Solo frontend/product UI",
+        evidenceNote: "Sanitized interface preview is used; live market/account data stays private.",
+        nextProof: "Add a redacted demo clip or public sandbox when data can be safely mocked.",
+        liveUrl: "",
+        repoUrl: "",
         constraints: [
             "Nhiều nguồn dữ liệu",
             "Ưu tiên tốc độ đọc",
             "Giảm chuyển tab",
+        ],
+        deliverables: [
+            "Dashboard information architecture",
+            "Signal-first card and chart hierarchy",
+            "Runtime states for loading, empty and fast-scan flows",
         ],
         uiFocus: [
             "dashboard hierarchy",
@@ -28,13 +40,8 @@ export const projects = [
         ],
         systemRole: "Signal-first market reading surface",
         signals: ["clarity", "speed", "data-density"],
-        metrics: {
-            clarity: 92,
-            systemComplexity: 74,
-            readingSpeed: 88,
-        },
         assets: {
-            cover: "/assets/photo-60.jpg",
+            cover: "/assets/signal-case-tca-dashboard.webp",
         },
         links: {},
     },
@@ -45,7 +52,7 @@ export const projects = [
         category: "internal-tool",
         importance: "high",
         year: "2026",
-        image: "/assets/signal-hero-generated-1536.jpg",
+        image: "/assets/signal-case-bonario-hub.webp",
         tech: ["Flask", "React", "Odoo"],
         summary:
             "Công cụ web kết nối Flask, React và Odoo để tra cứu, xử lý và kiểm soát dữ liệu sản phẩm nội bộ.",
@@ -55,21 +62,28 @@ export const projects = [
         outcome:
             "Tạo một hub rõ trạng thái, dễ mở rộng, giúp thao tác sản phẩm nhất quán hơn và giảm phụ thuộc vào xử lý thủ công.",
         status: "Internal tool",
+        timeline: "Internal workflow build",
+        privateReason: "Private because it touches operations data and Odoo context.",
+        team: "Solo full-stack implementation support",
+        evidenceNote: "Sanitized preview only; internal product/Odoo data cannot be published.",
+        nextProof: "Add redacted workflow screenshots for search, edit, sync, and error states.",
+        liveUrl: "",
+        repoUrl: "",
         constraints: [
             "Nhiều nguồn dữ liệu",
             "Nhu cầu thao tác lặp",
             "Odoo integration",
         ],
+        deliverables: [
+            "Operations hub structure",
+            "Admin workflow screens",
+            "API/Odoo state handling and operator feedback",
+        ],
         uiFocus: ["state clarity", "admin flows", "operational consistency"],
         systemRole: "Operations hub for product handling",
         signals: ["workflow", "system-state", "reliability"],
-        metrics: {
-            clarity: 89,
-            systemComplexity: 82,
-            readingSpeed: 76,
-        },
         assets: {
-            cover: "/assets/signal-hero-generated-1536.jpg",
+            cover: "/assets/signal-case-bonario-hub.webp",
         },
         links: {},
     },
@@ -80,7 +94,7 @@ export const projects = [
         category: "workflow",
         importance: "high",
         year: "2026",
-        image: "/assets/photo-84.jpg",
+        image: "/assets/signal-case-ai-workflow.webp",
         tech: ["Codex", "Claude", "MCP"],
         summary:
             "Bộ workflow dùng AI assistant, Windows, WSL2, MCP và browser audit để đọc code, sửa lỗi và kiểm tra sản phẩm nhanh hơn.",
@@ -90,10 +104,22 @@ export const projects = [
         outcome:
             "Rút ngắn vòng lặp debug, chuẩn hóa cách review UI/UX và giữ được context kỹ thuật qua nhiều phiên làm việc.",
         status: "Living system",
+        timeline: "Active personal workflow",
+        privateReason: "Publicly explainable, but exact session logs and client context stay private.",
+        team: "Personal workflow system",
+        evidenceNote: "Process can be described publicly; raw session logs and client context stay private.",
+        nextProof: "Publish a cleaned walkthrough of plan, diff, build, browser QA, and check-in handoff.",
+        liveUrl: "",
+        repoUrl: "",
         constraints: [
             "Nhiều tool song song",
             "Context switching",
             "Debug loops",
+        ],
+        deliverables: [
+            "Reusable AI/CLI operating loop",
+            "Browser QA and layout-check scripts",
+            "Session memory and handoff documentation",
         ],
         uiFocus: [
             "workflow clarity",
@@ -102,13 +128,8 @@ export const projects = [
         ],
         systemRole: "Operator workflow system",
         signals: ["automation", "verification", "speed"],
-        metrics: {
-            clarity: 84,
-            systemComplexity: 78,
-            readingSpeed: 81,
-        },
         assets: {
-            cover: "/assets/photo-84.jpg",
+            cover: "/assets/signal-case-ai-workflow.webp",
         },
         links: {},
     },
