@@ -1,328 +1,404 @@
-.stack-hero-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.34fr);
-    gap: clamp(1rem, 4vw, 3rem);
-    align-items: stretch;
-}
+/* =============================================
+   STACK / CAPABILITY MATRIX — Full Width Blueprint
+   Aesthetic: Technical, high-contrast, data-driven
+   ============================================= */
 
-.stack-hero-copy,
-.stack-stats-panel,
-.stack-capability-card,
-.stack-principle-panel,
-.stack-route-panel {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(110, 231, 255, 0.16);
-    background: linear-gradient(
-        145deg,
-        rgba(9, 31, 42, 0.82),
-        rgba(4, 9, 16, 0.94)
-    );
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
-}
-
-.stack-hero-copy {
+.stack-blueprint-page {
+    width: min(100%, 1400px);
+    margin: 0 auto;
+    padding: calc(var(--header, 76px) + 3rem) clamp(1rem, 4vw, 3rem) 6rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.35rem;
-    min-height: min(66vh, 44rem);
-    padding: clamp(1.4rem, 5vw, 4.6rem);
-    border-radius: clamp(1.5rem, 4vw, 3rem);
+    gap: clamp(4rem, 8vw, 7rem);
 }
 
-.stack-hero-copy::after {
-    content: "";
-    position: absolute;
-    inset: auto -12% -30% 22%;
-    height: 16rem;
-    background: radial-gradient(
-        circle,
-        rgba(110, 231, 255, 0.18),
-        transparent 68%
-    );
-    pointer-events: none;
+/* =========================================
+   HERO SECTION
+   ========================================= */
+
+.stack-hero-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 64rem;
 }
 
-.stack-hero-copy h1,
-.stack-section-heading h2,
-.stack-principle-panel h2,
-.stack-route-panel h2 {
-    margin: 0;
-    letter-spacing: -0.055em;
-}
-
-.stack-hero-copy h1 {
-    max-width: 12ch;
-    font-size: clamp(2.55rem, 5.9vw, 5.7rem);
-    line-height: 0.95;
-}
-
-.stack-hero-copy p {
-    max-width: 58rem;
-    margin: 0;
-    color: rgba(239, 251, 255, 0.72);
-    font-size: clamp(1rem, 1.8vw, 1.22rem);
-    line-height: 1.8;
-}
-
-.stack-stats-panel {
-    display: grid;
-    align-content: end;
-    gap: 1rem;
-    padding: clamp(1.2rem, 3vw, 2rem);
-    border-radius: 2rem;
-}
-
-.stack-stats-panel > svg {
-    width: 3rem;
-    height: 3rem;
-    color: var(--stack-accent);
-}
-
-.stack-stats-panel div {
-    display: grid;
-    gap: 0.3rem;
-    padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1.15rem;
-    background: rgba(255, 255, 255, 0.045);
-}
-
-.stack-stats-panel strong {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    letter-spacing: -0.08em;
-}
-
-.stack-stats-panel span,
-.stack-section-heading span,
-.stack-route-panel span,
-.stack-evidence-list small {
-    color: rgba(110, 231, 255, 0.78);
-    font-size: 0.78rem;
+.hero-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
+    color: var(--cyan);
 }
 
-.stack-section-heading {
-    display: grid;
-    gap: 0.8rem;
-    margin: clamp(4rem, 8vw, 7rem) 0 clamp(1.2rem, 3vw, 2rem);
+.stack-hero-block h1 {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 850;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    text-wrap: balance;
 }
 
-.stack-section-heading h2 {
-    max-width: 18ch;
-    font-size: clamp(2.2rem, 5vw, 4.6rem);
-    line-height: 0.95;
+.hero-intro {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 48rem;
 }
 
-.stack-matrix-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-}
-
-.stack-capability-card {
+.hero-stats-row {
     display: flex;
-    min-height: 31rem;
+    flex-wrap: wrap;
+    gap: clamp(2rem, 4vw, 4rem);
+    margin-top: 1.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.hero-stat-item {
+    display: flex;
     flex-direction: column;
-    padding: clamp(1rem, 2vw, 1.45rem);
-    border-radius: 1.7rem;
-    transition:
-        transform 220ms ease,
-        border-color 220ms ease,
-        background 220ms ease;
+    gap: 0.25rem;
 }
 
-.stack-capability-card:hover,
-.stack-capability-card:focus-within {
-    transform: translateY(-0.35rem);
-    border-color: rgba(140, 255, 180, 0.42);
-    background: linear-gradient(
-        145deg,
-        rgba(10, 53, 55, 0.85),
-        rgba(4, 9, 16, 0.94)
-    );
+.hero-stat-item strong {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 850;
+    color: var(--ink);
+    line-height: 1;
 }
 
-.stack-capability-topline {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    color: var(--stack-accent);
+.hero-stat-item span {
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* =========================================
+   SECTION HEADINGS
+   ========================================= */
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.section-label span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+}
+
+.hairline-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+}
+
+/* =========================================
+   PRINCIPLES GRID
+   ========================================= */
+
+.principles-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .principles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+}
+
+.principle-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.principle-number {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--cyan);
+    margin-bottom: 0.5rem;
+}
+
+.principle-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.principle-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* =========================================
+   BLUEPRINT MATRIX
+   ========================================= */
+
+.blueprint-matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .blueprint-matrix-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+/* Blueprint Card */
+.blueprint-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface-1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.blueprint-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 12px 30px var(--shadow);
+    transform: translateY(-4px);
+}
+
+.blueprint-card-header {
+    padding: 2rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+}
+
+.blueprint-badges {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.badge-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
     text-transform: uppercase;
 }
 
-.stack-capability-topline strong {
-    color: var(--stack-green);
+.badge-level {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--green);
+    background: color-mix(in srgb, var(--green) 10%, transparent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid color-mix(in srgb, var(--green) 20%, transparent);
 }
 
-.stack-capability-card h3 {
-    margin: 3rem 0 0.9rem;
-    color: #f6fdff;
-    font-size: clamp(1.35rem, 2.2vw, 2rem);
-    letter-spacing: -0.045em;
-    line-height: 1.05;
+.blueprint-card-header h2 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.6rem;
+    font-weight: 850;
+    letter-spacing: -0.03em;
+    color: var(--ink);
 }
 
-.stack-capability-card p,
-.stack-principle-list p {
+.blueprint-card-header p {
     margin: 0;
-    color: rgba(239, 251, 255, 0.68);
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--muted);
 }
 
-.stack-tool-cloud {
+/* Blueprint Packages Table */
+.blueprint-packages {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.packages-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--line) 30%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.packages-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 1.5rem 2rem;
+    gap: 1.25rem;
+}
+
+.packages-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.bracket {
+    color: color-mix(in srgb, var(--cyan) 50%, transparent);
+    font-weight: 700;
+    user-select: none;
+}
+
+.packages-list li {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* Evidence Footer */
+.blueprint-traces {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 50%, transparent);
+}
+
+@media (min-width: 640px) {
+    .blueprint-traces {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.blueprint-traces > span {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.traces-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
-    margin: 1.35rem 0;
-}
-
-.stack-tool-cloud span {
-    padding: 0.45rem 0.62rem;
-    border: 1px solid rgba(110, 231, 255, 0.18);
-    border-radius: 999px;
-    background: rgba(110, 231, 255, 0.07);
-    color: rgba(239, 251, 255, 0.78);
-    font-size: 0.78rem;
-    font-weight: 700;
-}
-
-.stack-evidence-list {
-    display: grid;
-    gap: 0.65rem;
-    margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.stack-evidence-list a {
-    display: grid;
-    gap: 0.2rem;
-    padding: 0.75rem;
-    border-radius: 0.9rem;
-    background: rgba(255, 255, 255, 0.045);
-    color: #f6fdff;
-    text-decoration: none;
-    transition:
-        background 180ms ease,
-        transform 180ms ease;
-}
-
-.stack-evidence-list a:hover,
-.stack-evidence-list a:focus-visible {
-    transform: translateX(0.2rem);
-    background: rgba(110, 231, 255, 0.1);
-}
-
-.stack-evidence-list em {
-    color: rgba(239, 251, 255, 0.58);
-    font-size: 0.8rem;
-    font-style: normal;
-}
-
-.stack-principle-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-    gap: clamp(1.2rem, 4vw, 3rem);
-    margin-top: clamp(4rem, 8vw, 7rem);
-    padding: clamp(1.2rem, 4vw, 3rem);
-    border-radius: 2.2rem;
-}
-
-.stack-principle-panel h2,
-.stack-route-panel h2 {
-    margin-top: 0.75rem;
-    font-size: clamp(1.9rem, 4vw, 3.7rem);
-    line-height: 0.95;
-}
-
-.stack-principle-list {
-    display: grid;
-    gap: 0.85rem;
-}
-
-.stack-principle-list article {
-    display: grid;
-    grid-template-columns: 2.4rem minmax(0, 1fr);
     gap: 1rem;
-    padding: 1rem;
-    border-radius: 1.1rem;
-    background: rgba(255, 255, 255, 0.045);
 }
 
-.stack-principle-list article > span {
-    color: var(--stack-green);
-    font-size: 0.78rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
+.traces-links a {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: 99px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    transition: all 0.2s ease;
 }
 
-.stack-principle-list h3 {
-    margin: 0 0 0.35rem;
-    color: #f6fdff;
+.traces-links a:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
 }
 
-.stack-route-panel {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 1.2rem;
+/* =========================================
+   FOOTER CTA
+   ========================================= */
+
+.stack-footer-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 3rem;
+    border-radius: 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .stack-footer-cta {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.cta-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 850;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.cta-info p {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.blueprint-cta-btn {
+    display: inline-flex;
     align-items: center;
-    margin-top: 1rem;
-    padding: clamp(1.2rem, 4vw, 2.4rem);
-    border-radius: 2rem;
-    background: linear-gradient(
-        135deg,
-        rgba(110, 231, 255, 0.16),
-        rgba(8, 16, 22, 0.94)
-    );
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--ink);
+    color: var(--bg);
+    font-weight: 800;
+    font-family: var(--font-mono);
+    border-radius: 99px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
 }
 
-.stack-route-icon {
-    position: relative;
-    display: grid;
-    width: 4rem;
-    height: 4rem;
-    place-items: center;
-    border: 1px solid rgba(110, 231, 255, 0.28);
-    border-radius: 1.2rem;
-    color: var(--stack-accent);
-}
-
-.stack-route-icon svg:last-child {
-    position: absolute;
-    right: -0.35rem;
-    bottom: -0.35rem;
-    color: var(--stack-green);
-}
-
-@media (max-width: 1180px) {
-    .stack-matrix-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 860px) {
-    .stack-hero-shell,
-    .stack-principle-panel,
-    .stack-route-panel {
-        grid-template-columns: 1fr;
-    }
-
-    .stack-hero-copy h1 {
-        max-width: 11ch;
-    }
-
-    .stack-matrix-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .stack-capability-card {
-        min-height: auto;
-    }
+.blueprint-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
 }

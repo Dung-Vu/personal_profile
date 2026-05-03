@@ -2,27 +2,27 @@
 .progress-rail,
 .chapter,
 .contact-section {
-    --scene-mode-accent: rgba(255, 202, 95, 0.14);
-    --scene-mode-line: rgba(255, 202, 95, 0.28);
-    --scene-mode-text: rgba(255, 244, 214, 0.96);
+    --scene-mode-accent: rgba(245, 158, 11, 0.08);
+    --scene-mode-line: rgba(245, 158, 11, 0.2);
+    --scene-mode-text: var(--ink);
 }
 
 :root[data-mode="story"] .nav,
 :root[data-mode="story"] .progress-rail,
 :root[data-mode="story"] .chapter,
 :root[data-mode="story"] .contact-section {
-    --scene-mode-accent: rgba(255, 202, 95, 0.14);
-    --scene-mode-line: rgba(255, 202, 95, 0.28);
-    --scene-mode-text: rgba(255, 244, 214, 0.96);
+    --scene-mode-accent: rgba(245, 158, 11, 0.08);
+    --scene-mode-line: rgba(245, 158, 11, 0.2);
+    --scene-mode-text: var(--ink);
 }
 
 :root[data-mode="systems"] .nav,
 :root[data-mode="systems"] .progress-rail,
 :root[data-mode="systems"] .chapter,
 :root[data-mode="systems"] .contact-section {
-    --scene-mode-accent: rgba(94, 231, 255, 0.14);
-    --scene-mode-line: rgba(94, 231, 255, 0.28);
-    --scene-mode-text: rgba(214, 251, 255, 0.96);
+    --scene-mode-accent: rgba(14, 165, 233, 0.08);
+    --scene-mode-line: rgba(14, 165, 233, 0.2);
+    --scene-mode-text: var(--ink);
 }
 
 .shell-header {
@@ -37,8 +37,8 @@
     padding: 0 clamp(1rem, 3vw, 2.5rem);
     background: linear-gradient(
         180deg,
-        rgba(7, 8, 11, 0.88),
-        rgba(7, 8, 11, 0.45),
+        rgba(255, 255, 255, 0.95),
+        rgba(255, 255, 255, 0.65),
         transparent
     );
     backdrop-filter: blur(18px);
@@ -60,11 +60,11 @@
     place-items: center;
     width: 2.45rem;
     height: 2.45rem;
-    color: var(--bg);
+    color: #ffffff;
     background: linear-gradient(135deg, var(--cyan), var(--green));
     font-size: 0.82rem;
     font-weight: 950;
-    box-shadow: 0 0 32px rgba(94, 231, 255, 0.24);
+    box-shadow: 0 0 24px rgba(14, 165, 233, 0.25);
 }
 
 .brand strong,
@@ -111,7 +111,7 @@
     border: 1px solid var(--line);
     padding: 0 0.72rem;
     color: var(--soft);
-    background: rgba(7, 8, 11, 0.44);
+    background: rgba(255, 255, 255, 0.8);
     font-family: var(--font-mono);
     font-size: 0.68rem;
     text-transform: uppercase;
@@ -143,7 +143,7 @@
     outline: 0;
     transform: translateY(-1px);
     border-color: var(--cyan);
-    background: rgba(94, 231, 255, 0.12);
+    background: rgba(14, 165, 233, 0.1);
 }
 
 .shell-theme {
@@ -214,7 +214,7 @@
     height: 2.7rem;
     border: 1px solid var(--line);
     color: var(--ink);
-    background: rgba(7, 8, 11, 0.52);
+    background: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     transition:
         transform 180ms ease,
@@ -227,7 +227,7 @@
 .command-head button:hover {
     transform: translateY(-2px);
     border-color: var(--cyan);
-    background: rgba(94, 231, 255, 0.1);
+    background: rgba(14, 165, 233, 0.1);
 }
 
 .icon-button svg,
@@ -263,7 +263,7 @@
     font-size: 0.68rem;
     font-weight: 900;
     font-family: var(--font-mono);
-    background: rgba(7, 8, 11, 0.48);
+    background: rgba(255, 255, 255, 0.8);
     transition:
         color 180ms ease,
         border-color 180ms ease,
@@ -281,8 +281,8 @@
     transform-origin: center bottom;
     background: linear-gradient(
         180deg,
-        rgba(94, 231, 255, 0.06),
-        rgba(94, 231, 255, 0.28)
+        rgba(14, 165, 233, 0.04),
+        rgba(14, 165, 233, 0.15)
     );
     opacity: 0.82;
     pointer-events: none;
@@ -322,22 +322,22 @@
     color: var(--bg);
     border-color: var(--cyan);
     background: var(--cyan);
-    box-shadow: 0 0 24px rgba(94, 231, 255, 0.28);
+    box-shadow: 0 0 24px rgba(14, 165, 233, 0.2);
 }
 
 .progress-rail a[data-route-state="explored"] .progress-rail-fill {
     background: linear-gradient(
         180deg,
-        rgba(184, 255, 106, 0.04),
-        rgba(184, 255, 106, 0.26)
+        rgba(16, 185, 129, 0.04),
+        rgba(16, 185, 129, 0.15)
     );
 }
 
 .progress-rail a[data-route-state="next"] .progress-rail-fill {
     background: linear-gradient(
         180deg,
-        rgba(255, 202, 95, 0.04),
-        rgba(255, 202, 95, 0.2)
+        rgba(245, 158, 11, 0.04),
+        rgba(245, 158, 11, 0.15)
     );
 }
 
@@ -351,9 +351,9 @@
 }
 
 .progress-rail a.explored {
-    border-color: rgba(184, 255, 106, 0.4);
-    color: rgba(184, 255, 106, 0.92);
-    background: rgba(184, 255, 106, 0.08);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: rgba(16, 185, 129, 0.92);
+    background: rgba(16, 185, 129, 0.08);
 }
 
 .chapter {
@@ -418,7 +418,7 @@
 .chapter[data-mode-tone="secondary"]::after,
 .contact-section[data-mode-tone="secondary"]::after {
     opacity: 0.44;
-    border-color: rgba(247, 244, 234, 0.08);
+    border-color: rgba(17, 24, 39, 0.08);
 }
 
 .chapter[data-mode-tone="support"],
@@ -458,6 +458,6 @@
 
 .chapter::before {
     right: clamp(0.5rem, 3vw, 2rem);
-    color: rgba(247, 244, 234, 0.055);
+    color: rgba(17, 24, 39, 0.035);
     font-size: clamp(6rem, 18vw, 17rem);
 }

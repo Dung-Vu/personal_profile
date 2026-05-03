@@ -1,14 +1,19 @@
+import { StatCard } from "../ui/StatCard";
+
 export function MetricBand({ items }) {
     return (
         <div
-            className="hero-metric-band reveal"
+            className="metric-band reveal"
             aria-label="Capability summary"
         >
             {items.map((item) => (
-                <article key={item.label}>
-                    <span>{item.label}</span>
-                    <strong>{item.value}</strong>
-                </article>
+                <StatCard
+                    key={item.label}
+                    value={item.value}
+                    label={item.label}
+                    trend={item.trend}
+                    footnote={item.footnote}
+                />
             ))}
         </div>
     );

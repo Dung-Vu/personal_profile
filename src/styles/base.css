@@ -5,7 +5,7 @@
 html {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     scroll-behavior: smooth;
     background: var(--bg);
 }
@@ -15,18 +15,18 @@ body {
     min-width: 320px;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     color: var(--ink);
     background:
-        linear-gradient(180deg, rgba(7, 8, 11, 0.3), var(--bg) 48rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.3), var(--bg) 48rem),
         radial-gradient(
             circle at 18% 12%,
-            rgba(94, 231, 255, 0.18),
+            rgba(14, 165, 233, 0.05),
             transparent 30rem
         ),
         radial-gradient(
             circle at 86% 18%,
-            rgba(255, 77, 103, 0.14),
+            rgba(239, 68, 68, 0.05),
             transparent 28rem
         ),
         var(--bg);
@@ -43,7 +43,7 @@ body {
 }
 
 body.wow-motion {
-    cursor: none;
+    /* removed cursor: none to use native cursor */
 }
 
 body.menu-open {
@@ -61,7 +61,7 @@ a {
 }
 
 :focus-visible {
-    outline: 2px solid rgba(158, 239, 255, 0.9);
+    outline: 2px solid var(--cyan);
     outline-offset: 4px;
 }
 
@@ -79,7 +79,7 @@ a {
 body.wow-motion a,
 body.wow-motion button,
 body.wow-motion [data-cursor="active"] {
-    cursor: none;
+    /* removed cursor: none to use native cursor */
 }
 
 button {
@@ -134,9 +134,7 @@ h3,
     inset: 0;
     z-index: 140;
     pointer-events: none;
-    mix-blend-mode: exclusion;
-    --cursor-accent: rgba(247, 244, 234, 0.72);
-    --cursor-fill: rgba(94, 231, 255, 0.16);
+    mix-blend-mode: difference;
 }
 
 .cursor-dot,
@@ -146,64 +144,64 @@ h3,
     top: 0;
     border-radius: 999px;
     translate: -50% -50%;
-    will-change: transform;
+    will-change: transform, width, height;
 }
 
 .cursor-dot {
-    width: 0.48rem;
-    height: 0.48rem;
+    width: 0.75rem;
+    height: 0.75rem;
     background: var(--ink);
-    transition:
-        transform 180ms ease,
-        background 180ms ease;
+    transition: 
+        width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+        height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+        opacity 0.4s ease;
 }
 
 .cursor-ring {
-    width: 2.8rem;
-    height: 2.8rem;
-    border: 1px solid var(--cursor-accent);
-    transition:
-        width 180ms ease,
-        height 180ms ease,
-        border-color 180ms ease,
-        background 180ms ease,
-        box-shadow 180ms ease,
-        transform 180ms ease;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(17, 24, 39, 0.2);
+    transition: 
+        width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+        height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+        border-color 0.4s ease, 
+        opacity 0.4s ease;
+}
+
+.custom-cursor.variant-active .cursor-dot,
+.custom-cursor.variant-inspect .cursor-dot {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: rgba(17, 24, 39, 1);
 }
 
 .custom-cursor.variant-active .cursor-ring,
-.custom-cursor.variant-inspect .cursor-ring,
-.custom-cursor.variant-drag .cursor-ring {
-    width: 4.2rem;
-    height: 4.2rem;
-    border-color: var(--cursor-accent);
-    background: var(--cursor-fill);
-}
-
 .custom-cursor.variant-inspect .cursor-ring {
-    width: 5rem;
-    height: 5rem;
-    box-shadow:
-        0 0 0 1px rgba(247, 244, 234, 0.08),
-        0 0 32px var(--cursor-fill);
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-cursor.variant-drag .cursor-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: rgba(17, 24, 39, 0.5);
 }
 
 .custom-cursor.variant-drag .cursor-ring {
-    transform: scale(0.92);
-}
-
-.custom-cursor.presentation .cursor-ring {
-    box-shadow: 0 0 28px var(--cursor-fill);
+    width: 3rem;
+    height: 3rem;
+    border-color: rgba(17, 24, 39, 0.8);
 }
 
 .custom-cursor.mode-story {
-    --cursor-accent: rgba(255, 202, 95, 0.92);
-    --cursor-fill: rgba(255, 202, 95, 0.18);
+    --cursor-accent: rgba(245, 158, 11, 0.92);
+    --cursor-fill: rgba(245, 158, 11, 0.18);
 }
 
 .custom-cursor.mode-systems {
-    --cursor-accent: rgba(94, 231, 255, 0.92);
-    --cursor-fill: rgba(94, 231, 255, 0.18);
+    --cursor-accent: rgba(14, 165, 233, 0.92);
+    --cursor-fill: rgba(14, 165, 233, 0.18);
 }
 
 :root[data-presentation="reel"] .signal-canvas {
@@ -220,14 +218,14 @@ h3,
     background-image:
         linear-gradient(
             115deg,
-            rgba(255, 255, 255, 0.08),
+            rgba(0, 0, 0, 0.08),
             transparent 18%,
-            rgba(0, 0, 0, 0.18) 42%,
+            rgba(255, 255, 255, 0.18) 42%,
             transparent 68%
         ),
         radial-gradient(
             circle at 20% 30%,
-            rgba(255, 255, 255, 0.16) 1px,
+            rgba(0, 0, 0, 0.16) 1px,
             transparent 1px
         );
     background-size:

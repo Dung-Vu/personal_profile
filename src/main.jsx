@@ -6,6 +6,9 @@ import "./styles/base.css";
 import "./styles/layout.css";
 import "./styles/responsive.css";
 import "./styles/routes.css";
+import "./styles/cards.css";
+import "./styles/timeline.css";
+import "./styles/empty-states.css";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")).render(

@@ -1,7 +1,12 @@
-import { ArrowRight, BarChart3, Bot, Boxes, ExternalLink, Gauge, Workflow } from "lucide-react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowRight, BarChart3, Bot, Boxes, ExternalLink, Workflow, ArrowDownToLine } from "lucide-react";
 import "../styles/work.css";
 import { projects } from "../content/projects";
 import { navigateTo } from "../hooks/useRoutePath";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const caseDesign = {
     "tca-crypto-analyzer": {
@@ -30,168 +35,175 @@ const caseDesign = {
     },
 };
 
-const theaterStats = [
-    { label: "Flagship cases", value: "03" },
-    { label: "Project types", value: "Dashboard / Ops / AI" },
-    { label: "Case format", value: "Bài toán -> Cách làm -> Kết quả" },
-];
-
-function WorkCaseCard({ project, index }) {
+function WorkCaseDossier({ project, index }) {
     const design = caseDesign[project.slug];
     const Icon = design.icon;
 
     return (
-        <article className="work-case-card" data-tone={design.tone} aria-label={`${project.title} case study`}>
-            <div className="case-visual">
+        <article className="dossier-card" id={project.slug} data-tone={design.tone} aria-label={`${project.title} case study`}>
+            {/* Visual Header */}
+            <div className="dossier-visual">
                 <img src={project.assets.cover} alt={`${project.title} interface preview`} loading="lazy" decoding="async" />
-                <div className="case-visual-overlay">
-                    <span className="case-number">{String(index + 1).padStart(2, "0")}</span>
-                    <div className="case-signal-chip">
-                        <Icon aria-hidden="true" />
-                        {design.label}
+                <div className="dossier-visual-overlay">
+                    <div className="dossier-badge">
+                        <Icon size={14} aria-hidden="true" />
+                        <span>{design.label}</span>
                     </div>
+                    <span className="dossier-number">{String(index + 1).padStart(2, "0")}</span>
                 </div>
             </div>
 
-            <div className="case-content">
-                <div className="case-meta">
-                    <span>{project.type}</span>
-                    <span>{project.status}</span>
-                    <span>{project.year}</span>
+            <div className="dossier-body">
+                {/* Meta Strip */}
+                <div className="dossier-meta-strip">
+                    <span className="dossier-type">{project.type}</span>
+                    <span className="dossier-divider">/</span>
+                    <span className="dossier-role">{project.systemRole}</span>
+                    <span className="dossier-divider">/</span>
+                    <span className="dossier-year">{project.year}</span>
                 </div>
 
-                <div className="case-title-row">
+                {/* Title */}
+                <div className="dossier-header">
                     <h2>{project.title}</h2>
-                    <span>{project.systemRole}</span>
+                    <p className="dossier-summary">{project.summary}</p>
                 </div>
 
-                <p className="case-summary">{project.summary}</p>
+                {/* The Core Analytical Grid */}
+                <div className="dossier-grid">
+                    <div className="dossier-block span-2">
+                        <h3>Context & Problem</h3>
+                        <p><strong>{design.context}</strong></p>
+                        <p>{project.problem}</p>
+                    </div>
 
-                <dl className="case-proof-grid">
-                    <div>
-                        <dt>Context</dt>
-                        <dd>{design.context}</dd>
+                    {/* Highlighted Decision Block */}
+                    <div className="dossier-block highlight span-2">
+                        <h3>Key Decision</h3>
+                        <p className="dossier-decision-text">{design.decision}</p>
                     </div>
-                    <div>
-                        <dt>Problem</dt>
-                        <dd>{project.problem}</dd>
-                    </div>
-                    <div>
-                        <dt>Decision</dt>
-                        <dd>{design.decision}</dd>
-                    </div>
-                    <div>
-                        <dt>Role</dt>
-                        <dd>{project.role}</dd>
-                    </div>
-                    <div>
-                        <dt>Outcome</dt>
-                        <dd>{project.outcome}</dd>
-                    </div>
-                    <div>
-                        <dt>Deliverables</dt>
-                        <dd>{project.deliverables.join(" / ")}</dd>
-                    </div>
-                </dl>
 
-                <dl className="case-status-grid" aria-label={`${project.title} proof status`}>
-                    <div>
-                        <dt>Status</dt>
-                        <dd>{project.status}</dd>
+                    <div className="dossier-block">
+                        <h3>Outcome</h3>
+                        <p>{project.outcome}</p>
                     </div>
-                    <div>
-                        <dt>Timeline</dt>
-                        <dd>{project.timeline}</dd>
-                    </div>
-                    <div>
-                        <dt>Proof note</dt>
-                        <dd>{project.privateReason}</dd>
-                    </div>
-                    <div>
-                        <dt>Next proof</dt>
-                        <dd>{project.nextProof}</dd>
-                    </div>
-                </dl>
 
-                <div className="tech-row">
-                    {project.tech.map((tech) => (
-                        <span key={tech}>{tech}</span>
-                    ))}
+                    <div className="dossier-block">
+                        <h3>Status / Proof</h3>
+                        <ul className="dossier-list">
+                            <li><span>State:</span> {project.status}</li>
+                            <li><span>Note:</span> {project.privateReason || project.nextProof}</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <a className="case-detail-link" href={`/work/${project.slug}`} onClick={(e) => { e.preventDefault(); navigateTo(`/work/${project.slug}`); }}>
-                    Đọc case chi tiết <ArrowRight aria-hidden="true" />
-                </a>
-                {project.liveUrl ? (
-                    <a className="case-proof-link" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        Live proof <ExternalLink aria-hidden="true" />
-                    </a>
-                ) : null}
+                {/* Tech & Actions */}
+                <div className="dossier-footer">
+                    <div className="dossier-tech">
+                        {project.tech.map((tech) => (
+                            <span key={tech}>{tech}</span>
+                        ))}
+                    </div>
+                    <div className="dossier-actions">
+                        {project.liveUrl && (
+                            <a className="dossier-link secondary" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                Live proof <ExternalLink size={14} aria-hidden="true" />
+                            </a>
+                        )}
+                        <a className="dossier-link primary" href={`/work/${project.slug}`} onClick={(e) => { e.preventDefault(); navigateTo(`/work/${project.slug}`); }}>
+                            Đọc case chi tiết <ArrowRight size={14} aria-hidden="true" />
+                        </a>
+                    </div>
+                </div>
             </div>
         </article>
     );
 }
 
 export function WorkPage() {
-    return (
-        <section className="page work-page" aria-labelledby="work-title">
-            <div className="work-hero-shell">
-                <div className="work-hero">
-                    <div className="page-kicker">Case Studies</div>
-                    <h1 id="work-title">3 case tiêu biểu: dashboard, internal tool và AI workflow.</h1>
-                    <p>
-                        Mỗi case ghi rõ bối cảnh, vai trò, quyết định UI/system, kết quả và trạng thái public/private
-                        để người xem biết phần nào đã ship, phần nào cần giữ nội bộ.
-                    </p>
-                </div>
+    const containerRef = useRef(null);
 
-                <aside className="work-theater-panel" aria-label="Work page evidence model">
-                    <div className="theater-panel-row">
-                        <Gauge aria-hidden="true" />
-                        <span>Cách mình trình bày case</span>
-                    </div>
-                    <strong>Bài toán {"->"} Cách làm {"->"} Kết quả</strong>
-                    <p>Mỗi dự án ghi rõ phạm vi, vai trò, team, trạng thái và minh chứng thực tế thay vì số liệu phần trăm không có nguồn.</p>
-                    <div className="theater-stats">
-                        {theaterStats.map((stat) => (
-                            <div key={stat.label}>
-                                <span>{stat.label}</span>
-                                <strong>{stat.value}</strong>
-                            </div>
-                        ))}
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        
+        const ctx = gsap.context(() => {
+            gsap.from(".dossier-card", {
+                scrollTrigger: {
+                    trigger: ".work-editorial-content",
+                    start: "top 80%",
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
+
+    return (
+        <section className="route-page work-editorial-page" aria-labelledby="work-title" ref={containerRef}>
+            <div className="work-split-layout">
+                
+                {/* LEFT: Sticky Sidebar (Editorial Manifesto & Index) */}
+                <aside className="work-sidebar">
+                    <div className="work-sidebar-sticky">
+                        <div className="work-manifesto">
+                            <span className="work-kicker">Case Studies</span>
+                            <h1 id="work-title">Giao diện là hệ quả của dữ liệu.</h1>
+                            <p>
+                                Mình không chỉ thiết kế UI, mình thiết kế cách hệ thống vận hành. 
+                                Dưới đây là 3 case study tiêu biểu minh họa cho phương pháp tiếp cận: 
+                                <strong> Bài toán {"->"} Quyết định {"->"} Kết quả</strong>.
+                            </p>
+                        </div>
+
+                        {/* Route Map / Table of Contents */}
+                        <nav className="work-index-nav" aria-label="Case studies index">
+                            <span className="index-label">
+                                <ArrowDownToLine size={14} /> Điểm chạm nổi bật
+                            </span>
+                            <ul>
+                                {projects.map((project, index) => {
+                                    const design = caseDesign[project.slug];
+                                    return (
+                                        <li key={project.slug}>
+                                            <a href={`#${project.slug}`} data-tone={design.tone}>
+                                                <span className="index-num">{String(index + 1).padStart(2, "0")}</span>
+                                                <span className="index-name">{project.title}</span>
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </nav>
+
+                        {/* CTA block in sidebar */}
+                        <div className="sidebar-cta-block">
+                            <Workflow size={18} aria-hidden="true" />
+                            <h4>Sẵn sàng cho dự án mới</h4>
+                            <p>Cần biến quy trình phức tạp thành giao diện trực quan?</p>
+                            <a href="/contact" className="sidebar-cta-link" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
+                                Liên hệ ngay <ArrowRight size={14} />
+                            </a>
+                        </div>
                     </div>
                 </aside>
-            </div>
 
-            <div className="case-route-map" aria-label="Case theater route map">
-                {projects.map((project, index) => {
-                    const design = caseDesign[project.slug];
-                    return (
-                        <a key={project.slug} href={`#${project.slug}`} data-tone={design.tone}>
-                            <span>{String(index + 1).padStart(2, "0")}</span>
-                            <strong>{project.title}</strong>
-                            <small>{design.label}</small>
-                        </a>
-                    );
-                })}
-            </div>
-
-            <div className="work-case-list">
-                {projects.map((project, index) => (
-                    <div id={project.slug} key={project.slug}>
-                        <WorkCaseCard project={project} index={index} />
+                {/* RIGHT: Scrollable Content (Dossiers) */}
+                <div className="work-editorial-content">
+                    <div className="work-dossier-list">
+                        {projects.map((project, index) => (
+                            <WorkCaseDossier key={project.slug} project={project} index={index} />
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
 
-            <div className="route-panel work-route-panel">
-                <Workflow aria-hidden="true" />
-                <span>Ready for next project</span>
-                <strong>Cần biến quy trình phức tạp thành giao diện trực quan?</strong>
-                <a className="route-cta primary" href="/contact" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
-                    Liên hệ <ArrowRight aria-hidden="true" />
-                </a>
             </div>
         </section>
     );
 }
+

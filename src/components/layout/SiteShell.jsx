@@ -28,6 +28,17 @@ function NavLink({ route, currentPath, onNavigate }) {
 
 export function SiteShell({ children, currentPath }) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const isLightPage = currentPath === "/";
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 40);
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const goTo = (path) => {
         setMenuOpen(false);
@@ -43,12 +54,15 @@ export function SiteShell({ children, currentPath }) {
         <div
             className="site-shell"
             data-route={currentPath.replace("/", "") || "home"}
+            data-theme="light"
         >
             <a href="#main-content" className="skip-link">
                 Bỏ qua điều hướng
             </a>
-            <div className="site-atmosphere" aria-hidden="true" />
-            <header className="site-topbar">
+            {!isLightPage && (
+                <div className="site-atmosphere" aria-hidden="true" />
+            )}
+            <header className={`site-topbar ${scrolled ? "scrolled" : ""}`}>
                 <a
                     className="site-brand"
                     href="/"

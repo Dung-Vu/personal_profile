@@ -1,4 +1,4 @@
-import { ArrowRight, Boxes, CircuitBoard, Layers3 } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 import "../styles/stack.css";
 import {
     stackHero,
@@ -8,163 +8,116 @@ import {
 } from "../content/stack";
 import { navigateTo } from "../hooks/useRoutePath";
 
-function RouteLink({ href, children, variant = "primary" }) {
-    return (
-        <a
-            className={variant === "primary" ? "route-cta" : "route-link"}
-            href={href}
-            onClick={(event) => {
-                event.preventDefault();
-                navigateTo(href);
-            }}
-        >
-            {children}
-        </a>
-    );
-}
-
 export function StackPage() {
     return (
-        <section
-            className="route-page stack-page"
-            aria-labelledby="stack-title"
-        >
-            <div className="stack-hero-shell">
-                <div className="stack-hero-copy">
-                    <span className="route-kicker">{stackHero.eyebrow}</span>
-                    <h1 id="stack-title">{stackHero.headline}</h1>
-                    <p>{stackHero.intro}</p>
-                    <div className="route-actions">
-                        <RouteLink href="/work">
-                            Xem bằng chứng trong Work{" "}
-                            <ArrowRight aria-hidden="true" />
-                        </RouteLink>
-                        <RouteLink href="/contact" variant="secondary">
-                            Gửi bài toán cần build
-                        </RouteLink>
-                    </div>
+        <section className="route-page stack-blueprint-page" aria-labelledby="stack-title">
+            
+            {/* HERO SECTION - Full Width, Technical Vibe */}
+            <header className="stack-hero-block">
+                <div className="hero-meta">
+                    <Terminal size={14} />
+                    <span>{stackHero.eyebrow}</span>
                 </div>
-
-                <aside
-                    className="stack-stats-panel"
-                    aria-label="Stack quick access"
-                >
-                    <CircuitBoard aria-hidden="true" />
-                    <div className="stack-stats-row">
-                        {stackStats.map((stat) => (
-                            <div key={stat.label}>
-                                <strong>{stat.value}</strong>
-                                <span>{stat.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="stack-quick-links">
-                        <small>Evidence projects</small>
-                        {stackMatrix.slice(0, 3).map((item) => {
-                            const firstEvidence = item.evidence[0];
-                            const href = firstEvidence
-                                ? `/work/${firstEvidence.slug}`
-                                : "/work";
-                            return (
-                                <a
-                                    href={href}
-                                    key={item.id}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        navigateTo(href);
-                                    }}
-                                >
-                                    <span>{item.label}</span>
-                                    <em>{item.evidence.length} case</em>
-                                </a>
-                            );
-                        })}
-                    </div>
-                </aside>
-            </div>
-
-            <div className="stack-section-heading">
-                <span>Capability matrix</span>
-                <h2>Bốn lớp năng lực đang nối với nhau thành sản phẩm.</h2>
-            </div>
-
-            <div className="stack-matrix-grid">
-                {stackMatrix.map((item) => (
-                    <article
-                        className="stack-capability-card"
-                        data-depth={item.depth}
-                        key={item.id}
-                    >
-                        <div className="stack-capability-topline">
-                            <span>{item.label}</span>
-                            <strong>{item.level}</strong>
+                <h1 id="stack-title">{stackHero.headline}</h1>
+                <p className="hero-intro">{stackHero.intro}</p>
+                
+                <div className="hero-stats-row">
+                    {stackStats.map((stat) => (
+                        <div className="hero-stat-item" key={stat.label}>
+                            <strong>{stat.value}</strong>
+                            <span>{stat.label}</span>
                         </div>
-                        <h3>{item.title}</h3>
-                        <p>{item.detail}</p>
-
-                        <div
-                            className="stack-tool-cloud"
-                            aria-label={`${item.label} tools`}
-                        >
-                            {item.tools.map((tool) => (
-                                <span key={tool}>{tool}</span>
-                            ))}
-                        </div>
-
-                        <div className="stack-evidence-list">
-                            <small>Evidence</small>
-                            {item.evidence.map((project) => (
-                                <a
-                                    href="/work"
-                                    key={project.slug}
-                                    onClick={(event) => {
-                                        event.preventDefault();
-                                        navigateTo("/work");
-                                    }}
-                                >
-                                    <span>{project.title}</span>
-                                    <em>{project.type}</em>
-                                </a>
-                            ))}
-                        </div>
-                    </article>
-                ))}
-            </div>
-
-            <div className="stack-principle-panel">
-                <div>
-                    <span className="route-kicker">DECISION RULES</span>
-                    <h2>Stack được chọn theo khả năng làm rõ hệ thống.</h2>
+                    ))}
                 </div>
-                <div className="stack-principle-list">
+            </header>
+
+            {/* PRINCIPLES GRID - 3 Columns */}
+            <div className="stack-principles-section">
+                <div className="section-label">
+                    <span>// Decision Rules</span>
+                    <div className="hairline-divider"></div>
+                </div>
+                <div className="principles-grid">
                     {stackPrinciples.map((principle) => (
-                        <article key={principle.label}>
-                            <span>{principle.label}</span>
-                            <div>
-                                <h3>{principle.title}</h3>
-                                <p>{principle.text}</p>
-                            </div>
+                        <article className="principle-card" key={principle.label}>
+                            <span className="principle-number">{principle.label}</span>
+                            <h3>{principle.title}</h3>
+                            <p>{principle.text}</p>
                         </article>
                     ))}
                 </div>
             </div>
 
-            <div className="stack-route-panel">
-                <div className="stack-route-icon" aria-hidden="true">
-                    <Boxes />
-                    <Layers3 />
+            {/* MATRIX GRID - The Core Blueprints */}
+            <div className="stack-matrix-section">
+                <div className="section-label">
+                    <span>// Capability Matrix</span>
+                    <div className="hairline-divider"></div>
                 </div>
-                <div>
-                    <span>Next layer</span>
-                    <h2>
-                        Stack trả lời dùng gì. Workflow trả lời mình vận hành nó
-                        như thế nào.
-                    </h2>
+
+                <div className="blueprint-matrix-grid">
+                    {stackMatrix.map((item) => (
+                        <article className="blueprint-card" data-depth={item.depth} key={item.id}>
+                            <div className="blueprint-card-header">
+                                <div className="blueprint-badges">
+                                    <span className="badge-label">[{item.label}]</span>
+                                    <span className="badge-level">Lvl {item.level}</span>
+                                </div>
+                                <h2>{item.title}</h2>
+                                <p>{item.detail}</p>
+                            </div>
+
+                            <div className="blueprint-packages">
+                                <div className="packages-header">
+                                    <span>Packages / Stack</span>
+                                    <span>{item.tools.length} Items</span>
+                                </div>
+                                <ul className="packages-list">
+                                    {item.tools.map((tool) => (
+                                        <li key={tool}>
+                                            <span className="bracket">{"<"}</span>
+                                            {tool}
+                                            <span className="bracket">{"/>"}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {item.evidence.length > 0 && (
+                                <div className="blueprint-traces">
+                                    <span>Traces:</span>
+                                    <div className="traces-links">
+                                        {item.evidence.map((project) => (
+                                            <a 
+                                                href={`/work/${project.slug}`} 
+                                                key={project.slug}
+                                                onClick={(e) => { 
+                                                    e.preventDefault(); 
+                                                    navigateTo(`/work/${project.slug}`); 
+                                                }}
+                                            >
+                                                {project.title}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </article>
+                    ))}
                 </div>
-                <RouteLink href="/workflow">
-                    Mở Workflow Map <ArrowRight aria-hidden="true" />
-                </RouteLink>
             </div>
+
+            {/* ROUTE CTA */}
+            <footer className="stack-footer-cta">
+                <div className="cta-info">
+                    <h2>Tiếp theo: Workflow</h2>
+                    <p>Stack trả lời dùng gì. Workflow trả lời mình vận hành nó như thế nào.</p>
+                </div>
+                <a href="/workflow" className="blueprint-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/workflow"); }}>
+                    Xem Workflow Map <ArrowRight size={16} />
+                </a>
+            </footer>
+
         </section>
     );
 }

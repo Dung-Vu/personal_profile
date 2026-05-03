@@ -3,8 +3,8 @@ import { workflow } from "./workflow";
 export const workflowHero = {
     eyebrow: "WORKFLOW / PROCESS SUMMARY",
     headline:
-        "Quy trình 4 bước: từ brief đến giao diện web chạy thật trên trình duyệt.",
-    intro: "Đầu ra mỗi vòng phải rõ: phạm vi, màn hình hoặc quy trình đã dựng, trạng thái còn thiếu, và bằng chứng đã chạy qua build & kiểm tra trình duyệt.",
+        "Pipeline 4 giai đoạn: Từ bản đặc tả đến sản phẩm thực thi.",
+    intro: "Mỗi Node trong Pipeline yêu cầu đầu ra nghiêm ngặt: xác định rõ phạm vi, xử lý triệt để các trạng thái, và phải có bằng chứng vượt qua quy trình kiểm thử (Browser Smoke Test).",
 };
 
 export const workflowDeliverables = [

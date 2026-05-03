@@ -29,10 +29,10 @@ const stackTools = {
 };
 
 export const stackHero = {
-    eyebrow: "STACK / WEB DELIVERY",
+    eyebrow: "STACK / SYSTEM ARCHITECTURE",
     headline:
-        "Stack thực dụng cho website, dashboard, internal tool và API workflow.",
-    intro: "React/Vite cho UI, Flask/Odoo/API khi cần kết nối dữ liệu, GSAP khi cần chuyển động có chủ đích, và kiểm tra bằng build + trình duyệt trước khi bàn giao.",
+        "Kiến trúc công nghệ thực dụng cho Web, Dashboard và Internal Workflow.",
+    intro: "Lựa chọn công cụ dựa trên bài toán. React/Vite cho lớp hiển thị, Flask/Odoo cho xử lý dữ liệu lõi, và GSAP để định hướng thị giác người dùng.",
 };
 
 export const stackMatrix = capabilities.map((capability) => ({

@@ -1,288 +1,543 @@
-.workflow-hero-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.34fr);
-    gap: clamp(1rem, 4vw, 3rem);
-    align-items: stretch;
-}
+/* =============================================
+   WORKFLOW / PROCESS MAP — Scrollytelling Pipeline
+   Aesthetic: Immersive, Timeline, Architectural
+   ============================================= */
 
-.workflow-hero-copy,
-.workflow-radar-card,
-.workflow-step-card,
-.workflow-toolchain-panel,
-.workflow-handoff-panel,
-.workflow-route-panel {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(167, 255, 114, 0.16);
-    background: linear-gradient(
-        145deg,
-        rgba(18, 39, 24, 0.82),
-        rgba(5, 10, 14, 0.94)
-    );
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
-}
-
-.workflow-hero-copy {
+.workflow-scrolly-page {
+    width: min(100%, 1400px);
+    margin: 0 auto;
+    padding: calc(var(--header, 76px) + 4rem) clamp(1rem, 4vw, 3rem) 6rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.35rem;
-    min-height: min(66vh, 44rem);
-    padding: clamp(1.4rem, 5vw, 4.6rem);
-    border-radius: clamp(1.5rem, 4vw, 3rem);
 }
 
-.workflow-hero-copy h1,
-.workflow-section-heading h2,
-.workflow-toolchain-panel h2,
-.workflow-handoff-panel h2,
-.workflow-route-panel h2 {
-    margin: 0;
-    letter-spacing: -0.055em;
+/* =========================================
+   HERO SECTION: Engine Start
+   ========================================= */
+
+.workflow-hero-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 56rem;
+    margin: 0 auto 8rem auto;
+    gap: 1.5rem;
 }
 
-.workflow-hero-copy h1 {
-    max-width: 12ch;
-    font-size: clamp(2.55rem, 5.9vw, 5.7rem);
-    line-height: 0.95;
-}
-
-.workflow-hero-copy p,
-.workflow-radar-card p,
-.workflow-step-card p,
-.workflow-toolchain-grid p {
-    margin: 0;
-    color: rgba(243, 255, 233, 0.7);
-    line-height: 1.75;
-}
-
-.workflow-hero-copy p {
-    max-width: 58rem;
-    font-size: clamp(1rem, 1.8vw, 1.22rem);
-}
-
-.workflow-radar-card {
-    display: grid;
-    align-content: end;
-    gap: 1rem;
-    padding: clamp(1.2rem, 3vw, 2rem);
-    border-radius: 2rem;
-}
-
-.workflow-radar-card svg {
-    width: 3rem;
-    height: 3rem;
-    color: var(--workflow-accent);
-}
-
-.workflow-radar-card strong {
-    font-size: clamp(1.9rem, 3vw, 3rem);
-    line-height: 0.95;
-    letter-spacing: -0.055em;
-}
-
-.workflow-section-heading {
-    display: grid;
-    gap: 0.8rem;
-    margin: clamp(4rem, 8vw, 7rem) 0 clamp(1.2rem, 3vw, 2rem);
-}
-
-.workflow-section-heading span,
-.workflow-route-panel span {
-    color: rgba(167, 255, 114, 0.78);
-    font-size: 0.78rem;
+.hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 800;
+    color: var(--cyan);
     letter-spacing: 0.16em;
     text-transform: uppercase;
 }
 
-.workflow-section-heading h2 {
-    max-width: 18ch;
-    font-size: clamp(2.2rem, 5vw, 4.6rem);
-    line-height: 0.95;
+.workflow-hero-center h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 850;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    text-wrap: balance;
 }
 
-.workflow-timeline {
-    position: relative;
-    display: grid;
+.workflow-hero-center p {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 44rem;
+}
+
+/* Scroll Hint Indicator */
+.hero-scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    margin-top: 3rem;
 }
 
-.workflow-timeline::before {
-    content: "";
+.hero-scroll-hint span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+}
+
+.scroll-dot {
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--cyan), transparent);
+    animation: scrollBlink 2s infinite;
+}
+
+@keyframes scrollBlink {
+    0% { transform: translateY(-10px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(10px); opacity: 0; }
+}
+
+/* =========================================
+   THE PIPELINE CORE
+   ========================================= */
+
+.pipeline-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 6rem;
+}
+
+/* The Vertical Track */
+.pipeline-track-wrapper {
     position: absolute;
-    left: clamp(1.7rem, 4vw, 2.6rem);
-    top: 2rem;
-    bottom: 2rem;
-    width: 1px;
-    background: linear-gradient(
-        180deg,
-        transparent,
-        rgba(167, 255, 114, 0.7),
-        rgba(115, 216, 255, 0.65),
-        transparent
-    );
+    left: 2rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    z-index: 0;
 }
 
-.workflow-step-card {
-    display: grid;
-    grid-template-columns: clamp(3.4rem, 7vw, 5rem) minmax(0, 1fr);
-    gap: clamp(1rem, 3vw, 2rem);
-    padding: clamp(1rem, 3vw, 2rem);
-    border-radius: 1.8rem;
+@media (min-width: 768px) {
+    .pipeline-track-wrapper {
+        left: 8rem;
+    }
 }
 
-.workflow-step-index {
-    display: grid;
-    width: clamp(3rem, 6vw, 4.4rem);
-    height: clamp(3rem, 6vw, 4.4rem);
-    place-items: center;
-    border: 1px solid rgba(167, 255, 114, 0.42);
-    border-radius: 999px;
-    background: #101a12;
-    color: var(--workflow-accent);
-    font-weight: 900;
+.pipeline-track {
+    position: absolute;
+    inset: 0;
+    background: var(--line);
+    opacity: 0.5;
+}
+
+/* The glowing head that slides down as you scroll */
+.pipeline-progress-head {
+    position: sticky;
+    top: 50vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 80px;
+    background: var(--cyan);
+    border-radius: 4px;
+    box-shadow: 0 0 20px 2px color-mix(in srgb, var(--cyan) 50%, transparent);
     z-index: 1;
 }
 
-.workflow-step-card span {
-    color: var(--workflow-blue);
-    font-size: 0.78rem;
+/* The Nodes */
+.pipeline-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4rem, 10vw, 8rem);
+    position: relative;
+    z-index: 2;
+}
+
+.pipeline-node {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 4rem; /* space for track on mobile */
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .pipeline-node {
+        flex-direction: row;
+        gap: 4rem;
+        padding-left: 0;
+        align-items: flex-start;
+    }
+}
+
+/* Outline Number */
+.node-number-wrapper {
+    position: absolute;
+    left: -1rem;
+    top: -1.5rem;
+}
+
+@media (min-width: 768px) {
+    .node-number-wrapper {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 8rem;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 2rem;
+    }
+}
+
+.node-outline-number {
+    font-family: var(--font-sans);
+    font-size: clamp(5rem, 10vw, 8rem);
     font-weight: 900;
-    letter-spacing: 0.16em;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    user-select: none;
+    transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease;
+}
+
+/* Hover effect on node to light up the number */
+.pipeline-node:hover .node-outline-number {
+    -webkit-text-stroke-color: var(--cyan);
+    color: color-mix(in srgb, var(--cyan) 5%, transparent);
+}
+
+/* Node Content */
+.node-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pipeline-node:hover .node-content {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px var(--shadow);
+    border-color: color-mix(in srgb, var(--cyan) 30%, var(--line));
+}
+
+.node-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.node-signal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyan);
     text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
-.workflow-step-card h3 {
-    margin: 0.4rem 0 0.6rem;
-    color: #f8fff0;
-    font-size: clamp(1.5rem, 3vw, 2.7rem);
-    letter-spacing: -0.045em;
+.node-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+    color: var(--ink);
 }
 
-.workflow-check-list {
+.node-header p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* Validation Checklist */
+.node-validation {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.validation-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.validation-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.validation-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--ink);
+}
+
+.check-box {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--cyan);
+    border-radius: 3px;
+    display: inline-block;
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+}
+
+/* Deliverable Box */
+.node-deliverable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--surface-2);
+    border-radius: 12px;
+    border: 1px solid var(--line);
+}
+
+.deliverable-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.deliverable-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -0.01em;
+}
+
+/* =========================================
+   TOOLCHAIN STRIP
+   ========================================= */
+
+.toolchain-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 6rem;
+    border-top: 1px solid var(--line);
+}
+
+.strip-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 40rem;
+}
+
+.strip-intro .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+}
+
+.strip-intro h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.toolchain-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .toolchain-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.toolchain-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--surface-1);
+    border-radius: 16px;
+    border: 1px solid var(--line);
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--ink);
+}
+
+.card-top h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.toolchain-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+    flex: 1;
+}
+
+.tool-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
-    margin: 1rem 0;
+    gap: 0.5rem;
 }
 
-.workflow-check-list small,
-.workflow-toolchain-grid span {
-    padding: 0.42rem 0.58rem;
-    border: 1px solid rgba(167, 255, 114, 0.18);
-    border-radius: 999px;
-    background: rgba(167, 255, 114, 0.07);
-    color: rgba(243, 255, 233, 0.78);
-    font-size: 0.78rem;
-    font-weight: 700;
+.tool-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    color: var(--ink);
 }
 
-.workflow-step-card strong {
-    color: var(--workflow-accent);
+/* =========================================
+   HANDOFF SIGNOFF
+   ========================================= */
+
+.handoff-signoff {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 6rem;
+    padding: clamp(2rem, 5vw, 4rem);
+    background: color-mix(in srgb, var(--cyan) 5%, var(--bg));
+    border: 1px solid color-mix(in srgb, var(--cyan) 20%, var(--line));
+    border-radius: 24px;
 }
 
-.workflow-toolchain-panel,
-.workflow-handoff-panel {
+.signoff-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 40rem;
+}
+
+.signoff-header .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+}
+
+.signoff-header h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.signoff-rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-    gap: clamp(1.2rem, 4vw, 3rem);
-    margin-top: clamp(4rem, 8vw, 7rem);
-    padding: clamp(1.2rem, 4vw, 3rem);
-    border-radius: 2.2rem;
-}
-
-.workflow-toolchain-panel h2,
-.workflow-handoff-panel h2,
-.workflow-route-panel h2 {
-    margin-top: 0.75rem;
-    font-size: clamp(1.9rem, 4vw, 3.7rem);
-    line-height: 0.95;
-}
-
-.workflow-toolchain-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
 }
 
-.workflow-toolchain-grid article {
-    padding: 1rem;
-    border-radius: 1.2rem;
-    background: rgba(255, 255, 255, 0.045);
-}
-
-.workflow-toolchain-grid svg,
-.workflow-handoff-panel svg {
-    color: var(--workflow-accent);
-}
-
-.workflow-toolchain-grid h3 {
-    margin: 0.8rem 0 0.6rem;
-    color: #f8fff0;
-}
-
-.workflow-toolchain-grid article div {
+.signoff-rules li {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-top: 1rem;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+    border-radius: 12px;
 }
 
-.workflow-handoff-panel ul {
-    display: grid;
-    gap: 0.8rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
+.rule-index {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--cyan);
 }
 
-.workflow-handoff-panel li {
-    padding: 1rem;
-    border-radius: 1rem;
-    background: rgba(255, 255, 255, 0.045);
-    color: rgba(243, 255, 233, 0.74);
+.rule-text {
+    font-size: 1rem;
+    font-weight: 500;
     line-height: 1.6;
+    color: var(--ink);
 }
 
-.workflow-route-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1.2rem;
+/* =========================================
+   FOOTER CTA
+   ========================================= */
+
+.workflow-footer-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 3rem;
+    border-radius: 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    margin-top: 6rem;
+}
+
+@media (min-width: 768px) {
+    .workflow-footer-cta {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.cta-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 850;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.cta-info p {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.workflow-cta-btn {
+    display: inline-flex;
     align-items: center;
-    margin-top: 1rem;
-    padding: clamp(1.2rem, 4vw, 2.4rem);
-    border-radius: 2rem;
-    background: linear-gradient(
-        135deg,
-        rgba(167, 255, 114, 0.16),
-        rgba(8, 16, 22, 0.94)
-    );
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--ink);
+    color: var(--bg);
+    font-weight: 800;
+    font-family: var(--font-mono);
+    border-radius: 99px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
 }
 
-@media (max-width: 1050px) {
-    .workflow-toolchain-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 860px) {
-    .workflow-hero-shell,
-    .workflow-toolchain-panel,
-    .workflow-handoff-panel,
-    .workflow-route-panel {
-        grid-template-columns: 1fr;
-    }
-
-    .workflow-hero-copy h1 {
-        max-width: 11ch;
-    }
-
-    .workflow-step-card {
-        grid-template-columns: 1fr;
-    }
-
-    .workflow-timeline::before {
-        display: none;
-    }
+.workflow-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
 }

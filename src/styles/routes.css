@@ -23,7 +23,7 @@ html {
 .site-shell {
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: clip;
     background:
         radial-gradient(
             circle at 18% 18%,
@@ -61,8 +61,78 @@ html {
     gap: 1rem;
     align-items: center;
     padding: 1rem clamp(1rem, 4vw, 3rem);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        backdrop-filter 0.3s ease;
+}
+
+.site-topbar.scrolled {
     background: rgba(4, 8, 13, 0.9);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Light Theme Overrides (for Home) */
+.site-shell[data-theme="light"] {
+    background: var(--h2-bg, #eef1ee);
+    color: var(--h2-ink, #17181c);
+}
+.site-shell[data-theme="light"] .site-topbar.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.site-shell[data-theme="light"] .site-brand,
+.site-shell[data-theme="light"] .site-nav-link,
+.site-shell[data-theme="light"] .route-footer a,
+.site-shell[data-theme="light"] .site-menu-toggle {
+    color: var(--h2-ink, #17181c);
+}
+.site-shell[data-theme="light"] .site-brand-mark {
+    border-color: rgba(23, 24, 28, 0.2);
+    color: var(--h2-ink, #17181c);
+    background: rgba(23, 24, 28, 0.05);
+}
+.site-shell[data-theme="light"] .site-nav-link {
+    border-color: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.4);
+}
+.site-shell[data-theme="light"] .site-nav-link:hover,
+.site-shell[data-theme="light"] .site-nav-link.active {
+    border-color: var(--h2-ocean, #1b6265);
+    background: rgba(27, 98, 101, 0.08);
+}
+.site-shell[data-theme="light"] .site-brand small,
+.site-shell[data-theme="light"] .site-nav-link small,
+.site-shell[data-theme="light"] .route-footer span,
+.site-shell[data-theme="light"] .route-footer strong,
+.site-shell[data-theme="light"] .route-footer p {
+    color: var(--h2-ink-soft, #60645f);
+}
+.site-shell[data-theme="light"] .route-footer a {
+    border-color: rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+}
+.site-shell[data-theme="light"] .route-footer a:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.9);
+}
+.site-shell[data-theme="light"] .site-menu-toggle {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.5);
+}
+.site-shell[data-theme="light"] .route-footer .footer-primary-link {
+    border-color: var(--h2-ocean, #1b6265);
+    background: var(--h2-ink, #17181c);
+    color: #fff;
+}
+.site-shell[data-theme="light"] .route-footer .footer-primary-link:hover {
+    background: var(--h2-ocean, #1b6265);
+    color: #fff;
+    border-color: var(--h2-ocean, #1b6265);
 }
 
 @media (pointer: coarse), (max-width: 1120px) {
@@ -294,6 +364,64 @@ html {
 
 .route-fallback {
     min-height: 52vh;
+    display: flex;
+    justify-content: center;
+    padding-top: clamp(4rem, 10vw, 8rem);
+}
+
+.skeleton-loader {
+    width: min(1180px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.skeleton-hero {
+    max-width: 820px;
+}
+
+.skeleton-kicker,
+.skeleton-title,
+.skeleton-body {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.5rem;
+    animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-kicker {
+    width: 120px;
+    height: 14px;
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-title {
+    width: 85%;
+    height: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 0.5rem;
+    border-radius: 0.8rem;
+}
+
+.skeleton-title.short {
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.skeleton-body {
+    width: 100%;
+    height: 16px;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-body.short {
+    width: 75%;
+}
+
+@keyframes skeleton-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
 
 .route-cta,
@@ -462,7 +590,7 @@ html {
     gap: 1rem;
     align-items: center;
     justify-content: space-between;
-    width: min(1180px, calc(100% - 2rem));
+    width: min(1380px, calc(100% - 2rem));
     margin: 0 auto;
     padding: 2rem 0 3rem;
     color: rgba(247, 243, 232, 0.72);

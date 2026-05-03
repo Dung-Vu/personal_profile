@@ -1,23 +1,44 @@
 :root {
-    color-scheme: dark;
-    --bg: #07080b;
-    --bg-2: #0d1118;
-    --ink: #f7f4ea;
-    --muted: #c3cbd3;
-    --soft: rgba(247, 244, 234, 0.84);
-    --line: rgba(247, 244, 234, 0.22);
-    --line-strong: rgba(247, 244, 234, 0.42);
-    --panel: rgba(13, 17, 24, 0.84);
-    --cyan: #5ee7ff;
-    --green: #b8ff6a;
-    --red: #ff4d67;
-    --amber: #ffca5f;
-    --violet: #9b7cff;
-    --shadow: rgba(0, 0, 0, 0.58);
+    color-scheme: light;
+    --bg: #ffffff;
+    --bg-2: #f4f5f7;
+    --ink: #111827;
+    --muted: #4b5563;
+    --soft: rgba(17, 24, 39, 0.84);
+    --line: rgba(17, 24, 39, 0.12);
+    --line-strong: rgba(17, 24, 39, 0.24);
+    --panel: rgba(255, 255, 255, 0.9);
+    --cyan: #0ea5e9;
+    --green: #10b981;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --violet: #8b5cf6;
+    --shadow: rgba(0, 0, 0, 0.08);
     --max: 1180px;
     --header: 76px;
     --font-heading:
         "Space Grotesk", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
     --font-mono:
         "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+
+    /* Home2 Editorial Tokens */
+    --h2-bg: #eef1ee;
+    --h2-bg-2: #f7f3ec;
+    --h2-bg-3: #f2eee6;
+    --h2-surface: rgba(255, 252, 247, 0.82);
+    --h2-surface-strong: #fbf8f2;
+    --h2-ink: #17181c;
+    --h2-ink-soft: #60645f;
+    --h2-line: rgba(23, 24, 28, 0.08);
+    --h2-line-strong: rgba(23, 24, 28, 0.14);
+    --h2-shadow: rgba(23, 24, 28, 0.12);
+    --h2-shadow-strong: rgba(23, 24, 28, 0.18);
+    --h2-ocean: #1b6265;
+    --h2-ocean-soft: #dceceb;
+    --h2-iris: #6a72d2;
+    --h2-iris-soft: #ececfa;
+    --h2-apricot: #d78b47;
+    --h2-apricot-soft: #f7e7d6;
+    --h2-sans: "Be Vietnam Pro", system-ui, sans-serif;
+    --h2-mono: var(--font-mono);
 }

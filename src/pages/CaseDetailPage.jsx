@@ -1,6 +1,8 @@
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, Layers, Cpu, Code2, LineChart } from "lucide-react";
 import "../styles/case-detail.css";
 import { projects } from "../content/projects";
+import { projectMilestones } from "../content/timeline";
+import { Timeline, TimelineItem } from "../components/ui/Timeline";
 import { navigateTo } from "../hooks/useRoutePath";
 
 const caseNarrative = {
@@ -79,6 +81,58 @@ export function CaseDetailPage({ slug }) {
                 </aside>
             </div>
 
+            {/* Editorial Deep Dive Section */}
+            {(project.architectureContext || project.coreChallenges) && (
+                <div className="case-deep-dive">
+                    <div className="deep-dive-header">
+                        <span className="route-kicker">ENGINEERING TEARDOWN</span>
+                        <h2>Giải phẫu hệ thống</h2>
+                    </div>
+                    
+                    <div className="deep-dive-grid">
+                        {project.architectureContext && (
+                            <article className="deep-dive-card">
+                                <div className="card-icon"><Layers /></div>
+                                <h3>Architecture Context</h3>
+                                <p>{project.architectureContext}</p>
+                            </article>
+                        )}
+                        
+                        {project.coreChallenges && (
+                            <article className="deep-dive-card">
+                                <div className="card-icon"><Cpu /></div>
+                                <h3>Core Challenges</h3>
+                                <p>{project.coreChallenges}</p>
+                            </article>
+                        )}
+                    </div>
+
+                    {project.technicalDecisions && project.technicalDecisions.length > 0 && (
+                        <div className="tech-decisions-section">
+                            <h3><Code2 className="inline-icon" /> Technical Decisions & Trade-offs</h3>
+                            <div className="decisions-list">
+                                {project.technicalDecisions.map((dec, idx) => (
+                                    <div key={idx} className="decision-item">
+                                        <h4>{dec.title}</h4>
+                                        <p>{dec.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {project.businessImpact && (
+                        <div className="business-impact-banner">
+                            <LineChart className="impact-icon" />
+                            <div>
+                                <h3>Business Impact</h3>
+                                <p>{project.businessImpact}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
             <div className="case-detail-grid">
                 <article>
                     <span>Bài toán</span>
@@ -118,6 +172,27 @@ export function CaseDetailPage({ slug }) {
                 </article>
             </div>
 
+            {projectMilestones[project.slug] && (
+                <>
+                    <div className="timeline-section-heading">
+                        <small>Milestones</small>
+                        <h2>Các mốc triển khai chính của dự án.</h2>
+                    </div>
+                    <Timeline>
+                        {projectMilestones[project.slug].map((ms, idx) => (
+                            <TimelineItem
+                                key={ms.date}
+                                date={ms.date}
+                                title={ms.title}
+                                description={ms.description}
+                                status={ms.status}
+                                index={idx}
+                            />
+                        ))}
+                    </Timeline>
+                </>
+            )}
+
             <div className="case-detail-proof">
                 <div>
                     <span className="route-kicker">Scope & proof</span>
@@ -141,7 +216,7 @@ export function CaseDetailPage({ slug }) {
 
             <div className="route-panel case-detail-route-panel">
                 <span>Next project</span>
-                <strong>Muốn áp dụng logic này cho sản phẩm của bạn?</strong>
+                <strong>Muốn áp dụng tư duy kỹ thuật này cho sản phẩm của bạn?</strong>
                 <a className="route-cta primary" href="/contact" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
                     Gửi yêu cầu <ArrowRight aria-hidden="true" />
                 </a>

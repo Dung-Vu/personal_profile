@@ -251,3 +251,148 @@
 .case-detail-empty {
     max-width: 56rem;
 }
+
+/* Editorial Deep Dive Styles */
+.case-deep-dive {
+    margin-top: 1rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid rgba(158, 239, 255, 0.18);
+    border-radius: 2rem;
+    background: linear-gradient(
+        145deg,
+        rgba(4, 10, 18, 0.95),
+        rgba(8, 15, 25, 0.85)
+    );
+    box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.4);
+    display: grid;
+    gap: 2.5rem;
+}
+
+.deep-dive-header h2 {
+    margin: 0.5rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.05em;
+    color: #fff;
+}
+
+.deep-dive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.deep-dive-card {
+    padding: 1.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.deep-dive-card .card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background: rgba(158, 239, 255, 0.1);
+    color: #9eefff;
+    margin-bottom: 1.25rem;
+}
+
+.deep-dive-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.35rem;
+    color: #f7f3e8;
+}
+
+.deep-dive-card p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(247, 243, 232, 0.78);
+}
+
+.tech-decisions-section {
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.tech-decisions-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    color: #ffca5f;
+}
+
+.inline-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.decisions-list {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.decision-item {
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid rgba(255, 202, 95, 0.5);
+    background: rgba(255, 202, 95, 0.04);
+    border-radius: 0 1rem 1rem 0;
+}
+
+.decision-item h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    color: #f7f3e8;
+}
+
+.decision-item p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(247, 243, 232, 0.72);
+}
+
+.business-impact-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 1.25rem;
+}
+
+.impact-icon {
+    width: 2rem;
+    height: 2rem;
+    color: #10b981;
+    flex-shrink: 0;
+}
+
+.business-impact-banner h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #10b981;
+}
+
+.business-impact-banner p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(247, 243, 232, 0.85);
+}
+
+@media (max-width: 680px) {
+    .business-impact-banner {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+} 
+ 

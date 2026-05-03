@@ -1,0 +1,206 @@
+/* ============================================
+   Empty States Design System
+   Inspired by devl.dev empty-states patterns
+   Adapted for personal-website design tokens
+   ============================================ */
+
+/* --- Container --- */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 55vh;
+    padding: 3rem 1.5rem;
+    gap: 1rem;
+}
+
+.empty-state-icon {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--panel);
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+}
+
+.empty-state-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cyan);
+}
+
+.empty-state-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    max-width: 28rem;
+}
+
+.empty-state-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 24rem;
+}
+
+.empty-state-action {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.62rem 1.3rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cyan);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        background 180ms ease,
+        border-color 180ms ease;
+}
+
+.empty-state-action:hover {
+    background: rgba(94, 231, 255, 0.08);
+    border-color: var(--cyan);
+}
+
+/* --- 404 Page (full-page variant) --- */
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 70vh;
+    padding: 3rem 1.5rem;
+    gap: 0.75rem;
+}
+
+.not-found-code {
+    font-family: var(--font-heading);
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    color: var(--line);
+    user-select: none;
+}
+
+.not-found-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+}
+
+.not-found-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 22rem;
+}
+
+.not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* --- Maintenance Page --- */
+.maintenance-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 80vh;
+    padding: 3rem 1.5rem;
+    gap: 0.75rem;
+}
+
+.maintenance-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.36rem 0.9rem;
+    border: 1px solid var(--amber);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--amber);
+    background: rgba(255, 202, 95, 0.06);
+    margin-bottom: 0.5rem;
+}
+
+.maintenance-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.maintenance-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+}
+
+.maintenance-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 22rem;
+}
+
+.maintenance-eta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--soft);
+    opacity: 0.7;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    .empty-state {
+        min-height: 45vh;
+        padding: 2rem 1rem;
+    }
+
+    .not-found-page {
+        min-height: 60vh;
+    }
+
+    .not-found-code {
+        font-size: clamp(3.5rem, 20vw, 8rem);
+    }
+}

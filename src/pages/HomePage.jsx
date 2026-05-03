@@ -1,343 +1,381 @@
-import { useLayoutEffect, useRef } from "react";
-import "../styles/home.css";
-import { ArrowRight, CheckCircle2, CircleDot, Sparkles } from "lucide-react";
-import { homeStoryScenes } from "../content/homeStoryScenes";
-import { capabilities } from "../content/capabilities";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowRight, Send, ArrowUpRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+import { ScratchCloud } from "../components/home2/ScratchCloud";
 import { navigateTo } from "../hooks/useRoutePath";
+import "../styles/home.css";
 
-const sceneSignals = ["Vai trò", "Dự án", "Kết quả", "Quy trình", "Liên hệ"];
-
-const heroProofs = [
-    { label: "Dịch vụ", value: "Website, dashboard, internal tool" },
-    { label: "Kinh nghiệm", value: "3 case study có scope & kết quả" },
-    { label: "Quy trình", value: "Thiết kế → Build → Kiểm tra thực tế" },
+const heroMeta = [
+    "Front-end architecture",
+    "Art-directed UI",
+    "AI-assisted workflows",
 ];
 
-function SceneCard({ scene }) {
+const projectArtDirections = [
+    {
+        id: "product-hub",
+        title: "Bonario Product Hub",
+        type: "B2B SaaS / Enterprise",
+        summary: "Hệ thống quản lý sản phẩm nội bộ tích hợp chặt chẽ với Odoo ERP, tập trung vào UX vận hành nhanh và kiến trúc dữ liệu ổn định.",
+        toneClass: "h2-tone-ocean",
+        featured: true,
+        tags: ["React", "Flask", "Odoo API"],
+        image: "/assets/signal-case-bonario-hub.webp",
+        path: "/work/bonario-product-hub",
+    },
+    {
+        id: "tca",
+        title: "TCA Crypto Analyzer",
+        type: "Fintech / Trading",
+        summary: "PWA scanner tín hiệu Crypto đa khung thời gian. Xử lý real-time data, biểu đồ phức tạp và logic quản trị rủi ro tự động.",
+        toneClass: "h2-tone-iris",
+        featured: false,
+        tags: ["Next.js", "WebSocket", "PWA"],
+        image: "/assets/signal-case-tca-dashboard.webp",
+        path: "/work/tca-crypto-analyzer",
+    },
+    {
+        id: "ai-workflow",
+        title: "AI Operator Workflow",
+        type: "Developer Tools",
+        summary: "Quy trình làm việc có sự hỗ trợ của AI: từ khâu đọc context, dựng state đến khi build ra bản slice chạy thật trên browser.",
+        toneClass: "h2-tone-apricot",
+        featured: false,
+        tags: ["GSAP", "LLM", "Vite"],
+        image: "/assets/signal-case-ai-workflow.webp",
+        path: "/work/ai-operator-workflow",
+    },
+];
+
+const destinations = [
+    {
+        id: "workflow",
+        label: "Workflow",
+        eyebrow: "Process",
+        desc: "Cách mình đi từ brief đến bản build chạy thật.",
+        path: "/workflow",
+    },
+    {
+        id: "stack",
+        label: "Stack",
+        eyebrow: "Capability",
+        desc: "Công nghệ và công cụ mình dùng để ship sản phẩm.",
+        path: "/stack",
+    },
+    {
+        id: "about",
+        label: "About",
+        eyebrow: "Identity",
+        desc: "Thông tin cá nhân, định vị và triết lý làm việc.",
+        path: "/about",
+    },
+    {
+        id: "contact",
+        label: "Contact",
+        eyebrow: "Start Project",
+        desc: "Gửi brief ngắn để nhận đánh giá khả thi và scope MVP.",
+        path: "/contact",
+    },
+];
+
+function NavLink({ href, className, children }) {
     return (
-        <article
-            className="home-scene-card"
-            style={{
-                "--scene-bg": scene.accent.bg,
-                "--scene-line": scene.accent.line,
+        <a
+            href={href}
+            className={className}
+            onClick={(e) => {
+                e.preventDefault();
+                navigateTo(href);
             }}
         >
-            <span className="scene-index">{scene.indicatorLabel}</span>
-            <div className="scene-copy">
-                <p className="scene-motif">{scene.motif}</p>
-                <h2>{scene.headline}</h2>
-                <p>{scene.body}</p>
-            </div>
-            <div className="scene-orbit" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-            </div>
-            {scene.cta ? (
-                <div className="scene-actions">
-                    <a
-                        className="route-cta primary"
-                        href={scene.cta.primary.route}
-                        onClick={(e) => { e.preventDefault(); navigateTo(scene.cta.primary.route); }}
-                    >
-                        {scene.cta.primary.label}{" "}
-                        <ArrowRight aria-hidden="true" />
-                    </a>
-                    <a
-                        className="route-cta"
-                        href={scene.cta.secondary.route}
-                        onClick={(e) => { e.preventDefault(); navigateTo(scene.cta.secondary.route); }}
-                    >
-                        {scene.cta.secondary.label}
-                    </a>
-                    <a
-                        className="route-link"
-                        href={scene.cta.lab.route}
-                        onClick={(e) => { e.preventDefault(); navigateTo(scene.cta.lab.route); }}
-                    >
-                        {scene.cta.lab.label}
-                    </a>
-                </div>
-            ) : null}
-        </article>
+            {children}
+        </a>
     );
 }
 
-function useHomeCinematic() {
-    const rootRef = useRef(null);
+export function HomePage() {
+    const containerRef = useRef(null);
 
-    useLayoutEffect(() => {
-        const root = rootRef.current;
-        if (!root) return undefined;
-
-        const reduceMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        );
-        const finePointer = window.matchMedia(
-            "(hover: hover) and (pointer: fine)",
-        );
-        const desktopMotion = window.matchMedia("(min-width: 1120px)");
-        const saveData = navigator.connection?.saveData === true;
-        const deviceMemory = navigator.deviceMemory ?? 8;
-        const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
-
-        if (
-            reduceMotion.matches ||
-            !finePointer.matches ||
-            !desktopMotion.matches ||
-            saveData ||
-            deviceMemory < 4 ||
-            hardwareConcurrency < 6
-        ) {
-            root.dataset.motion = "static";
-            return undefined;
-        }
-
-        root.dataset.motion = "cinematic";
-
-        let context;
-        let refresh;
-        let cancelled = false;
-
-        const startMotion = async () => {
-            const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-                import("gsap"),
-                import("gsap/ScrollTrigger"),
-            ]);
-
-            if (cancelled || !root.isConnected) return;
-
-            gsap.registerPlugin(ScrollTrigger);
-            context = gsap.context(() => {
-                const hero = root.querySelector(".home-hero");
-                const panel = root.querySelector(".home-signal-panel");
-                const sceneCards = gsap.utils.toArray(".home-scene-card");
-                const scenePins = gsap.utils.toArray(".story-progress-dot");
-
-                gsap.set([hero, panel], { autoAlpha: 0, y: 28 });
-                gsap.set(sceneCards, { autoAlpha: 0, y: 64, scale: 0.96 });
-                gsap.set(scenePins, { autoAlpha: 0.45 });
-
-                const intro = gsap.timeline({
-                    defaults: { ease: "power3.out" },
-                });
-                intro
-                    .to(hero, { autoAlpha: 1, y: 0, duration: 0.9 })
-                    .to(panel, { autoAlpha: 1, y: 0, duration: 0.75 }, "-=0.42")
-                    .to(
-                        scenePins,
-                        { autoAlpha: 1, stagger: 0.08, duration: 0.35 },
-                        "-=0.2",
-                    );
-
-                sceneCards.forEach((card, index) => {
-                    const accent =
-                        homeStoryScenes[index]?.accent.line ?? "#00d4ff";
-                    const dot = scenePins[index];
-                    const orbit = card.querySelector(".scene-orbit");
-
-                    const reveal = gsap
-                        .timeline({
-                            scrollTrigger: {
-                                trigger: card,
-                                start: "top 84%",
-                                once: true,
-                                onEnter: () => {
-                                    root.style.setProperty(
-                                        "--home-motion-accent",
-                                        accent,
-                                    );
-                                },
-                            },
-                        })
-                        .to(card, {
-                            autoAlpha: 1,
-                            y: 0,
-                            scale: 1,
-                            duration: 0.62,
-                            ease: "power2.out",
-                        });
-
-                    if (orbit) {
-                        reveal.to(
-                            orbit,
-                            {
-                                rotate: 24,
-                                scale: 1.03,
-                                duration: 0.62,
-                                ease: "power1.out",
-                            },
-                            0,
-                        );
-                    }
-
-                    if (dot) {
-                        reveal.to(
-                            dot,
-                            {
-                                backgroundColor: accent,
-                                borderColor: accent,
-                                autoAlpha: 1,
-                                scale: 1.08,
-                                duration: 0.28,
-                            },
-                            0,
-                        );
-                    }
-                });
-            }, root);
-
-            refresh = () => ScrollTrigger.refresh();
-            window.addEventListener("load", refresh, { once: true });
-        };
-
-        const idleId = window.requestIdleCallback
-            ? window.requestIdleCallback(startMotion, { timeout: 1800 })
-            : window.setTimeout(startMotion, 900);
-
-        return () => {
-            cancelled = true;
-            if (window.requestIdleCallback) {
-                window.cancelIdleCallback(idleId);
-            } else {
-                window.clearTimeout(idleId);
-            }
-            if (refresh) window.removeEventListener("load", refresh);
-            context?.revert();
-            delete root.dataset.motion;
-            root.style.removeProperty("--home-story-progress");
-            root.style.removeProperty("--home-motion-accent");
-        };
+    // Đảm bảo scroll lên đầu khi vào trang
+    useEffect(() => {
+        window.scrollTo(0, 0);
     }, []);
 
-    return rootRef;
-}
+    useEffect(() => {
+        const mm = gsap.matchMedia(containerRef);
 
-export function HomePage() {
-    const rootRef = useHomeCinematic();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+            // Bio section fade up
+            gsap.from(".h2-bio-card", {
+                scrollTrigger: {
+                    trigger: ".h2-bio",
+                    start: "top 85%",
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+
+            // Section Titles fade up
+            gsap.utils.toArray(".h2-section-row").forEach(row => {
+                gsap.from(row, {
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 85%",
+                    },
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    clearProps: "all"
+                });
+            });
+
+            // Project cards stagger fade up
+            gsap.from(".h2-case-card", {
+                scrollTrigger: {
+                    trigger: ".h2-project-grid",
+                    start: "top 80%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+
+            // Method cards stagger
+            gsap.from(".h2-method-card", {
+                scrollTrigger: {
+                    trigger: ".h2-method-cards",
+                    start: "top 85%",
+                },
+                x: 30,
+                opacity: 0,
+                duration: 0.7,
+                stagger: 0.15,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+
+            // Destinations stagger
+            gsap.from(".h2-destination-card", {
+                scrollTrigger: {
+                    trigger: ".h2-destination-grid",
+                    start: "top 85%",
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        });
+
+        return () => mm.revert();
+    }, []);
 
     return (
-        <section
-            ref={rootRef}
-            className="page home-page"
-            aria-labelledby="home-title"
-        >
-            <div className="home-motion-field" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-            </div>
+        <div className="home2-page" aria-labelledby="h2-title" ref={containerRef}>
+            <section className="h2-hero">
+                <div className="h2-wrap">
+                    <div className="h2-hero-stage">
+                        <div className="h2-hero-copy">
+                            <p className="h2-overline">Art-directed Portfolio</p>
 
-            <div className="story-progress" aria-hidden="true">
-                {homeStoryScenes.map((scene) => (
-                    <span
-                        key={scene.id}
-                        className="story-progress-dot"
-                        style={{ "--dot-accent": scene.accent.line }}
-                    />
-                ))}
-            </div>
+                            <h1 id="h2-title" className="h2-headline">
+                                Giao diện không chỉ để ngắm.
+                                <span>Nó phải định hướng hành vi.</span>
+                            </h1>
 
-            <div className="home-hero-shell">
-                <div className="home-hero">
-                    <p className="eyebrow">
-                        Web Developer / Dashboard / Internal Tool / AI Workflow
-                    </p>
-                    <h1 id="home-title">
-                        <span className="headline-line">Mình xây web app,</span>
-                        <span className="headline-line">dashboard và tool</span>
-                        <span className="headline-line">dễ vận hành.</span>
-                    </h1>
-                    <p>
-                        Mình giúp biến quy trình rối và dữ liệu khó đọc thành
-                        giao diện web trực quan, dễ dùng và có thể kiểm chứng
-                        ngay trên trình duyệt.
-                    </p>
-                    <div
-                        className="home-proof-strip"
-                        aria-label="Quick proof summary"
-                    >
-                        {heroProofs.map((proof) => (
-                            <div key={proof.label}>
-                                <CheckCircle2 aria-hidden="true" />
-                                <span>{proof.label}</span>
-                                <strong>{proof.value}</strong>
+                            <p className="h2-subline">
+                                Một trải nghiệm UI tốt là cách nó kể câu chuyện của dữ liệu, tối ưu luồng vận hành và phản hồi tức thì với người dùng.
+                            </p>
+
+                            <div
+                                className="h2-hero-meta"
+                                aria-label="Home focus areas"
+                            >
+                                {heroMeta.map((item) => (
+                                    <span key={item}>{item}</span>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <div className="hero-actions">
-                    <a
-                        className="route-cta primary"
-                        href="/work"
-                        onClick={(e) => { e.preventDefault(); navigateTo("/work"); }}
-                    >
-                        Xem case study <ArrowRight aria-hidden="true" />
-                    </a>
-                    <a
-                        className="route-cta"
-                        href="/contact"
-                        onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}
-                    >
-                        Gửi yêu cầu
-                    </a>
+
+                            <div className="h2-ctas">
+                                <NavLink
+                                    href="/work"
+                                    className="h2-cta-primary"
+                                >
+                                    Xem case study{" "}
+                                    <ArrowRight aria-hidden="true" />
+                                </NavLink>
+                                <NavLink
+                                    href="/contact"
+                                    className="h2-cta-secondary"
+                                >
+                                    Gửi brief <Send aria-hidden="true" />
+                                </NavLink>
+                            </div>
+                        </div>
+
+                        <article
+                            className="h2-scratch-card"
+                            aria-label="Interactive particle field"
+                        >
+                            <div className="h2-scratch-cloud">
+                                <ScratchCloud motionEnabled={true} />
+                                <div className="h2-scratch-overlay">
+                                    <span className="h2-scratch-overlay-kicker">
+                                        Interactive Space
+                                    </span>
+                                    <h3 className="h2-scratch-overlay-title">
+                                        Thử quét tay qua các hạt.
+                                    </h3>
+                                </div>
+                            </div>
+                        </article>
                     </div>
                 </div>
+            </section>
 
-                <aside
-                    className="home-signal-panel"
-                    aria-label="Home story route status"
-                >
-                    <img
-                        className="home-panel-image"
-                        src="/assets/signal-workstation-hero-v2.webp"
-                        alt="Dark developer workstation with code and dashboard monitors."
-                        loading="eager"
-                        decoding="async"
-                        fetchPriority="high"
-                    />
-                    <div className="signal-panel-topline">
-                        <Sparkles aria-hidden="true" />
-                        <span>Cách mình làm việc</span>
+            <section className="h2-bio" aria-labelledby="h2-bio-title">
+                <div className="h2-wrap">
+                    <div className="h2-bio-card">
+                        <div className="h2-bio-content">
+                            <p className="h2-section-label">Behind the builds</p>
+                            <h2 id="h2-bio-title" className="h2-bio-title">
+                                Web Developer & AI Workflow Builder.
+                            </h2>
+                            <p className="h2-bio-copy">
+                                Mình chuyên xây dựng các bề mặt giao diện, dashboard và công cụ vận hành (internal tool) tập trung vào luồng xử lý dữ liệu. Không chỉ làm web tĩnh, mình ưu tiên kiến trúc có thể mở rộng và tối ưu hóa workflow hàng ngày bằng AI.
+                            </p>
+                        </div>
                     </div>
-                    <strong>
-                        Website, dashboard, internal tool và AI workflow.
-                    </strong>
-                    <p>
-                        Vào Work để xem bối cảnh, vai trò, kết quả và
-                        trạng thái thực tế của từng dự án.
-                    </p>
-                    <div
-                        className="signal-stack"
-                        aria-label="Home story scenes"
-                    >
-                        {sceneSignals.map((signal, index) => (
-                            <span key={signal}>
-                                <CircleDot aria-hidden="true" />
-                                {String(index + 1).padStart(2, "0")} / {signal}
-                            </span>
+                </div>
+            </section>
+
+            <section className="h2-projects" aria-labelledby="h2-projects-title">
+                <div className="h2-wrap">
+                    <div className="h2-section-row">
+                        <h2 id="h2-projects-title" className="h2-section-title">
+                            Giao diện phải giải quyết bài toán vận hành.
+                        </h2>
+                        <NavLink href="/work" className="h2-section-link">
+                            Xem tất cả dự án
+                        </NavLink>
+                    </div>
+
+                    <div className="h2-project-grid">
+                        {projectArtDirections.map((project) => {
+                            const isFeatured = project.featured;
+                            return (
+                                <NavLink
+                                    key={project.id}
+                                    href={project.path}
+                                    className={`h2-case-card ${project.toneClass} ${
+                                        isFeatured
+                                            ? "h2-case-card-featured"
+                                            : "h2-case-card-editorial"
+                                    }`}
+                                >
+                                    <div className="h2-case-media">
+                                        <img src={project.image} alt={project.title} loading="lazy" />
+                                    </div>
+                                    <div className={isFeatured ? "h2-case-panel" : "h2-case-overlay"}>
+                                        <div className="h2-case-head">
+                                            <span className="h2-case-type">{project.type}</span>
+                                            <span className="h2-case-link">View case</span>
+                                        </div>
+                                        <div className="h2-case-copy">
+                                            <h3 className="h2-case-title">{project.title}</h3>
+                                            <p className="h2-case-summary">{project.summary}</p>
+                                        </div>
+                                        <div className="h2-case-tags">
+                                            {project.tags.map((tag) => (
+                                                <span key={tag}>{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </NavLink>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            <section className="h2-method" aria-labelledby="h2-method-title">
+                <div className="h2-wrap h2-method-layout">
+                    <div className="h2-method-intro">
+                        <p className="h2-method-label">Methodology</p>
+                        <h2 id="h2-method-title" className="h2-method-title">
+                            Không thiết kế thừa.
+                        </h2>
+                        <p className="h2-method-copy">
+                            Mọi line code đều phục vụ một mục đích cụ thể: chuyển tải dữ liệu, phản hồi thao tác, hoặc tối ưu luồng công việc.
+                        </p>
+                    </div>
+                    <div className="h2-method-cards">
+                        {/* Static method cards to match original layout conceptually */}
+                        <div className="h2-method-card h2-tone-ocean">
+                            <div className="h2-method-card-panel">
+                                <h3>Architecture First</h3>
+                                <p>Cấu trúc dữ liệu và luồng thông tin phải được chốt trước khi vẽ bất kỳ UI nào.</p>
+                                <div className="h2-method-tags">
+                                    <span>Data Flow</span>
+                                    <span>State Management</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h2-method-card h2-tone-iris">
+                            <div className="h2-method-card-panel">
+                                <h3>AI-Assisted Workflow</h3>
+                                <p>Sử dụng AI không phải để viết hộ, mà để giảm tải thao tác lặp lại và mở rộng khả năng debug.</p>
+                                <div className="h2-method-tags">
+                                    <span>Automations</span>
+                                    <span>Prompt Engineering</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="h2-destinations" aria-labelledby="h2-dest-title">
+                <div className="h2-wrap">
+                    <div className="h2-section-row h2-section-row-tight">
+                        <h2 id="h2-dest-title" className="h2-section-title">
+                            Khám phá tiếp.
+                        </h2>
+                    </div>
+                    <div className="h2-destination-grid">
+                        {destinations.map((dest) => (
+                            <NavLink
+                                key={dest.id}
+                                href={dest.path}
+                                className="h2-destination-card"
+                            >
+                                <div className="h2-destination-content">
+                                    <span className="h2-destination-eyebrow">
+                                        {dest.eyebrow}
+                                    </span>
+                                    <h3>{dest.label}</h3>
+                                    <p>{dest.desc}</p>
+                                </div>
+                                <div className="h2-destination-arrow">
+                                    <ArrowUpRight aria-hidden="true" />
+                                </div>
+                            </NavLink>
                         ))}
                     </div>
-                </aside>
-            </div>
-
-            <div
-                className="home-story-grid"
-                aria-label="Locked home story scenes"
-            >
-                {homeStoryScenes.map((scene) => (
-                    <SceneCard key={scene.id} scene={scene} />
-                ))}
-            </div>
-
-            <div className="capability-strip" aria-label="Capability signals">
-                {capabilities.slice(0, 3).map((capability) => (
-                    <article key={capability.id}>
-                        <span>{capability.level}</span>
-                        <strong>{capability.label}</strong>
-                        <p>{capability.detail}</p>
-                    </article>
-                ))}
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     );
 }

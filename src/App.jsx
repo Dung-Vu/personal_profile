@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
 import { SiteShell } from "./components/layout/SiteShell";
-import { useRoutePath, navigateTo } from "./hooks/useRoutePath";
+import { useRoutePath } from "./hooks/useRoutePath";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 const routeLoaders = {
     home: () => import("./pages/HomePage"),
@@ -43,46 +43,18 @@ const WorkflowPage = lazy(() =>
         .then((module) => ({ default: module.WorkflowPage })),
 );
 
-function NotFoundPage() {
-    return (
-        <section className="page" aria-labelledby="not-found-title">
-            <span className="route-kicker">404 / TRANG KHÔNG TỒN TẠI</span>
-            <h1
-                id="not-found-title"
-                style={{
-                    margin: "0.5rem 0 1rem",
-                    fontSize: "clamp(2.4rem,5vw,4.5rem)",
-                    letterSpacing: "-0.06em",
-                    lineHeight: 1,
-                }}
-            >
-                Trang này không tồn tại.
-            </h1>
-            <p
-                style={{
-                    color: "rgba(247,243,232,0.7)",
-                    marginBottom: "1.6rem",
-                }}
-            >
-                Địa chỉ bạn nhập không khớp với bất kỳ route nào. Quay lại trang
-                chủ để tiếp tục.
-            </p>
-            <a
-                className="route-cta primary"
-                href="/"
-                onClick={(e) => {
-                    e.preventDefault();
-                    navigateTo("/");
-                }}
-            >
-                Về trang chủ <ArrowRight aria-hidden="true" />
-            </a>
-        </section>
-    );
-}
-
 function RouteFallback() {
-    return <div className="route-fallback" aria-label="Loading route" />;
+    return (
+        <div className="route-fallback skeleton-loader" aria-label="Loading route" role="status">
+            <div className="skeleton-hero">
+                <div className="skeleton-kicker" />
+                <div className="skeleton-title" />
+                <div className="skeleton-title short" />
+                <div className="skeleton-body" />
+                <div className="skeleton-body short" />
+            </div>
+        </div>
+    );
 }
 
 function warmLikelyRoutes(path) {

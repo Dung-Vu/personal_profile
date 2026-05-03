@@ -2,7 +2,7 @@ export const capabilities = [
     {
         id: "frontend",
         icon: "code",
-        label: "Frontend",
+        label: "Layer 01: Frontend Architecture",
         title: "React / HTML / CSS / JavaScript",
         detail: "Dựng giao diện responsive, rõ trạng thái, có motion vừa đủ và dễ bảo trì sau khi bàn giao.",
         level: "Core",
@@ -15,7 +15,7 @@ export const capabilities = [
     {
         id: "product-ui",
         icon: "dashboard",
-        label: "Product UI",
+        label: "Layer 02: Product Interfaces",
         title: "Dashboards & Admin tools",
         detail: "Thiết kế màn hình dữ liệu, bộ lọc, bảng điều khiển và thao tác lặp lại cho đội vận hành.",
         level: "Strong",
@@ -28,7 +28,7 @@ export const capabilities = [
     {
         id: "backend-flow",
         icon: "api",
-        label: "Backend flow",
+        label: "Layer 03: Data & Integrations",
         title: "API / Flask / Odoo Integration",
         detail: "Kết nối endpoint, chuẩn hóa dữ liệu và xây flow xử lý giữa frontend với service nội bộ.",
         level: "Applied",
@@ -41,7 +41,7 @@ export const capabilities = [
     {
         id: "automation",
         icon: "automation",
-        label: "Automation",
+        label: "Layer 04: AI-Assisted Operations",
         title: "AI-assisted development",
         detail: "Kết hợp AI assistant, log, script và browser audit để debug, kiểm thử UI và triển khai nhanh hơn.",
         level: "Active",

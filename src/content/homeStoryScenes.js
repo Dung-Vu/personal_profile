@@ -1,77 +1,116 @@
-export const homeStoryScenes = [
+export const transformationScenes = [
     {
-        id: "signal-appears",
-        index: 0,
-        indicatorLabel: "01",
-        headline:
-            "Vũ Đình Dũng — Web Developer. Mình build web app, dashboard và internal tool dùng được thật.",
-        body: "Mình xây interface cho web app, dashboard và workflow AI-assisted: ít trang hơn, nhiều quyết định rõ hơn, và mỗi CTA đều dẫn đến bước tiếp theo thật.",
-        motif: "Giới thiệu / định vị bản thân",
-        accent: {
-            bg: "#000000",
-            line: "#00d4ff",
+        id: "signal",
+        step: "01",
+        label: "Signal",
+        kicker: "Messy input",
+        headline: "Tín hiệu thô cần được đọc trước khi được thiết kế.",
+        body: "Brief rời rạc, dữ liệu khó nhìn, trạng thái mơ hồ và nhiều thao tác thủ công thường là điểm bắt đầu.",
+        proof: {
+            label: "Raw feed",
+            value: "brief + spreadsheet + API + vận hành thực tế",
         },
-        cta: null,
+        route: {
+            label: "Xem case study",
+            path: "/work",
+        },
+        visual: "signal",
+        accent: {
+            bg: "#05080d",
+            line: "#5ee7ff",
+            soft: "rgba(94, 231, 255, 0.16)",
+        },
+        strips: ["brief chưa rõ", "data thô", "state thiếu tên"],
     },
     {
-        id: "interface-thinking",
-        index: 1,
-        indicatorLabel: "02",
-        headline:
-            "Giao diện không chỉ là màn hình, mà là cách hệ thống nói chuyện.",
-        body: "Frontend tốt làm state, data, lỗi và hành động người dùng trở nên đọc được. Người xem biết đang ở đâu; người vận hành biết cần làm gì.",
-        motif: "Thiết kế giao diện / cấu trúc thông tin",
-        accent: {
-            bg: "#0a1628",
-            line: "#2a4d8f",
+        id: "system",
+        step: "02",
+        label: "System",
+        kicker: "Structured surface",
+        headline: "Hệ thống tốt làm cho bước tiếp theo trở nên hiển nhiên.",
+        body: "Mình chuyển tín hiệu thành information architecture, trạng thái giao diện, dashboard/tool surface và hành động có thể dùng được.",
+        proof: {
+            label: "Interface proof",
+            value: "navigation, empty/error/loading state, CTA rõ",
         },
-        cta: null,
+        route: {
+            label: "Xem stack",
+            path: "/stack",
+        },
+        visual: "system",
+        accent: {
+            bg: "#071426",
+            line: "#78a9ff",
+            soft: "rgba(120, 169, 255, 0.17)",
+        },
+        strips: ["state map", "operator view", "action path"],
     },
     {
-        id: "systems-from-chaos",
-        index: 2,
-        indicatorLabel: "03",
-        headline: "Từ dữ liệu rời rạc đến dashboard và tool dùng được thật.",
-        body: "Mình gom tín hiệu thô thành module, bảng trạng thái, filter, flow kiểm tra và hành động rõ. Mục tiêu không phải nhiều effect, mà là giảm mơ hồ trong runtime.",
-        motif: "Từ dữ liệu thô đến công cụ vận hành",
+        id: "runtime",
+        step: "03",
+        label: "Runtime",
+        kicker: "Verified build",
+        headline: "Bản chạy trên browser mới là nơi mọi quyết định bị kiểm tra.",
+        body: "AI giúp tăng tốc, nhưng mình vẫn chốt bằng build, route, layout QA và kiểm tra mobile để giao diện thật sự vận hành.",
+        proof: {
+            label: "Runtime loop",
+            value: "build pass + browser check + mobile layout",
+        },
+        route: {
+            label: "Xem workflow",
+            path: "/workflow",
+        },
+        visual: "runtime",
         accent: {
-            bg: "#0f1c2e",
-            line: "#b8860b",
+            bg: "#07170f",
+            line: "#36d399",
+            soft: "rgba(54, 211, 153, 0.16)",
         },
-        cta: null,
-    },
-    {
-        id: "ai-assisted-delivery",
-        index: 3,
-        indicatorLabel: "04",
-        headline: "AI và CLI rút ngắn vòng lặp, nhưng runtime vẫn quyết định.",
-        body: "Mình dùng AI để tăng tốc phân tích, scaffold và refactor; dùng browser, build và dữ liệu thật để kiểm chứng. Tốc độ chỉ có giá trị khi bản chạy được không vỡ.",
-        motif: "Tự động hóa / tăng tốc phát triển",
-        accent: {
-            bg: "#0a1f0a",
-            line: "#00c896",
-        },
-        cta: {
-            primary: { label: "Xem quy trình", route: "/workflow" },
-            secondary: { label: "Xem case study", route: "/work" },
-            lab: { label: "Khám phá Lab →", route: "/lab" },
-        },
-    },
-    {
-        id: "choose-the-door",
-        index: 4,
-        indicatorLabel: "05",
-        headline: "Bạn muốn bắt đầu từ đâu?",
-        body: "Xem bằng chứng trong Work, gửi brief ở Contact, hoặc mở Lab nếu muốn xem phần OS/cyber experimental cũ.",
-        motif: "Điều hướng / bước tiếp theo",
-        accent: {
-            bg: "#080c10",
-            line: "#e8e8e8",
-        },
-        cta: {
-            primary: { label: "View Work", route: "/work" },
-            secondary: { label: "Contact", route: "/contact" },
-            lab: { label: "Explore Lab ->", route: "/lab" },
-        },
+        strips: ["npm build", "route check", "mobile QA"],
     },
 ];
+
+export const routeDeck = [
+    {
+        id: "work",
+        label: "Work",
+        eyebrow: "Case studies",
+        body: "Xem bối cảnh, vai trò, kết quả và proof của từng dự án.",
+        path: "/work",
+        tone: "primary",
+    },
+    {
+        id: "workflow",
+        label: "Workflow",
+        eyebrow: "Build process",
+        body: "Cách mình đi từ brief đến slice chạy được và kiểm chứng được.",
+        path: "/workflow",
+        tone: "standard",
+    },
+    {
+        id: "stack",
+        label: "Stack",
+        eyebrow: "Tools & skills",
+        body: "React, Vite, Flask/Odoo, automation và các lựa chọn thực dụng.",
+        path: "/stack",
+        tone: "standard",
+    },
+    {
+        id: "contact",
+        label: "Contact",
+        eyebrow: "Start a project",
+        body: "Gửi brief ngắn để chốt scope MVP hoặc bước tiếp theo.",
+        path: "/contact",
+        tone: "standard",
+    },
+];
+
+export const secondaryHomeRoutes = [
+    {
+        id: "lab",
+        label: "Lab archive",
+        path: "/lab",
+    },
+];
+
+export const homeStoryScenes = transformationScenes;
