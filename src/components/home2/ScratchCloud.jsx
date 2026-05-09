@@ -22,97 +22,165 @@ const drawParticleMask = (ctx, width, height, random) => {
 
     const cx = width * 0.5;
     const cy = height * 0.52; // slightly lower
-    const w = width * 0.12;
-    const h = height * 0.25;
-
-    // 1. Data Beam (Shooting down from above)
-    const beamGrad = ctx.createLinearGradient(0, 0, 0, cy - h);
-    beamGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
-    beamGrad.addColorStop(1, "rgba(255, 255, 255, 0.8)");
-    ctx.fillStyle = beamGrad;
-    ctx.fillRect(cx - width * 0.015, 0, width * 0.03, cy - h);
-
-    // 2. The Monolith Prism
-    // Center vertex is slightly offset to give isometric 3D perspective
-    const midY = cy + h * 0.1;
-    
-    // Performance: disable blur on mobile
     const isMobile = width < 768;
-    
-    // Tiny blur so particles blend smoothly across the facets
-    ctx.filter = isMobile ? 'none' : `blur(${Math.max(2, width * 0.003)}px)`;
 
-    // Top-left facet (Bright highlight)
-    ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - h); ctx.lineTo(cx - w, cy); ctx.lineTo(cx, midY); ctx.fill();
+    if (isMobile) {
+        // --- MOBILE DESIGN: ORB / CORE ---
+        const r = Math.min(width, height) * 0.22;
+        
+        // 1. Data Beam (Shooting down from above)
+        const beamGrad = ctx.createLinearGradient(0, 0, 0, cy - r);
+        beamGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+        beamGrad.addColorStop(1, "rgba(255, 255, 255, 0.8)");
+        ctx.fillStyle = beamGrad;
+        ctx.fillRect(cx - width * 0.015, 0, width * 0.03, cy - r);
 
-    // Top-right facet (Shadow)
-    ctx.fillStyle = "rgba(80, 80, 80, 0.4)";
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - h); ctx.lineTo(cx + w, cy); ctx.lineTo(cx, midY); ctx.fill();
+        // 2. Core Sphere
+        ctx.filter = 'blur(1.5px)';
+        const orbGrad = ctx.createRadialGradient(cx - r*0.3, cy - r*0.3, 0, cx, cy, r);
+        orbGrad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+        orbGrad.addColorStop(0.4, "rgba(180, 180, 180, 0.8)");
+        orbGrad.addColorStop(0.8, "rgba(80, 80, 80, 0.5)");
+        orbGrad.addColorStop(1, "rgba(20, 20, 20, 0.1)");
+        ctx.fillStyle = orbGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
 
-    // Bottom-left facet (Midtone)
-    ctx.fillStyle = "rgba(180, 180, 180, 0.7)";
-    ctx.beginPath();
-    ctx.moveTo(cx - w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx, midY); ctx.fill();
+        // 3. Holographic Rings (Equator)
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(Math.PI / 8);
+        ctx.lineWidth = width * 0.006;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.filter = 'blur(2px)';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, r * 1.6, r * 0.35, 0, 0, Math.PI * 2);
+        ctx.stroke();
 
-    // Bottom-right facet (Dark)
-    ctx.fillStyle = "rgba(40, 40, 40, 0.2)";
-    ctx.beginPath();
-    ctx.moveTo(cx + w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx, midY); ctx.fill();
+        ctx.rotate(-Math.PI / 4);
+        ctx.lineWidth = width * 0.003;
+        ctx.strokeStyle = "rgba(200, 200, 200, 0.6)";
+        ctx.filter = 'blur(1.5px)';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, r * 1.4, r * 0.25, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
 
-    // 3. Holographic Wireframe Edges (Super Bright)
-    ctx.strokeStyle = "rgba(255, 255, 255, 1)";
-    ctx.lineWidth = width * 0.002;
-    ctx.filter = isMobile ? 'none' : `blur(1px)`;
-    ctx.beginPath();
-    // Outer shell
-    ctx.moveTo(cx, cy - h); ctx.lineTo(cx - w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx + w, cy); ctx.closePath();
-    ctx.stroke();
-    // Inner connecting lines
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - h); ctx.lineTo(cx, midY);
-    ctx.moveTo(cx - w, cy); ctx.lineTo(cx, midY);
-    ctx.moveTo(cx + w, cy); ctx.lineTo(cx, midY);
-    ctx.moveTo(cx, cy + h); ctx.lineTo(cx, midY);
-    ctx.stroke();
+        // 4. Inner sharp rings / Wireframe
+        ctx.strokeStyle = "rgba(255, 255, 255, 1)";
+        ctx.lineWidth = width * 0.003;
+        ctx.filter = 'blur(0.5px)';
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.8, 0, Math.PI * 2);
+        ctx.stroke();
 
-    // 4. Data Rings (Circling the crystal)
-    ctx.save();
-    ctx.translate(cx, cy + h * 0.3); // Ring 1 near bottom
-    ctx.rotate(Math.PI / 16);
-    ctx.lineWidth = width * 0.005;
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-    ctx.filter = isMobile ? 'none' : `blur(${Math.max(3, width * 0.005)}px)`;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, w * 1.6, w * 0.4, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
+        // 5. Energy Field (Ambient Particles)
+        ctx.filter = 'none';
+        ctx.fillStyle = "rgba(100, 100, 100, 0.5)";
+        const ambientCount = 2500;
+        for (let index = 0; index < ambientCount; index += 1) {
+            const py = cy + (random() - 0.5) * height * 0.8;
+            const spreadX = r * 1.5 + Math.pow(Math.abs(py - cy) / (height * 0.4), 1.5) * width * 0.2;
+            const px = cx + (random() - 0.5) * spreadX * 2;
+            const radius = 0.5 + random() * 1.5;
+            ctx.fillRect(px, py, radius, radius);
+        }
 
-    ctx.save();
-    ctx.translate(cx, cy - h * 0.2); // Ring 2 near top
-    ctx.rotate(-Math.PI / 12);
-    ctx.lineWidth = width * 0.003;
-    ctx.strokeStyle = "rgba(200, 200, 200, 0.6)";
-    ctx.filter = isMobile ? 'none' : `blur(${Math.max(2, width * 0.003)}px)`;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, w * 1.2, w * 0.3, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
+    } else {
+        // --- DESKTOP DESIGN: MONOLITH PRISM ---
+        const w = width * 0.12;
+        const h = height * 0.25;
 
-    // 5. Energy Field (Ambient Particles)
-    ctx.filter = 'none';
-    ctx.fillStyle = "rgba(100, 100, 100, 0.5)";
-    const ambientCount = isMobile ? 800 : 3000;
-    for (let index = 0; index < ambientCount; index += 1) {
-        // Create an hourglass-like distribution around the crystal
-        const py = cy + (random() - 0.5) * height * 0.8;
-        // The further from center Y, the wider the spread
-        const spreadX = w * 1.2 + Math.pow(Math.abs(py - cy) / (height * 0.4), 1.5) * width * 0.2;
-        const px = cx + (random() - 0.5) * spreadX * 2;
-        const radius = 0.5 + random() * 1.5;
-        ctx.fillRect(px, py, radius, radius);
+        // 1. Data Beam (Shooting down from above)
+        const beamGrad = ctx.createLinearGradient(0, 0, 0, cy - h);
+        beamGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+        beamGrad.addColorStop(1, "rgba(255, 255, 255, 0.8)");
+        ctx.fillStyle = beamGrad;
+        ctx.fillRect(cx - width * 0.015, 0, width * 0.03, cy - h);
+
+        // 2. The Monolith Prism
+        // Center vertex is slightly offset to give isometric 3D perspective
+        const midY = cy + h * 0.1;
+        
+        // Tiny blur so particles blend smoothly across the facets
+        ctx.filter = `blur(${Math.max(2, width * 0.003)}px)`;
+
+        // Top-left facet (Bright highlight)
+        ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - h); ctx.lineTo(cx - w, cy); ctx.lineTo(cx, midY); ctx.fill();
+
+        // Top-right facet (Shadow)
+        ctx.fillStyle = "rgba(80, 80, 80, 0.4)";
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - h); ctx.lineTo(cx + w, cy); ctx.lineTo(cx, midY); ctx.fill();
+
+        // Bottom-left facet (Midtone)
+        ctx.fillStyle = "rgba(180, 180, 180, 0.7)";
+        ctx.beginPath();
+        ctx.moveTo(cx - w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx, midY); ctx.fill();
+
+        // Bottom-right facet (Dark)
+        ctx.fillStyle = "rgba(40, 40, 40, 0.2)";
+        ctx.beginPath();
+        ctx.moveTo(cx + w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx, midY); ctx.fill();
+
+        // 3. Holographic Wireframe Edges (Super Bright)
+        ctx.strokeStyle = "rgba(255, 255, 255, 1)";
+        ctx.lineWidth = width * 0.002;
+        ctx.filter = `blur(1px)`;
+        ctx.beginPath();
+        // Outer shell
+        ctx.moveTo(cx, cy - h); ctx.lineTo(cx - w, cy); ctx.lineTo(cx, cy + h); ctx.lineTo(cx + w, cy); ctx.closePath();
+        ctx.stroke();
+        // Inner connecting lines
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - h); ctx.lineTo(cx, midY);
+        ctx.moveTo(cx - w, cy); ctx.lineTo(cx, midY);
+        ctx.moveTo(cx + w, cy); ctx.lineTo(cx, midY);
+        ctx.moveTo(cx, cy + h); ctx.lineTo(cx, midY);
+        ctx.stroke();
+
+        // 4. Data Rings (Circling the crystal)
+        ctx.save();
+        ctx.translate(cx, cy + h * 0.3); // Ring 1 near bottom
+        ctx.rotate(Math.PI / 16);
+        ctx.lineWidth = width * 0.005;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.filter = `blur(${Math.max(3, width * 0.005)}px)`;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, w * 1.6, w * 0.4, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(cx, cy - h * 0.2); // Ring 2 near top
+        ctx.rotate(-Math.PI / 12);
+        ctx.lineWidth = width * 0.003;
+        ctx.strokeStyle = "rgba(200, 200, 200, 0.6)";
+        ctx.filter = `blur(${Math.max(2, width * 0.003)}px)`;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, w * 1.2, w * 0.3, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+
+        // 5. Energy Field (Ambient Particles)
+        ctx.filter = 'none';
+        ctx.fillStyle = "rgba(100, 100, 100, 0.5)";
+        const ambientCount = 3000;
+        for (let index = 0; index < ambientCount; index += 1) {
+            // Create an hourglass-like distribution around the crystal
+            const py = cy + (random() - 0.5) * height * 0.8;
+            // The further from center Y, the wider the spread
+            const spreadX = w * 1.2 + Math.pow(Math.abs(py - cy) / (height * 0.4), 1.5) * width * 0.2;
+            const px = cx + (random() - 0.5) * spreadX * 2;
+            const radius = 0.5 + random() * 1.5;
+            ctx.fillRect(px, py, radius, radius);
+        }
     }
     
     ctx.restore();
@@ -143,7 +211,7 @@ export function ScratchCloud({ motionEnabled }) {
             const random = createRandom();
             const mask = document.createElement("canvas");
             const isMobile = window.innerWidth < 768;
-            const maskScale = isMobile ? 0.8 : 1.25;
+            const maskScale = isMobile ? 1.0 : 1.25;
             const maskWidth = Math.max(220, Math.floor(width * maskScale));
             const maskHeight = Math.max(300, Math.floor(height * maskScale));
             mask.width = maskWidth;
@@ -156,7 +224,8 @@ export function ScratchCloud({ motionEnabled }) {
 
             const image = maskCtx.getImageData(0, 0, maskWidth, maskHeight);
             const data = image.data;
-            const step = isMobile ? 4 : (width < 420 ? 2.6 : 2.8);
+            // Reduce the step on mobile to increase the number of points (lower step = more points)
+            const step = isMobile ? 2.6 : 2.8;
             const scaledStep = Math.max(2, Math.floor(step * maskScale));
             const nextPoints = [];
 

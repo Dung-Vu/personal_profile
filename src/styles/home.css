@@ -1092,13 +1092,9 @@
     }
 
     .h2-scratch-card {
-        min-height: clamp(14rem, 48vw, 22rem);
+        min-height: clamp(22rem, 60vw, 28rem);
         transform: none;
         animation: none;
-    }
-
-    .h2-scratch-cloud {
-        height: auto;
     }
 
     .h2-project-grid {
@@ -1189,12 +1185,7 @@
     }
 
     .h2-scratch-card {
-        min-height: 12.5rem;
-    }
-
-    .h2-scratch-cloud {
-        height: auto;
-        border-radius: 22px;
+        min-height: 20rem;
     }
 
     .h2-scratch-overlay {
