@@ -4,7 +4,8 @@ export const workflow = [
         icon: "scan",
         step: "01",
         title: "Read the system",
-        detail: "Đọc repo, dữ liệu, config, log và flow thật để hiểu đúng vấn đề trước khi sửa hoặc xây mới.",
+        detail:
+            "Đọc repo, dữ liệu, config, log và flow thật để hiểu đúng vấn đề trước khi sửa hoặc xây mới.",
         status: "input",
         output: "Problem framing",
     },
@@ -13,7 +14,8 @@ export const workflow = [
         icon: "layout",
         step: "02",
         title: "Shape the interface",
-        detail: "Phác luồng màn hình theo hành động người dùng cần làm, ưu tiên rõ trạng thái và ít thao tác thừa.",
+        detail:
+            "Phác luồng màn hình theo hành động người dùng cần làm, ưu tiên trạng thái rõ và ít thao tác thừa.",
         status: "decision",
         output: "UI structure",
     },
@@ -22,7 +24,8 @@ export const workflow = [
         icon: "build",
         step: "03",
         title: "Build the path",
-        detail: "Triển khai theo lát cắt nhỏ: UI, dữ liệu, API và trạng thái lỗi để có bản chạy được sớm.",
+        detail:
+            "Triển khai theo lát cắt nhỏ: UI, dữ liệu, API và trạng thái lỗi để có bản chạy được sớm.",
         status: "output",
         output: "Runnable slice",
     },
@@ -31,8 +34,10 @@ export const workflow = [
         icon: "verify",
         step: "04",
         title: "Verify in runtime",
-        detail: "Kiểm tra bằng browser, dữ liệu thật, responsive mobile và các fallback khi motion hoặc API không sẵn sàng.",
+        detail:
+            "Kiểm tra bằng browser, dữ liệu thật, responsive mobile và fallback khi motion hoặc API không sẵn sàng.",
         status: "verify",
         output: "Validated behavior",
     },
 ];
+

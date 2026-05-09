@@ -1,40 +1,41 @@
 # Vision Objectives
 
-This document is the project's true north.
+This file is the project's durable intent.
 
-It defines the WHY context for the repository. If there is a conflict between short-term implementation convenience and these objectives, this file takes priority and the change should be reviewed deliberately.
+If short-term convenience conflicts with this file, review the change deliberately.
 
 ## Purpose
 
-This starter exists to help a repository:
+This repository exists to present a clear personal portfolio for Vũ Đình Dũng:
 
-1. keep its orchestration instructions short, stable, and repo-specific
-2. make the working loop observable, auditable, and easy to customize
-3. preserve a durable version history for installed starter files
-4. support human and AI collaborators without making the workflow fragile
+1. show what kind of web work is actually shipped
+2. make the work easy to scan by route, case, and capability
+3. keep the archive shell separated from the primary portfolio
+4. support future updates without turning the site into a fragile demo
 
 ## Success Criteria
 
-The framework is doing its job when:
+The repo is doing its job when:
 
-- adopters can identify the installed framework version quickly
-- agents can tell what is stable policy versus live work in progress
-- upgrades preserve repo-specific customizations by default
-- the workflow remains easy to inspect and customize without extra runtime tooling
+- the Home route states role, offer, proof, and next action quickly
+- Work routes communicate problem, role, decision, and outcome clearly
+- Contact gives a low-friction intake path
+- Lab stays useful as an archive without competing with core routes
+- docs and content stay aligned with current runtime
 
 ## Design Principles
 
-- Keep `KONDUCTOR.md` short enough to tag in almost any prompt.
-- Treat `docs/CHECK_IN.md` as the shared live working file for active agents.
-- Keep only `README.md` and `KONDUCTOR.md` at repo root; move all other project documentation under `docs/`.
-- Keep the workflow blueprint focused on HOW, not WHY.
-- Use explicit version metadata and changelogs for upgrade clarity.
-- Keep the baseline Markdown-only and easy to carry across repositories.
-- Prefer additive, reviewable changes over opaque rewrites.
+- Keep `README.md` and `KONDUCTOR.md` short and current.
+- Treat `docs/CHECK_IN.md` as short-term live state.
+- Keep `docs/PROJECT_SKILLS_WORKFLOW.md` and `docs/KONDUCTOR_GUIDE.md` practical, not ceremonial.
+- Keep route content in `src/content/` so copy can move without JSX churn.
+- Prefer additive, reviewable changes over broad rewrites.
+- Keep Home editorial, Work evidence-driven, Workflow process-driven, Contact operational, and Lab archival.
 
 ## Non-Goals
 
 - This file does not describe the execution loop in detail.
-- This file does not define repository-specific checks.
-- This file does not replace embedded ADR decisions recorded in `KONDUCTOR_ADR_HISTORY.md`.
-- This file does not grow into a work log or history stream.
+- This file does not become a work log.
+- This file does not replace ADR entries in `KONDUCTOR_ADR_HISTORY.md`.
+- This file does not invent new product scope that the current portfolio does not need.
+

@@ -19,20 +19,15 @@ const stackTools = {
         "Data normalization",
         "Error states",
     ],
-    automation: [
-        "Codex",
-        "Claude",
-        "MCP",
-        "Browser audit",
-        "Build verification",
-    ],
+    automation: ["Codex", "Claude", "MCP", "Browser audit", "Build verification"],
 };
 
 export const stackHero = {
     eyebrow: "STACK / SYSTEM ARCHITECTURE",
     headline:
-        "Kiến trúc công nghệ thực dụng cho Web, Dashboard và Internal Workflow.",
-    intro: "Lựa chọn công cụ dựa trên bài toán. React/Vite cho lớp hiển thị, Flask/Odoo cho xử lý dữ liệu lõi, và GSAP để định hướng thị giác người dùng.",
+        "Kiến trúc công nghệ thực dụng cho web app, dashboard và internal workflow.",
+    intro:
+        "Lựa chọn công cụ theo bài toán. React/Vite cho lớp hiển thị, Flask/Odoo cho luồng dữ liệu lõi, GSAP khi motion giúp đọc cấu trúc rõ hơn.",
 };
 
 export const stackMatrix = capabilities.map((capability) => ({
@@ -62,7 +57,7 @@ export const stackPrinciples = [
     {
         label: "03",
         title: "Motion là một lớp thông tin",
-        text: "GSAP, transition và hover chỉ được dùng khi làm rõ nhịp đọc, trạng thái hoặc quan hệ giữa các phần tử.",
+        text: "GSAP, transition và hover chỉ dùng khi làm rõ nhịp đọc, trạng thái hoặc quan hệ giữa các phần tử.",
     },
 ];
 
@@ -71,3 +66,4 @@ export const stackStats = [
     { value: "03", label: "evidence projects" },
     { value: "3+", label: "năm ship sản phẩm với stack này" },
 ];
+

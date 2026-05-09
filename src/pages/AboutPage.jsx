@@ -42,7 +42,10 @@ export function AboutPage() {
                             src="/assets/signal-about-dossier.webp"
                             alt="Developer workspace dossier"
                             loading="eager"
+                            fetchPriority="high"
                             decoding="async"
+                            width="900"
+                            height="1200"
                         />
                     </div>
                     

@@ -78,7 +78,7 @@
     background: rgba(255, 255, 255, 0.04);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -89,7 +89,7 @@
 .system-label {
     color: var(--green);
     font-size: 0.73rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -105,7 +105,7 @@
     margin-top: 0.8rem;
     font-size: clamp(3.15rem, 6.8vw, 6.45rem);
     line-height: 0.94;
-    font-weight: 950;
+    font-weight: 800;
     text-wrap: balance;
     text-shadow:
         0.04em 0 var(--red),
@@ -192,7 +192,7 @@
     background: rgba(7, 8, 11, 0.42);
     cursor: pointer;
     font-size: 0.9rem;
-    font-weight: 850;
+    font-weight: 800;
     transition:
         transform 180ms ease,
         border-color 180ms ease,
@@ -280,7 +280,7 @@
     background: rgba(255, 255, 255, 0.04);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
     transition:
         transform 180ms ease,
@@ -512,7 +512,7 @@
     border-bottom: 1px solid var(--line);
     color: var(--muted);
     font-size: 0.76rem;
-    font-weight: 850;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -536,7 +536,7 @@
 .terminal-line span {
     color: var(--muted);
     font-size: 0.74rem;
-    font-weight: 850;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -546,7 +546,7 @@
     color: var(--ink);
     font-size: 0.96rem;
     line-height: 1.35;
-    font-weight: 850;
+    font-weight: 800;
 }
 
 .signal-bars {
@@ -593,7 +593,7 @@
     max-width: 15.5ch;
     font-size: clamp(2.2rem, 4.65vw, 4.55rem);
     line-height: 1;
-    font-weight: 950;
+    font-weight: 800;
     text-wrap: balance;
 }
 
@@ -726,7 +726,7 @@
 .capability-legend-panel p {
     color: var(--cyan);
     font-size: 0.72rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -872,7 +872,7 @@
 .workflow-node span {
     color: var(--cyan);
     font-size: 0.72rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -1252,7 +1252,7 @@
 .case-theater-list button > span {
     color: var(--red);
     font-size: 0.74rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
 }
 
@@ -1609,7 +1609,7 @@
     background: rgba(7, 8, 11, 0.68);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 950;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -1646,7 +1646,7 @@
     color: rgba(94, 231, 255, 0.86);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 950;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -1664,7 +1664,7 @@
     gap: 1rem;
     color: var(--green);
     font-size: 0.72rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -1681,7 +1681,7 @@
     color: var(--soft);
     background: rgba(7, 8, 11, 0.38);
     font-size: 0.74rem;
-    font-weight: 850;
+    font-weight: 800;
     font-family: var(--font-mono);
 }
 
@@ -1984,7 +1984,7 @@
     font: inherit;
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
     cursor: pointer;
     transition:

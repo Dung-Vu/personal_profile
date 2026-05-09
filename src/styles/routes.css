@@ -2,6 +2,62 @@ html {
     scrollbar-color: rgba(158, 239, 255, 0.24) rgba(4, 8, 13, 0.92);
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 260ms;
+    animation-timing-function: cubic-bezier(0.2, 0.72, 0.2, 1);
+    mix-blend-mode: normal;
+}
+
+html[data-route-transition="generic"]::view-transition-old(root) {
+    animation-name: routeFadeOut;
+}
+
+html[data-route-transition="generic"]::view-transition-new(root) {
+    animation-name: routeFadeIn;
+}
+
+html[data-route-transition="work-case"]::view-transition-old(root),
+html[data-route-transition="work-case"]::view-transition-new(root) {
+    animation-duration: 420ms;
+}
+
+html[data-route-transition="work-case"]::view-transition-old(root) {
+    animation-name: workCaseOut;
+}
+
+html[data-route-transition="work-case"]::view-transition-new(root) {
+    animation-name: workCaseIn;
+}
+
+@keyframes routeFadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-0.35rem);
+    }
+}
+
+@keyframes routeFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.45rem);
+    }
+}
+
+@keyframes workCaseOut {
+    to {
+        opacity: 0;
+        transform: translateX(-1.1rem) scale(0.992);
+    }
+}
+
+@keyframes workCaseIn {
+    from {
+        opacity: 0;
+        transform: translateX(1.35rem) scale(0.992);
+    }
+}
+
 .skip-link {
     position: absolute;
     top: -100%;
@@ -864,6 +920,11 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 1ms;
+    }
+
     .home-motion-field,
     .story-progress {
         display: none;

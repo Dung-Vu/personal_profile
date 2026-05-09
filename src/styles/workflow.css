@@ -40,7 +40,7 @@
 .workflow-hero-center h1 {
     margin: 0;
     font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 850;
+    font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.04em;
     color: var(--ink);
@@ -186,13 +186,15 @@
     line-height: 0.8;
     color: transparent;
     -webkit-text-stroke: 1px var(--line);
+    text-stroke: 1px var(--line);
     user-select: none;
-    transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease;
+    transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease, text-stroke-color 0.3s ease;
 }
 
 /* Hover effect on node to light up the number */
 .pipeline-node:hover .node-outline-number {
     -webkit-text-stroke-color: var(--cyan);
+    text-stroke-color: var(--cyan);
     color: color-mix(in srgb, var(--cyan) 5%, transparent);
 }
 
@@ -233,7 +235,7 @@
 .node-header h2 {
     margin: 0;
     font-size: 1.8rem;
-    font-weight: 850;
+    font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--ink);
 }
@@ -507,7 +509,7 @@
 .cta-info h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.8rem;
-    font-weight: 850;
+    font-weight: 800;
     color: var(--ink);
     letter-spacing: -0.02em;
 }
@@ -540,4 +542,52 @@
 .workflow-cta-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px var(--shadow);
+}
+
+@media (max-width: 560px) {
+    .workflow-scrolly-page {
+        padding-top: calc(var(--header, 76px) + 2.5rem);
+    }
+
+    .workflow-hero-center {
+        margin-bottom: 5rem;
+    }
+
+    .workflow-hero-center h1 {
+        font-size: clamp(2.35rem, 11vw, 3.6rem);
+        line-height: 1.06;
+    }
+
+    .pipeline-container {
+        padding-bottom: 4rem;
+    }
+
+    .pipeline-node {
+        padding-left: 3rem;
+    }
+
+    .node-content,
+    .toolchain-card {
+        padding: 1.35rem;
+    }
+
+    .node-outline-number {
+        font-size: clamp(4.4rem, 20vw, 6rem);
+    }
+
+    .signoff-rules li {
+        gap: 1rem;
+        padding: 1.1rem;
+    }
+
+    .workflow-footer-cta {
+        padding: 2rem 1.25rem;
+    }
+
+    .workflow-cta-btn {
+        justify-content: center;
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
 }

@@ -8,8 +8,25 @@ export function navigateTo(path) {
         return;
     }
 
-    window.history.pushState(null, "", nextPath);
-    window.dispatchEvent(new Event("popstate"));
+    const run = () => {
+        document.documentElement.dataset.routeTransition = nextPath.startsWith("/work/")
+            ? "work-case"
+            : "generic";
+        window.history.pushState(null, "", nextPath);
+        window.dispatchEvent(new Event("popstate"));
+    };
+
+    if (document.startViewTransition) {
+        const transition = document.startViewTransition(run);
+        transition.finished.finally(() => {
+            delete document.documentElement.dataset.routeTransition;
+        });
+    } else {
+        run();
+        window.setTimeout(() => {
+            delete document.documentElement.dataset.routeTransition;
+        }, 350);
+    }
 }
 
 export function useRoutePath() {

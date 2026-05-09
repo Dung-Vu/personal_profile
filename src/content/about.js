@@ -1,8 +1,9 @@
 export const aboutProfile = {
     eyebrow: "ABOUT / FIT & WORK STYLE",
     headline:
-        "Mình phù hợp với sản phẩm web cần rõ flow, rõ trạng thái và ship được từng lát cắt.",
-    intro: "Mình làm tốt nhất với website, dashboard và internal tool có dữ liệu/API thực tế; bắt đầu từ bối cảnh, dựng cấu trúc, rồi kiểm chứng bằng trình duyệt và build.",
+        "Mình hợp với sản phẩm web cần flow rõ, trạng thái rõ và có thể ship theo từng slice.",
+    intro:
+        "Mình làm tốt nhất với website, dashboard và internal tool có data/API thật; bắt đầu từ bối cảnh, dựng cấu trúc, rồi kiểm chứng bằng browser và build.",
     meta: [
         {
             label: "Focus",
@@ -26,7 +27,7 @@ export const aboutProfile = {
 export const aboutBeliefs = [
     {
         title: "Màn hình nào cũng phải có đủ 4 trạng thái",
-        text: "Loading, empty, error, success + next action — mình thiết kế đủ 4 trạng thái này cho mọi màn hình quan trọng, không để người dùng đoán hệ thống đang làm gì.",
+        text: "Loading, empty, error, success + next action. Mình thiết kế đủ 4 trạng thái này cho các màn hình quan trọng để người dùng không phải đoán hệ thống đang làm gì.",
     },
     {
         title: "Motion chỉ dùng khi giúp đọc nhanh hơn",
@@ -38,7 +39,7 @@ export const aboutBeliefs = [
     },
     {
         title: "Frontend là một hệ thống, không phải tập hợp màn hình",
-        text: "Component, route, state model, copy và data path phải khớp nhau. Khi đúng, sản phẩm nhẹ, dễ maintain và ít bug bất ngờ.",
+        text: "Component, route, state model, copy và data path phải khớp nhau. Khi khớp, sản phẩm nhẹ hơn, dễ maintain hơn và ít bug bất ngờ hơn.",
     },
 ];
 
@@ -51,7 +52,7 @@ export const aboutProcess = [
     {
         step: "02",
         title: "Dựng cấu trúc",
-        text: "Xác định cấu trúc trang, luồng dữ liệu và CTA để giao diện có nền tảng vững trước khi thêm chi tiết.",
+        text: "Xác định page structure, luồng dữ liệu và CTA để giao diện có nền tảng vững trước khi thêm chi tiết.",
     },
     {
         step: "03",
@@ -61,12 +62,13 @@ export const aboutProcess = [
     {
         step: "04",
         title: "Kiểm chứng bằng runtime",
-        text: "Build, kiểm tra giao diện trên trình duyệt, responsive và fallback để sản phẩm chạy tốt trong thực tế.",
+        text: "Build, kiểm tra trên browser, responsive và fallback để sản phẩm chạy tốt trong thực tế.",
     },
 ];
 
 export const aboutNotes = [
     "Không chạy theo hiệu ứng nếu flow chưa rõ.",
     "Không xem AI output là source of truth nếu chưa verify.",
-    "Không biến portfolio thành demo OS ở mọi route; Lab là nơi dành cho phần experimental.",
+    "Không biến portfolio thành demo OS ở mọi route; Lab dành cho phần experimental.",
 ];
+

@@ -44,6 +44,13 @@ This document is the durable architectural decision ledger for the repository. U
 - Decision: Refactor toward a multi-page portfolio with MVP routes `/`, `/work`, and `/contact`, while preserving the existing experimental OS experience under `/lab` as a secondary route.
 - Consequences: Core routes must use real route navigation, clearer content hierarchy, restrained motion, mobile/reduced-motion support, and shared design tokens. Lab may keep cyber/experimental affordances but must not run globally or compete with core routes.
 
+### ADR-007: Runtime Docs Follow Active Route Content
+
+- Status: Accepted
+- Context: The multi-page portfolio is now the active runtime. Home, Contact, Work, Stack, Workflow, and Lab have distinct route files, and some legacy content files still exist for reference.
+- Decision: Treat `src/content/homePage.js`, `src/content/contactPage.js`, `src/content/projects.js`, and the route files in `src/pages/` as the current source of truth. Treat `src/content/homeStoryScenes.js` as legacy unless runtime imports it again.
+- Consequences: README, Check-In, image briefs, and workflow docs must describe the active route/content structure instead of older `/home2` or Signal OS implementation plans.
+
 ## Logging Guidance
 
 Add a short ADR entry when a decision changes architecture, durable workflow structure, or cross-repo standards future agents must obey.

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".konductor/KONDUCTOR_WORKFLOW.md",
+    ".konductor/memory/KONDUCTOR_MEMORY.md",
+    ".konductor/memory/KONDUCTOR_VISION_ROADMAP.md",
+    ".konductor/memory/KONDUCTOR_ADR_HISTORY.md",
+    ".konductor/memory/AGENT_BEHAVIOR.md",
+    ".konductor/memory/AUTO_CHECKIN_RULE.md"
+  ],
+  "command": {
+    "daily": {
+      "template": "Update the daily work log for today. Read docs/CHECK_IN.md and check git diff --stat for recent changes. Read memory/DAILY_LOG_TEMPLATE.md for format. Create or update memory/YYYY-MM-DD.md with tasks completed, in-progress items, blockers, decisions, and next session priority.",
+      "description": "Update daily work log with current progress, decisions, and blockers",
+      "agent": "build"
+    }
+  }
+}

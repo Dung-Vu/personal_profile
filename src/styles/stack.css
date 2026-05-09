@@ -39,7 +39,7 @@
     margin: 0;
     font-family: var(--font-sans);
     font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 850;
+    font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.04em;
     color: var(--ink);
@@ -72,7 +72,7 @@
 .hero-stat-item strong {
     font-family: var(--font-mono);
     font-size: clamp(2rem, 3vw, 2.5rem);
-    font-weight: 850;
+    font-weight: 800;
     color: var(--ink);
     line-height: 1;
 }
@@ -230,7 +230,7 @@
 .blueprint-card-header h2 {
     margin: 0 0 0.75rem 0;
     font-size: 1.6rem;
-    font-weight: 850;
+    font-weight: 800;
     letter-spacing: -0.03em;
     color: var(--ink);
 }
@@ -368,7 +368,7 @@
 .cta-info h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.8rem;
-    font-weight: 850;
+    font-weight: 800;
     color: var(--ink);
     letter-spacing: -0.02em;
 }
@@ -401,4 +401,52 @@
 .blueprint-cta-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px var(--shadow);
+}
+
+@media (max-width: 560px) {
+    .stack-blueprint-page {
+        padding-top: calc(var(--header, 76px) + 2.5rem);
+        gap: 3.5rem;
+    }
+
+    .stack-hero-block h1 {
+        font-size: clamp(2.35rem, 11vw, 3.6rem);
+        line-height: 1.06;
+    }
+
+    .hero-stats-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        padding-top: 2rem;
+    }
+
+    .hero-stat-item:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .packages-header,
+    .blueprint-badges {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .blueprint-card-header,
+    .packages-list,
+    .blueprint-traces {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .stack-footer-cta {
+        padding: 2rem 1.25rem;
+    }
+
+    .blueprint-cta-btn {
+        justify-content: center;
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
 }

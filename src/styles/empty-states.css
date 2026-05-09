@@ -64,7 +64,7 @@
     border-radius: 8px;
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 750;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--cyan);
@@ -96,7 +96,7 @@
 .not-found-code {
     font-family: var(--font-heading);
     font-size: clamp(5rem, 12vw, 10rem);
-    font-weight: 950;
+    font-weight: 800;
     line-height: 1;
     letter-spacing: -0.08em;
     color: var(--line);

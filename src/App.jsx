@@ -21,9 +21,7 @@ const AboutPage = lazy(() =>
     routeLoaders.about().then((module) => ({ default: module.AboutPage })),
 );
 const CaseDetailPage = lazy(() =>
-    routeLoaders
-        .caseDetail()
-        .then((module) => ({ default: module.CaseDetailPage })),
+    routeLoaders.caseDetail().then((module) => ({ default: module.CaseDetailPage })),
 );
 const ContactPage = lazy(() =>
     routeLoaders.contact().then((module) => ({ default: module.ContactPage })),
@@ -38,14 +36,16 @@ const WorkPage = lazy(() =>
     routeLoaders.work().then((module) => ({ default: module.WorkPage })),
 );
 const WorkflowPage = lazy(() =>
-    routeLoaders
-        .workflow()
-        .then((module) => ({ default: module.WorkflowPage })),
+    routeLoaders.workflow().then((module) => ({ default: module.WorkflowPage })),
 );
 
 function RouteFallback() {
     return (
-        <div className="route-fallback skeleton-loader" aria-label="Loading route" role="status">
+        <div
+            className="route-fallback skeleton-loader"
+            aria-label="Loading route"
+            role="status"
+        >
             <div className="skeleton-hero">
                 <div className="skeleton-kicker" />
                 <div className="skeleton-title" />
@@ -98,58 +98,73 @@ function CurrentRoute({ path }) {
 
 const routeMetaMap = {
     "/": {
-        title: "Vũ Đình Dũng - Web Developer & AI Workflow Builder",
-        desc: "Portfolio của Vũ Đình Dũng: website, dashboard, internal tool và AI workflow cho sản phẩm vận hành thực tế.",
+        title: "Vũ Đình Dũng - Web apps, dashboards, internal tools",
+        desc: "Portfolio của Vũ Đình Dũng: web app, dashboard, internal tool và AI workflow có flow rõ, state rõ và runtime có thể kiểm chứng.",
     },
     "/about": {
         title: "About - Vũ Đình Dũng",
-        desc: "Frontend developer chuyên website, dashboard và internal tool. Làm việc theo slice nhỏ, kiểm chứng bằng build và browser QA.",
+        desc: "Frontend developer cho website, dashboard và internal tool. Làm việc theo slice nhỏ, kiểm chứng bằng build và browser QA.",
     },
     "/work": {
-        title: "Case Studies - Vũ Đình Dũng",
-        desc: "3 case study tiêu biểu: dashboard crypto, internal tool vận hành và workflow AI. Mỗi case có context, role, outcome và proof.",
+        title: "Work - Vũ Đình Dũng",
+        desc: "3 case study chính: TCA Crypto Analyzer, Bonario Product Hub và AI Operator Workflow. Mỗi case có context, quyết định và proof.",
     },
     "/work/tca-crypto-analyzer": {
-        title: "TCA Crypto Analyzer — Case Study - Vũ Đình Dũng",
-        desc: "Dashboard crypto market: một màn hình tập trung thay vì 5-6 tab, giúp trader đọc tín hiệu nhanh hơn.",
+        title: "TCA Crypto Analyzer - Case Study",
+        desc: "Dashboard crypto market tập trung vào đọc nhanh tín hiệu, chart context và hierarchy rõ để trader ra quyết định nhanh hơn.",
     },
     "/work/bonario-product-hub": {
-        title: "Bonario Product Hub — Case Study - Vũ Đình Dũng",
-        desc: "Internal tool kết nối Flask, React và Odoo: tìm kiếm, chỉnh sửa, đồng bộ sản phẩm trên một layout.",
+        title: "Bonario Product Hub - Case Study",
+        desc: "Internal tool nối React, Flask và Odoo để tìm kiếm, chỉnh sửa và đồng bộ sản phẩm trên một layout duy nhất.",
     },
     "/work/ai-operator-workflow": {
-        title: "AI Operator Workflow — Case Study - Vũ Đình Dũng",
-        desc: "Workflow AI-assisted: vòng lặp plan → code → build → browser QA để giữ context và kiểm chứng runtime.",
+        title: "AI Operator Workflow - Case Study",
+        desc: "Workflow AI-assisted với vòng lặp plan, code, build và browser QA để giữ context và kiểm chứng runtime.",
     },
     "/stack": {
         title: "Stack - Vũ Đình Dũng",
-        desc: "React, Vite, Flask, Odoo, GSAP và automation tool. Stack thực dụng để ship website, dashboard và internal tool.",
+        desc: "React, Vite, Flask, Odoo, GSAP và automation tools dùng để ship website, dashboard và internal tool.",
     },
     "/workflow": {
         title: "Workflow - Vũ Đình Dũng",
-        desc: "Quy trình 4 bước: đọc bối cảnh, dựng cấu trúc, build slice, kiểm chứng runtime. Mỗi bước có deliverable cụ thể.",
+        desc: "Quy trình 4 bước từ đọc bối cảnh đến verify runtime. Mỗi bước có deliverable cụ thể.",
     },
     "/contact": {
         title: "Contact - Vũ Đình Dũng",
-        desc: "Nhận project website, dashboard, internal tool và AI workflow. Gửi brief ngắn, nhận scope MVP trong 24-48h.",
+        desc: "Gửi brief ngắn để chốt scope MVP cho website, dashboard, internal tool hoặc AI workflow.",
     },
     "/lab": {
         title: "Lab Archive - Vũ Đình Dũng",
-        desc: "Archive concept cũ Signal OS. Không đại diện cho portfolio hiện tại. Giữ lại như phòng thí nghiệm.",
+        desc: "Archive Signal OS cũ. Giữ lại như phòng thử nghiệm, không đại diện cho portfolio chính.",
     },
 };
+
+const siteOrigin = "https://dinhdung.dev";
+
+function setMetaContent(selector, value) {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute("content", value);
+}
+
+function setLinkHref(selector, value) {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute("href", value);
+}
+
 function useRouteMeta(path) {
     useEffect(() => {
         const meta = routeMetaMap[path] || routeMetaMap["/"];
+        const canonicalPath = path === "/" ? "/" : path;
+        const canonicalUrl = `${siteOrigin}${canonicalPath}`;
+
         document.title = meta.title;
-        const desc = document.querySelector('meta[name="description"]');
-        if (desc) desc.setAttribute("content", meta.desc);
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) ogTitle.setAttribute("content", meta.title);
-        const ogDesc = document.querySelector(
-            'meta[property="og:description"]',
-        );
-        if (ogDesc) ogDesc.setAttribute("content", meta.desc);
+        setMetaContent('meta[name="description"]', meta.desc);
+        setMetaContent('meta[property="og:title"]', meta.title);
+        setMetaContent('meta[property="og:description"]', meta.desc);
+        setMetaContent('meta[property="og:url"]', canonicalUrl);
+        setMetaContent('meta[name="twitter:title"]', meta.title);
+        setMetaContent('meta[name="twitter:description"]', meta.desc);
+        setLinkHref('link[rel="canonical"]', canonicalUrl);
     }, [path]);
 }
 

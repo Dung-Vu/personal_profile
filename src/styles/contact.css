@@ -38,7 +38,7 @@
 .endpoint-hero h1 {
     margin: 0;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 850;
+    font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.04em;
     color: var(--ink);
@@ -50,6 +50,72 @@
     font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.6;
     color: var(--muted);
+}
+
+.endpoint-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+.endpoint-trust-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.35rem;
+}
+
+.endpoint-trust-strip article {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.64);
+}
+
+.endpoint-trust-strip span {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.endpoint-trust-strip strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.endpoint-primary-link,
+.endpoint-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.9rem 1.35rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.endpoint-primary-link {
+    background: var(--ink);
+    color: var(--bg);
+}
+
+.endpoint-secondary-link {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
 }
 
 /* =========================================
@@ -74,6 +140,7 @@
 .payload-terminal {
     display: flex;
     flex-direction: column;
+    min-width: 0;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: #0d1117; /* GitHub Dark Dimmed background */
@@ -119,6 +186,10 @@
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.5);
     margin-left: auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .terminal-body {
@@ -132,6 +203,7 @@
 
 .code-line {
     display: block;
+    overflow-wrap: anywhere;
 }
 
 .code-line.indent {
@@ -264,6 +336,36 @@
     }
 }
 
+.response-contract {
+    display: grid;
+    gap: 1rem;
+    padding: 1.35rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface-1);
+}
+
+.response-contract > span {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+}
+
+.response-contract ol {
+    display: grid;
+    gap: 0.85rem;
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.response-contract li {
+    color: var(--ink);
+    line-height: 1.55;
+}
+
 /* =========================================
    SYSTEM CAPABILITIES
    ========================================= */
@@ -289,7 +391,7 @@
 .capabilities-header h2 {
     margin: 0;
     font-size: 2.2rem;
-    font-weight: 850;
+    font-weight: 800;
     letter-spacing: -0.03em;
     color: var(--ink);
 }
@@ -403,7 +505,7 @@
 .footer-text h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.8rem;
-    font-weight: 850;
+    font-weight: 800;
     color: var(--ink);
     letter-spacing: -0.02em;
 }
@@ -438,4 +540,68 @@
 .endpoint-cta-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px var(--shadow);
+}
+
+@media (max-width: 560px) {
+    .endpoint-page {
+        padding-top: calc(var(--header, 76px) + 2.5rem);
+    }
+
+    .endpoint-hero {
+        margin-bottom: 4rem;
+    }
+
+    .endpoint-primary-link,
+    .endpoint-secondary-link {
+        width: 100%;
+    }
+
+    .endpoint-trust-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .terminal-header {
+        padding: 0.85rem 1rem;
+    }
+
+    .terminal-body {
+        padding: 1.35rem 1rem;
+        font-size: 0.78rem;
+        line-height: 1.9;
+    }
+
+    .code-line.indent {
+        padding-left: 0.85rem;
+    }
+
+    .terminal-footer {
+        display: grid;
+        padding: 1rem;
+    }
+
+    .terminal-action-btn {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .route-card {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 0.75rem;
+    }
+
+    .route-detail {
+        grid-column: 1 / -1;
+        max-width: 100%;
+    }
+
+    .endpoint-footer {
+        padding: 2rem 1.25rem;
+    }
+
+    .endpoint-cta-btn {
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
 }

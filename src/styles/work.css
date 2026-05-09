@@ -173,8 +173,6 @@
 .sidebar-cta-block {
     padding: 0 1.5rem;
     border-radius: 20px;
-    background: var(--surface-2);
-    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -371,6 +369,36 @@
     max-width: 46rem;
 }
 
+.dossier-proof-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.dossier-proof-strip > div {
+    display: grid;
+    gap: 0.3rem;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-2);
+}
+
+.dossier-proof-strip span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.dossier-proof-strip strong {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--text-primary);
+}
+
 /* Dossier Grid Layout */
 .dossier-grid {
     display: grid;
@@ -455,6 +483,55 @@
     margin-right: 0.25rem;
 }
 
+.dossier-proof-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.dossier-proof-tags span {
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--tone-color) 12%, transparent);
+    color: var(--tone-color);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.dossier-ledger {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.dossier-ledger article {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.9rem;
+    background: var(--surface-2);
+}
+
+.dossier-ledger span {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.dossier-ledger p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
 /* Footer Actions */
 .dossier-footer {
     display: flex;
@@ -528,4 +605,11 @@
 
 .dossier-link.secondary:hover {
     border-color: var(--text-primary);
+}
+
+@media (max-width: 680px) {
+    .dossier-proof-strip,
+    .dossier-ledger {
+        grid-template-columns: 1fr;
+    }
 }

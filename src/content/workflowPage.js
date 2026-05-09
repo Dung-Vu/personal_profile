@@ -2,9 +2,9 @@ import { workflow } from "./workflow";
 
 export const workflowHero = {
     eyebrow: "WORKFLOW / PROCESS SUMMARY",
-    headline:
-        "Pipeline 4 giai đoạn: Từ bản đặc tả đến sản phẩm thực thi.",
-    intro: "Mỗi Node trong Pipeline yêu cầu đầu ra nghiêm ngặt: xác định rõ phạm vi, xử lý triệt để các trạng thái, và phải có bằng chứng vượt qua quy trình kiểm thử (Browser Smoke Test).",
+    headline: "Pipeline 4 giai đoạn: từ bản đặc tả đến sản phẩm thực thi.",
+    intro:
+        "Mỗi node trong pipeline yêu cầu đầu ra nghiêm ngặt: xác định rõ phạm vi, xử lý triệt để các trạng thái và phải có bằng chứng vượt qua kiểm thử browser.",
 };
 
 export const workflowDeliverables = [
@@ -20,11 +20,7 @@ export const workflowSteps = workflow.map((step, index) => ({
     deliverable: workflowDeliverables[index],
     checks:
         index === 0
-            ? [
-                  "Repo / dữ liệu / log",
-                  "Mục tiêu người dùng",
-                  "Ràng buộc kỹ thuật",
-              ]
+            ? ["Repo / data / log", "Mục tiêu người dùng", "Ràng buộc kỹ thuật"]
             : index === 1
               ? ["Route / state", "Hierarchy", "CTA và fallback"]
               : index === 2
@@ -45,12 +41,7 @@ export const workflowToolchain = [
     },
     {
         title: "Verification loop",
-        tools: [
-            "npm run build",
-            "Browser smoke",
-            "Overflow checks",
-            "Plan update",
-        ],
+        tools: ["npm run build", "Browser smoke", "Overflow checks", "Plan update"],
         text: "Mỗi slice phải có bằng chứng chạy được, không chỉ hoàn thành về mặt code.",
     },
 ];
@@ -60,3 +51,4 @@ export const workflowHandoff = [
     "Next slice phải rõ file nào sẽ đụng và verify bằng gì.",
     "Nếu tooling bị giới hạn, ghi rõ blocker và harden bằng audit thay vì im lặng bỏ qua.",
 ];
+

@@ -350,8 +350,8 @@ export function LabPage() {
             <aside className="lab-archive-notice" aria-label="Archive notice">
                 <strong>Archive concept</strong>
                 <span>
-                    Signal OS là bản thử nghiệm cũ, không đại diện cho portfolio
-                    chính hiện tại.
+                    Signal OS là archive experiment. Home, Work và Contact là
+                    portfolio chính hiện tại.
                 </span>
             </aside>
 

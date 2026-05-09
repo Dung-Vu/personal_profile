@@ -41,4 +41,12 @@
     --h2-apricot-soft: #f7e7d6;
     --h2-sans: "Be Vietnam Pro", system-ui, sans-serif;
     --h2-mono: var(--font-mono);
+
+    /* Surface aliases — canonical names for cross-route consistency */
+    --text-primary: var(--ink);
+    --text-secondary: var(--muted);
+    --border-color: var(--line);
+    --surface-1: var(--bg);
+    --surface-2: var(--bg-2);
+    --surface-3: var(--panel);
 }

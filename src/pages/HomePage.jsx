@@ -6,80 +6,16 @@ import { ArrowRight, Send, ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 import { ScratchCloud } from "../components/home2/ScratchCloud";
 import { navigateTo } from "../hooks/useRoutePath";
+import {
+    homeHeroMeta,
+    homeProjects,
+    homeDestinations,
+    homeMethods,
+    homeProofPoints,
+    homeTrustSignals,
+} from "../content/homePage";
+import { profile } from "../profileData";
 import "../styles/home.css";
-
-const heroMeta = [
-    "Front-end architecture",
-    "Art-directed UI",
-    "AI-assisted workflows",
-];
-
-const projectArtDirections = [
-    {
-        id: "product-hub",
-        title: "Bonario Product Hub",
-        type: "B2B SaaS / Enterprise",
-        summary: "Hệ thống quản lý sản phẩm nội bộ tích hợp chặt chẽ với Odoo ERP, tập trung vào UX vận hành nhanh và kiến trúc dữ liệu ổn định.",
-        toneClass: "h2-tone-ocean",
-        featured: true,
-        tags: ["React", "Flask", "Odoo API"],
-        image: "/assets/signal-case-bonario-hub.webp",
-        path: "/work/bonario-product-hub",
-    },
-    {
-        id: "tca",
-        title: "TCA Crypto Analyzer",
-        type: "Fintech / Trading",
-        summary: "PWA scanner tín hiệu Crypto đa khung thời gian. Xử lý real-time data, biểu đồ phức tạp và logic quản trị rủi ro tự động.",
-        toneClass: "h2-tone-iris",
-        featured: false,
-        tags: ["Next.js", "WebSocket", "PWA"],
-        image: "/assets/signal-case-tca-dashboard.webp",
-        path: "/work/tca-crypto-analyzer",
-    },
-    {
-        id: "ai-workflow",
-        title: "AI Operator Workflow",
-        type: "Developer Tools",
-        summary: "Quy trình làm việc có sự hỗ trợ của AI: từ khâu đọc context, dựng state đến khi build ra bản slice chạy thật trên browser.",
-        toneClass: "h2-tone-apricot",
-        featured: false,
-        tags: ["GSAP", "LLM", "Vite"],
-        image: "/assets/signal-case-ai-workflow.webp",
-        path: "/work/ai-operator-workflow",
-    },
-];
-
-const destinations = [
-    {
-        id: "workflow",
-        label: "Workflow",
-        eyebrow: "Process",
-        desc: "Cách mình đi từ brief đến bản build chạy thật.",
-        path: "/workflow",
-    },
-    {
-        id: "stack",
-        label: "Stack",
-        eyebrow: "Capability",
-        desc: "Công nghệ và công cụ mình dùng để ship sản phẩm.",
-        path: "/stack",
-    },
-    {
-        id: "about",
-        label: "About",
-        eyebrow: "Identity",
-        desc: "Thông tin cá nhân, định vị và triết lý làm việc.",
-        path: "/about",
-    },
-    {
-        id: "contact",
-        label: "Contact",
-        eyebrow: "Start Project",
-        desc: "Gửi brief ngắn để nhận đánh giá khả thi và scope MVP.",
-        path: "/contact",
-    },
-];
 
 function NavLink({ href, className, children }) {
     return (
@@ -188,22 +124,22 @@ export function HomePage() {
                 <div className="h2-wrap">
                     <div className="h2-hero-stage">
                         <div className="h2-hero-copy">
-                            <p className="h2-overline">Art-directed Portfolio</p>
+                            <p className="h2-overline">Personal operating profile / online</p>
 
                             <h1 id="h2-title" className="h2-headline">
-                                Giao diện không chỉ để ngắm.
-                                <span>Nó phải định hướng hành vi.</span>
+                                {profile.name}
                             </h1>
 
                             <p className="h2-subline">
-                                Một trải nghiệm UI tốt là cách nó kể câu chuyện của dữ liệu, tối ưu luồng vận hành và phản hồi tức thì với người dùng.
+                                {profile.headline}
                             </p>
+                            <p className="h2-subnote">{profile.intro}</p>
 
                             <div
                                 className="h2-hero-meta"
                                 aria-label="Home focus areas"
                             >
-                                {heroMeta.map((item) => (
+                                {homeHeroMeta.map((item) => (
                                     <span key={item}>{item}</span>
                                 ))}
                             </div>
@@ -223,6 +159,15 @@ export function HomePage() {
                                     Gửi brief <Send aria-hidden="true" />
                                 </NavLink>
                             </div>
+
+                            <div className="h2-proof-strip" aria-label="Home proof points">
+                                {homeProofPoints.map((point) => (
+                                    <div className="h2-proof-item" key={point.label}>
+                                        <span>{point.label}</span>
+                                        <strong>{point.value}</strong>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <article
@@ -233,10 +178,10 @@ export function HomePage() {
                                 <ScratchCloud motionEnabled={true} />
                                 <div className="h2-scratch-overlay">
                                     <span className="h2-scratch-overlay-kicker">
-                                        Interactive Space
+                                        What I build
                                     </span>
                                     <h3 className="h2-scratch-overlay-title">
-                                        Thử quét tay qua các hạt.
+                                        Web app, dashboard, internal tool, AI workflow.
                                     </h3>
                                 </div>
                             </div>
@@ -250,13 +195,44 @@ export function HomePage() {
                     <div className="h2-bio-card">
                         <div className="h2-bio-content">
                             <p className="h2-section-label">Behind the builds</p>
-                            <h2 id="h2-bio-title" className="h2-bio-title">
-                                Web Developer & AI Workflow Builder.
-                            </h2>
+                            <h2 id="h2-bio-title" className="h2-bio-title">{profile.headline}</h2>
                             <p className="h2-bio-copy">
-                                Mình chuyên xây dựng các bề mặt giao diện, dashboard và công cụ vận hành (internal tool) tập trung vào luồng xử lý dữ liệu. Không chỉ làm web tĩnh, mình ưu tiên kiến trúc có thể mở rộng và tối ưu hóa workflow hàng ngày bằng AI.
+                                {profile.about}
                             </p>
                         </div>
+                        <div className="h2-bio-proof">
+                            {homeProofPoints.map((point) => (
+                                <div key={point.label} className="h2-bio-proof-item">
+                                    <span>{point.label}</span>
+                                    <strong>{point.value}</strong>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="h2-trust" aria-labelledby="h2-trust-title">
+                <div className="h2-wrap h2-trust-layout">
+                    <div className="h2-trust-copy">
+                        <p className="h2-section-label">Fit check</p>
+                        <h2 id="h2-trust-title">
+                            Chọn đúng bài toán trước khi viết thêm UI.
+                        </h2>
+                        <p>
+                            Mình hợp nhất với sản phẩm cần cấu trúc, trạng thái và bằng
+                            chứng runtime. Nếu brief còn mơ hồ, bước đầu tiên là làm rõ
+                            scope để không polish sai hướng.
+                        </p>
+                    </div>
+                    <div className="h2-trust-grid">
+                        {homeTrustSignals.map((item) => (
+                            <article className="h2-trust-card" key={item.title}>
+                                <span>{item.label}</span>
+                                <h3>{item.title}</h3>
+                                <p>{item.text}</p>
+                            </article>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -273,7 +249,7 @@ export function HomePage() {
                     </div>
 
                     <div className="h2-project-grid">
-                        {projectArtDirections.map((project) => {
+                        {homeProjects.map((project) => {
                             const isFeatured = project.featured;
                             return (
                                 <NavLink
@@ -286,7 +262,14 @@ export function HomePage() {
                                     }`}
                                 >
                                     <div className="h2-case-media">
-                                        <img src={project.image} alt={project.title} loading="lazy" />
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            loading="lazy"
+                                            decoding="async"
+                                            width="1200"
+                                            height="800"
+                                        />
                                     </div>
                                     <div className={isFeatured ? "h2-case-panel" : "h2-case-overlay"}>
                                         <div className="h2-case-head">
@@ -322,32 +305,24 @@ export function HomePage() {
                         </p>
                     </div>
                     <div className="h2-method-cards">
-                        {/* Static method cards to match original layout conceptually */}
-                        <div className="h2-method-card h2-tone-ocean">
-                            <div className="h2-method-card-panel">
-                                <h3>Architecture First</h3>
-                                <p>Cấu trúc dữ liệu và luồng thông tin phải được chốt trước khi vẽ bất kỳ UI nào.</p>
-                                <div className="h2-method-tags">
-                                    <span>Data Flow</span>
-                                    <span>State Management</span>
+                        {homeMethods.map((method) => (
+                            <div className={`h2-method-card ${method.toneClass}`} key={method.id}>
+                                <div className="h2-method-card-panel">
+                                    <h3>{method.title}</h3>
+                                    <p>{method.desc}</p>
+                                    <div className="h2-method-tags">
+                                        {method.tags.map((tag) => (
+                                            <span key={tag}>{tag}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="h2-method-card h2-tone-iris">
-                            <div className="h2-method-card-panel">
-                                <h3>AI-Assisted Workflow</h3>
-                                <p>Sử dụng AI không phải để viết hộ, mà để giảm tải thao tác lặp lại và mở rộng khả năng debug.</p>
-                                <div className="h2-method-tags">
-                                    <span>Automations</span>
-                                    <span>Prompt Engineering</span>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            <section className="h2-destinations" aria-labelledby="h2-dest-title">
+            <section className="h2-homeDestinations" aria-labelledby="h2-dest-title">
                 <div className="h2-wrap">
                     <div className="h2-section-row h2-section-row-tight">
                         <h2 id="h2-dest-title" className="h2-section-title">
@@ -355,7 +330,7 @@ export function HomePage() {
                         </h2>
                     </div>
                     <div className="h2-destination-grid">
-                        {destinations.map((dest) => (
+                        {homeDestinations.map((dest) => (
                             <NavLink
                                 key={dest.id}
                                 href={dest.path}

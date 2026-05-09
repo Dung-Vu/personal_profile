@@ -63,7 +63,7 @@
     color: #ffffff;
     background: linear-gradient(135deg, var(--cyan), var(--green));
     font-size: 0.82rem;
-    font-weight: 950;
+    font-weight: 800;
     box-shadow: 0 0 24px rgba(14, 165, 233, 0.25);
 }
 
@@ -93,7 +93,7 @@
     gap: clamp(0.6rem, 2vw, 1.5rem);
     color: var(--muted);
     font-size: 0.84rem;
-    font-weight: 750;
+    font-weight: 700;
     font-family: var(--font-mono);
 }
 
@@ -135,7 +135,7 @@
 
 .shell-chip strong {
     color: var(--ink);
-    font-weight: 850;
+    font-weight: 800;
 }
 
 .shell-chip:hover,
@@ -359,8 +359,9 @@
 .chapter {
     position: relative;
     width: 100%;
-    min-height: 92svh;
-    padding: clamp(5.25rem, 8vw, 7.5rem) clamp(1rem, 5vw, 4rem);
+    min-height: auto;
+    padding-block: clamp(4.5rem, 7vw, 6.5rem);
+    padding-inline: clamp(1rem, 5vw, 4rem);
     overflow: hidden;
 }
 
@@ -375,13 +376,13 @@
 .chapter::before {
     content: attr(data-chapter);
     position: absolute;
-    right: clamp(1rem, 5vw, 4rem);
+    right: clamp(0.5rem, 3vw, 2rem);
     top: calc(var(--header) + 1rem);
     z-index: -1;
-    color: rgba(247, 244, 234, 0.035);
-    font-size: clamp(7rem, 22vw, 21rem);
+    color: rgba(17, 24, 39, 0.035);
+    font-size: clamp(6rem, 18vw, 17rem);
     line-height: 0.72;
-    font-weight: 950;
+    font-weight: 800;
 }
 
 .chapter::after,
@@ -448,16 +449,4 @@
 .chapter[data-mode-presentation="compact"] .chapter-heading,
 .contact-section[data-mode-presentation="compact"] .contact-copy {
     gap: 1rem;
-}
-
-/* Editorial pacing pass: tighter sections and clearer section index. */
-.chapter {
-    min-height: auto;
-    padding-block: clamp(4.5rem, 7vw, 6.5rem);
-}
-
-.chapter::before {
-    right: clamp(0.5rem, 3vw, 2rem);
-    color: rgba(17, 24, 39, 0.035);
-    font-size: clamp(6rem, 18vw, 17rem);
 }

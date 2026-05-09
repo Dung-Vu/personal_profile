@@ -6,71 +6,39 @@ import {
     Copy,
     Github,
     Mail,
-    Terminal,
     Server,
-    Database,
-    Zap
+    Terminal,
+    Zap,
 } from "lucide-react";
 import { profile } from "../profileData";
 import { navigateTo } from "../hooks/useRoutePath";
-
-const briefLines = [
-    {
-        key: "context",
-        value: "Sản phẩm / quy trình hiện tại đang gặp vấn đề gì?",
-    },
-    {
-        key: "data",
-        value: "Dữ liệu, API, tool hoặc hệ thống nào đang liên quan?",
-    },
-    {
-        key: "goal",
-        value: "Kết quả muốn đạt được sau 1-2 vòng triển khai là gì?",
-    },
-    {
-        key: "timeline",
-        value: "Mức ưu tiên, deadline và trạng thái hiện tại ra sao?",
-    },
-];
-
-const capabilities = [
-    {
-        category: "Supported Protocols (Green Zone)",
-        items: [
-            { type: "green", text: "Website / landing có narrative + CTA rõ" },
-            { type: "green", text: "Dashboard dữ liệu cần đọc nhanh, ít nhiễu" },
-            { type: "green", text: "Internal tool kết nối API/Odoo/workflow" },
-            { type: "green", text: "AI workflow audit, context & browser QA" },
-            { type: "green", text: "Brief ngắn, ra bản chạy đầu tiên trong 3-10 ngày" }
-        ]
-    },
-    {
-        category: "Unsupported Formats (Red Zone)",
-        items: [
-            { type: "red", text: "Brand identity, Logo, Illustration thuần túy" },
-            { type: "red", text: "Thiết kế Mobile Native App (chỉ focus Web)" },
-            { type: "red", text: "Dự án thiếu dữ liệu thực tế để Verify Runtime" },
-            { type: "red", text: "Brief chung chung không có scope rõ ràng" }
-        ]
-    }
-];
+import {
+    contactBriefLines as briefLines,
+    contactCapabilities as capabilities,
+    contactResponseSteps,
+} from "../content/contactPage";
 
 export function ContactPage() {
     const [copied, setCopied] = useState(false);
     const [copyFailed, setCopyFailed] = useState(false);
-    
+
+    const payloadText = useMemo(
+        () =>
+            "{\n" +
+            briefLines
+                .map((line) => `  "${line.key}": "${line.value}"`)
+                .join(",\n") +
+            "\n}",
+        [],
+    );
+
     const mailto = useMemo(() => {
-        const subject = encodeURIComponent(`Project Payload for ${profile.name}`);
-        const body = encodeURIComponent(
-            "```json\n{\n" +
-            briefLines.map((line) => `  "${line.key}": "${line.value}"`).join(",\n") +
-            "\n}\n```"
-        );
+        const subject = encodeURIComponent(`Project brief for ${profile.name}`);
+        const body = encodeURIComponent("```json\n" + payloadText + "\n```");
         return `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    }, []);
+    }, [payloadText]);
 
     const copyPayload = async () => {
-        const payloadText = "{\n" + briefLines.map((line) => `  "${line.key}": "${line.value}"`).join(",\n") + "\n}";
         try {
             await navigator.clipboard.writeText(payloadText);
             setCopied(true);
@@ -83,89 +51,131 @@ export function ContactPage() {
 
     return (
         <section className="route-page endpoint-page" aria-labelledby="endpoint-title">
-            
-            {/* HERO SECTION */}
             <header className="endpoint-hero">
                 <div className="hero-kicker">
                     <Terminal size={14} />
-                    <span>INITIALIZE CONNECTION</span>
+                    <span>INITIALIZE PROJECT BRIEF</span>
                 </div>
-                <h1 id="endpoint-title">Khởi tạo luồng công việc mới.</h1>
+                <h1 id="endpoint-title">Gửi brief ngắn, nhận hướng triển khai rõ.</h1>
                 <p>
-                    Gửi một Request Payload đầy đủ ngữ cảnh. Hệ thống sẽ phản hồi hướng giải quyết (MVP Scope) trong vòng 24-48h.
+                    Mình phù hợp với website, dashboard và internal tool cần flow rõ, state rõ và có thể kiểm chứng bằng runtime.
                 </p>
+                <div className="endpoint-hero-actions">
+                    <a className="endpoint-primary-link" href={mailto}>
+                        Gửi email <Mail size={16} aria-hidden="true" />
+                    </a>
+                    <button className="endpoint-secondary-link" type="button" onClick={copyPayload}>
+                        {copied ? "Đã copy payload" : "Copy brief format"}
+                        {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+                    </button>
+                </div>
+
+                <div className="endpoint-trust-strip" aria-label="Contact fit summary">
+                    <article>
+                        <span>Reply</span>
+                        <strong>24-48h nếu brief đủ context</strong>
+                    </article>
+                    <article>
+                        <span>Best fit</span>
+                        <strong>Website, dashboard, internal tool</strong>
+                    </article>
+                    <article>
+                        <span>Need</span>
+                        <strong>Context, data, deadline, target outcome</strong>
+                    </article>
+                </div>
             </header>
 
-            {/* THE CONSOLE GRID */}
             <div className="endpoint-grid">
-                
-                {/* Left: The JSON Payload Editor */}
                 <div className="payload-terminal">
                     <div className="terminal-header">
                         <div className="terminal-dots">
-                            <span></span><span></span><span></span>
+                            <span />
+                            <span />
+                            <span />
                         </div>
-                        <span className="terminal-title">request_payload.json</span>
+                        <span className="terminal-title">project_brief.json</span>
                     </div>
-                    
+
                     <div className="terminal-body">
-                        <span className="code-line"><span className="code-syntax">{"{"}</span></span>
+                        <span className="code-line">
+                            <span className="code-syntax">{"{"}</span>
+                        </span>
                         {briefLines.map((line, idx) => (
                             <span className="code-line indent" key={line.key}>
                                 <span className="code-key">"{line.key}"</span>
                                 <span className="code-syntax">: </span>
                                 <span className="code-value">"{line.value}"</span>
-                                {idx < briefLines.length - 1 && <span className="code-syntax">,</span>}
+                                {idx < briefLines.length - 1 ? (
+                                    <span className="code-syntax">,</span>
+                                ) : null}
                             </span>
                         ))}
-                        <span className="code-line"><span className="code-syntax">{"}"}</span></span>
+                        <span className="code-line">
+                            <span className="code-syntax">{"}"}</span>
+                        </span>
                     </div>
 
                     <div className="terminal-footer">
-                        <button 
-                            className="terminal-action-btn" 
+                        <button
+                            className="terminal-action-btn"
                             onClick={copyPayload}
                             aria-label="Copy JSON Payload"
+                            type="button"
                         >
                             {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
                             {copied ? "[200 OK] Payload Copied" : "Copy Payload Format"}
                         </button>
-                        {copyFailed && <span className="error-text">Clipboard blocked. Please copy manually.</span>}
+                        {copyFailed ? (
+                            <span className="error-text">Clipboard blocked. Please copy manually.</span>
+                        ) : null}
                     </div>
                 </div>
 
-                {/* Right: Endpoints */}
                 <div className="endpoint-routes">
-                    <div className="routes-label">Available Endpoints</div>
-                    
+                    <div className="routes-label">Available endpoints</div>
+
                     <a className="route-card" href={mailto}>
                         <div className="route-method post">POST</div>
                         <div className="route-path">/contact/email</div>
-                        <div className="route-icon"><Mail size={18} /></div>
+                        <div className="route-icon">
+                            <Mail size={18} />
+                        </div>
                         <div className="route-detail">{profile.email}</div>
                     </a>
 
-                    <a className="route-card" href={profile.github} target="_blank" rel="noopener noreferrer">
+                    <a
+                        className="route-card"
+                        href={profile.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <div className="route-method get">GET</div>
                         <div className="route-path">/profile/github</div>
-                        <div className="route-icon"><Github size={18} /></div>
+                        <div className="route-icon">
+                            <Github size={18} />
+                        </div>
                         <div className="route-detail">{profile.githubName}</div>
                     </a>
 
-                    <div className="route-card disabled">
-                        <div className="route-method options">WSS</div>
-                        <div className="route-path">/live/chat</div>
-                        <div className="route-detail">Connection Offline</div>
+                    <div className="response-contract">
+                        <span>What happens next</span>
+                        <ol>
+                            {contactResponseSteps.map((step) => (
+                                <li key={step}>{step}</li>
+                            ))}
+                        </ol>
                     </div>
                 </div>
             </div>
 
-            {/* SYSTEM CAPABILITIES */}
             <div className="capabilities-section">
                 <div className="capabilities-header">
                     <Server size={20} />
-                    <h2>System Capabilities</h2>
-                    <p>Đảm bảo yêu cầu của bạn khớp với thông số kỹ thuật của hệ thống để tránh lãng phí thời gian.</p>
+                    <h2>Fit check trước khi bắt đầu.</h2>
+                    <p>
+                        Mình nhận những project có đủ context để đi tới bản chạy được. Nếu brief còn mơ hồ, bước đầu tiên sẽ là làm rõ scope.
+                    </p>
                 </div>
 
                 <div className="capabilities-grid">
@@ -173,9 +183,9 @@ export function ContactPage() {
                         <div className="capability-group" key={group.category}>
                             <h3>{group.category}</h3>
                             <ul className="capability-list">
-                                {group.items.map((item, idx) => (
-                                    <li key={idx}>
-                                        <span className={`status-dot ${item.type}`}></span>
+                                {group.items.map((item) => (
+                                    <li key={item.text}>
+                                        <span className={`status-dot ${item.type}`} />
                                         <span className="cap-text">{item.text}</span>
                                     </li>
                                 ))}
@@ -185,20 +195,25 @@ export function ContactPage() {
                 </div>
             </div>
 
-            {/* FOOTER CTA */}
             <footer className="endpoint-footer">
                 <div className="footer-content">
                     <Zap size={24} className="footer-icon" />
                     <div className="footer-text">
-                        <h2>Kiểm chứng qua Case Study</h2>
-                        <p>Bạn vẫn chưa chắc chắn? Hãy xem qua cách hệ thống này đã giải quyết các bài toán thực tế.</p>
+                        <h2>Muốn kiểm chứng cách mình làm trước?</h2>
+                        <p>Đọc case study để xem cách mình nối bài toán, quyết định kỹ thuật và proof runtime.</p>
                     </div>
                 </div>
-                <a href="/work" className="endpoint-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/work"); }}>
-                    Đọc Case Studies <ArrowRight size={16} />
+                <a
+                    href="/work"
+                    className="endpoint-cta-btn"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigateTo("/work");
+                    }}
+                >
+                    Đọc case studies <ArrowRight size={16} />
                 </a>
             </footer>
-
         </section>
     );
 }

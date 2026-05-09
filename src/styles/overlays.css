@@ -96,7 +96,7 @@
     font: inherit;
     font-family: var(--font-mono);
     font-size: 0.76rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
     transition:
         border-color 180ms ease,
@@ -201,7 +201,7 @@
     padding: 0 0.25rem 0 0.75rem;
     color: var(--green);
     font-size: 0.76rem;
-    font-weight: 950;
+    font-weight: 800;
     font-family: var(--font-mono);
     text-transform: uppercase;
 }
@@ -227,7 +227,7 @@
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -256,7 +256,7 @@
     text-align: left;
     padding: 0 1rem;
     cursor: pointer;
-    font-weight: 850;
+    font-weight: 800;
     font-family: var(--font-mono);
 }
 
@@ -284,7 +284,7 @@
     background: var(--green);
     padding: 0.85rem 1rem;
     text-align: center;
-    font-weight: 950;
+    font-weight: 800;
     transition:
         opacity 180ms ease,
         transform 180ms ease;
@@ -324,7 +324,7 @@
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -371,7 +371,7 @@
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
@@ -528,7 +528,7 @@
     background: rgba(255, 255, 255, 0.045);
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 850;
+    font-weight: 800;
     text-transform: uppercase;
     transition:
         transform 180ms ease,

@@ -1,6 +1,6 @@
 # Agent Behavior
 
-This file is the compact behavior reference for day-to-day coding work. Use it to avoid common agent failure modes while keeping the repository Markdown-only.
+Compact behavior reference for day-to-day coding work.
 
 ## Hidden Assumptions
 
@@ -20,7 +20,7 @@ Preferred behavior:
 
 Concrete response pattern:
 
-- "I can implement filtering client-side against the existing payload, but server-side filtering changes the API contract. I’m proceeding with client-side unless you want the API expanded."
+- "I can implement filtering client-side against the existing payload, but server-side filtering changes the API contract. I am proceeding with client-side unless you want the API expanded."
 
 Why this reduces error:
 
@@ -55,7 +55,7 @@ It keeps the code easier to review, test, and maintain under real repository con
 
 Anti-pattern:
 
-> While fixing one issue, agent also reformats files, renames unrelated symbols, or rewrites neighboring code "for cleanliness."
+> While fixing one issue, agent also reformats files, renames unrelated symbols, or rewrites neighboring code for cleanliness.
 
 Concrete examples:
 
@@ -102,3 +102,4 @@ Concrete response patterns:
 Why this reduces error:
 
 It turns subjective intent into something verifiable and lowers the chance of solving the wrong problem.
+

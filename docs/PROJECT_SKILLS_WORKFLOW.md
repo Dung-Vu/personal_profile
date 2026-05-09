@@ -1,84 +1,86 @@
 # Project Skills & Workflows
 
-Repo-specific workflows for `personal-website`. Keep this file practical and command-oriented for AI coding agents.
+Repo-specific workflows for `personal-website`. Keep this file current, compact, and command-first.
+
+## Current Source Of Truth
+
+- Route shell: `src/App.jsx` and `src/routes/routes.js`
+- Route pages: `src/pages/*.jsx`
+- Route data: `src/content/*.js` (`homePage.js`, `contactPage.js`, `projects.js`, `workflow.js`, `workflowPage.js`, `about.js`, `stack.js`)
+- Live coordination: `docs/CHECK_IN.md`
+- Build gate: `npm run build`
 
 ## Custom Skills
 
-### Multi-Page Portfolio Refactor
+### Portfolio Content Refresh
 
-**Trigger phrases:** "triển khai multi-page", "tách portfolio thành nhiều trang", "refactor App.jsx", "build route architecture"
-
-**Steps for AI Agent:**
-1. Read `KONDUCTOR.md`, `docs/CHECK_IN.md`, `.konductor/memory/KONDUCTOR_MEMORY.md`, `docs/MULTI_PAGE_STRATEGY.md`, `docs/MULTI_PAGE_PHASE_PLAN.md`, and `docs/HOME_SCROLLYTELLING_RESEARCH.md`.
-2. Inspect `package.json`, `src/App.jsx`, `src/main.jsx`, `src/components/`, `src/data/`, and current CSS before editing.
-3. Preserve the existing one-page Signal OS experience by moving it to `/lab`; do not delete it during the first routing slice.
-4. Build route-based shell and navigation before adding new page motion.
-5. Prioritize MVP routes: `/`, `/work`, `/contact`; keep `/lab` secondary.
-6. Run `npm run build` before reporting the slice complete.
-
-### Cinematic Home Story
-
-**Trigger phrases:** "build Home cinematic", "Home scroll story", "Signal Story Sequence"
+**Trigger phrases:** "update portfolio copy", "refresh route content", "sync docs with runtime"
 
 **Steps for AI Agent:**
-1. Confirm route `/work`, `/contact`, and `/lab` exist before wiring Home CTAs.
-2. Create or update `src/content/homeStoryScenes.js` as the single source of truth for the 5 locked scenes.
-3. Render Home static/responsive first; add GSAP ScrollTrigger only after layout and copy are correct.
-4. Use one main desktop pin/timeline; avoid multiple competing ScrollTriggers.
-5. Implement mobile and reduced-motion fallback as stacked readable sections.
-6. Verify route changes clean up ScrollTrigger instances.
+1. Read `README.md`, `docs/CHECK_IN.md`, `src/routes/routes.js`, and the route files that will change.
+2. Update active content in `src/content/` first; keep `Lab` secondary and archival.
+3. If Home copy changes, edit `src/content/homePage.js` and the relevant JSX in `src/pages/HomePage.jsx`.
+4. If case study data changes, edit `src/content/projects.js` and the matching detail page.
+5. If contact payload or brief fields change, edit `src/content/contactPage.js` and `src/pages/ContactPage.jsx`.
+6. Run `npm run build`.
 
-### Work And Contact MVP
+### Home / Work / Contact Update
 
-**Trigger phrases:** "build Work page", "build Contact page", "MVP portfolio"
+**Trigger phrases:** "edit Home", "edit Work", "edit Contact", "portfolio slice"
 
 **Steps for AI Agent:**
-1. Put project/case/contact copy in `src/content/` or equivalent data files.
-2. Work page must showcase TCA Crypto Analyzer, Bonario Product Hub, and AI Operator Workflow with problem/role/decision/tech/outcome/status.
-3. Contact page must include email, GitHub, suitable work types, brief template, copy email, and mailto.
-4. Keep Work visual strong and Contact low-friction; do not import Lab-level OS noise into core routes.
-5. Verify desktop/mobile layout and `npm run build`.
+1. Home: keep the editorial intro, case links, methodology, and route choices in sync with `src/content/homePage.js`.
+2. Work: keep 3 case studies aligned with `src/content/projects.js` and `src/pages/WorkPage.jsx`.
+3. Contact: keep payload fields, mailto, GitHub, and capability gates aligned with `src/content/contactPage.js` and `src/pages/ContactPage.jsx`.
+4. Keep motion restrained on core routes; Home desktop may use GSAP, mobile must stay readable.
+5. Verify responsive output and build.
+
+### Verification Loop
+
+**Trigger phrases:** "verify", "check build", "layout QA", "sanity check"
+
+**Steps for AI Agent:**
+1. Run `npm run build`.
+2. If viewport-sensitive changes land, run `npm run qa:mobile`.
+3. If the route shell changes, inspect desktop and mobile runtime screenshots.
+4. Report only the checks that actually ran.
 
 ## Custom Workflows
 
-### Verify Local Build
-
-**Trigger phrases:** "verify", "check build", "kiểm tra build"
-**Execution strictness:** HIGH
-
-**Steps for AI Agent:**
-1. Run `npm run build` from `/mnt/d/personal-website`.
-2. If build fails, fix only issues related to the active task unless user approves broader cleanup.
-3. Report build result and any residual risks.
-
 ### Start Dev Server
 
-**Trigger phrases:** "run dev", "mở dev server", "start local"
-**Execution strictness:** MEDIUM
+**Trigger phrases:** "run dev", "start local", "open app"
 
 **Steps for AI Agent:**
-1. Run `npm run dev -- --host 0.0.0.0` from `/mnt/d/personal-website` as a tracked background process.
-2. Wait for the local URL in logs.
-3. Use browser/headless checks only when needed for visual/runtime validation.
-4. Stop the background process when no longer needed unless user asks to keep it running.
+1. Run `npm run dev` from repo root.
+2. Use the local `127.0.0.1` URL from Vite output.
+3. Stop the server when no longer needed unless the user asks to keep it running.
+
+### Update Check-In
+
+**Trigger phrases:** "update check-in", "refresh status", "k-checkin"
+
+**Steps for AI Agent:**
+1. Read `docs/CHECK_IN.md`.
+2. Move finished work into Completed Work.
+3. Keep active claims short and current.
+4. Record only durable notes that future agents need for the next slice.
 
 ### Konductor Update
 
 **Trigger phrases:** "update Konductor", "reinstall Konductor", `/k-update`
-**Execution strictness:** MEDIUM
 
 **Steps for AI Agent:**
-1. Run `npx konductor-workflow@latest` from repo root.
-2. Re-read `KONDUCTOR.md`, `docs/CHECK_IN.md`, and `.konductor/memory/KONDUCTOR_MEMORY.md`.
-3. Re-apply repo-specific customizations to `docs/PROJECT_SKILLS_WORKFLOW.md`, `docs/CHECK_IN.md`, and memory files if upstream overwrote scaffolding.
-4. Summarize installed version and changed files.
+1. Run `npx konductor-workflow@latest` from repo root if the workflow package needs refresh.
+2. Re-read `KONDUCTOR.md`, `docs/CHECK_IN.md`, and the `.konductor/memory/*` files relevant to the current slice.
+3. Re-apply repo-specific notes to this file if upstream scaffolding changed.
 
 ## Custom Slash Commands
 
-- `/k-init`: Read `KONDUCTOR.md`, `docs/CHECK_IN.md`, `.konductor/memory/KONDUCTOR_MEMORY.md`, `.konductor/memory/KONDUCTOR_ADR_HISTORY.md`, and the three portfolio strategy docs; summarize current status, active goals, blockers, and next implementation slice.
-- `/k-update`: Run `npx konductor-workflow@latest`, then refresh repo-specific Konductor docs and summarize changes.
-- `/k-history`: Summarize durable memory, ADR history, vision roadmap, and current check-in.
-- `/k-compact`: Prune `docs/CHECK_IN.md` to the smallest useful active-state summary; move durable facts into `.konductor/memory/KONDUCTOR_MEMORY.md` if needed.
-- `/k-checkin`: Update `docs/CHECK_IN.md` with current task, status, blockers, and next handoff point.
-- `/build`: Run `npm run build` and report pass/fail with key errors.
-- `/dev`: Start the Vite dev server as a tracked background process.
+- `/k-init`: Read `KONDUCTOR.md`, `docs/CHECK_IN.md`, and the core memory files, then summarize current status and next slice.
+- `/k-update`: Refresh the framework, then restore repo-specific workflow notes.
+- `/k-history`: Review durable memory, ADR history, and current check-in.
+- `/k-compact`: Prune `docs/CHECK_IN.md` to the smallest useful live state.
+- `/k-checkin`: Refresh `docs/CHECK_IN.md` with current status, blockers, and handoff point.
+- `/build`: Run `npm run build` and report pass/fail.
+- `/dev`: Start the Vite dev server.
