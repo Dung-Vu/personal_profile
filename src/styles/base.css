@@ -46,7 +46,8 @@ body.wow-motion {
     /* removed cursor: none to use native cursor */
 }
 
-body.menu-open {
+body.menu-open,
+body.route-menu-open {
     overflow: hidden;
 }
 

@@ -48,7 +48,7 @@ export function Header({
                     <small>signal profile os</small>
                 </span>
             </a>
-            <div className="shell-controls" aria-label="Shell controls">
+            <div className="shell-controls" aria-label="Tùy chỉnh Lab shell">
                 <button
                     type="button"
                     className="shell-chip"
@@ -113,7 +113,7 @@ export function Header({
                     ref={commandButtonRef}
                     data-magnetic
                     onClick={() => setCommandOpen(true)}
-                    aria-label="Open command panel"
+                    aria-label="Mở command panel"
                     aria-keyshortcuts="Control+K Meta+K"
                     aria-haspopup="dialog"
                     aria-expanded={commandOpen}
@@ -125,7 +125,7 @@ export function Header({
                     type="button"
                     data-magnetic
                     onClick={() => setMenuOpen((open) => !open)}
-                    aria-label={menuOpen ? "Close menu" : "Open menu"}
+                    aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
                     aria-expanded={menuOpen}
                 >
                     <Menu aria-hidden="true" />

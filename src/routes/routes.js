@@ -2,37 +2,37 @@ export const routes = [
     {
         path: "/",
         label: "Home",
-        title: "Web Developer",
+        title: "Web apps",
         priority: "core",
     },
     {
         path: "/about",
         label: "About",
-        title: "Fit & Work Style",
+        title: "Work style",
         priority: "core",
     },
     {
         path: "/work",
         label: "Work",
-        title: "Case Studies",
+        title: "Case study",
         priority: "core",
     },
     {
         path: "/stack",
         label: "Stack",
-        title: "Capability Matrix",
+        title: "Capabilities",
         priority: "secondary",
     },
     {
         path: "/workflow",
         label: "Workflow",
-        title: "Process Summary",
+        title: "Delivery loop",
         priority: "secondary",
     },
     {
         path: "/contact",
         label: "Contact",
-        title: "Project Request",
+        title: "Project brief",
         priority: "core",
     },
     {

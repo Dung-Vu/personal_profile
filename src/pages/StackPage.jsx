@@ -34,7 +34,7 @@ export function StackPage() {
             {/* PRINCIPLES GRID - 3 Columns */}
             <div className="stack-principles-section">
                 <div className="section-label">
-                    <span>// Decision Rules</span>
+                    <span>// Nguyên tắc chọn stack</span>
                     <div className="hairline-divider"></div>
                 </div>
                 <div className="principles-grid">
@@ -51,7 +51,7 @@ export function StackPage() {
             {/* MATRIX GRID - The Core Blueprints */}
             <div className="stack-matrix-section">
                 <div className="section-label">
-                    <span>// Capability Matrix</span>
+                    <span>// Ma trận năng lực</span>
                     <div className="hairline-divider"></div>
                 </div>
 
@@ -61,7 +61,7 @@ export function StackPage() {
                             <div className="blueprint-card-header">
                                 <div className="blueprint-badges">
                                     <span className="badge-label">[{item.label}]</span>
-                                    <span className="badge-level">Lvl {item.level}</span>
+                                    <span className="badge-level">Mức {item.level}</span>
                                 </div>
                                 <h2>{item.title}</h2>
                                 <p>{item.detail}</p>
@@ -69,8 +69,8 @@ export function StackPage() {
 
                             <div className="blueprint-packages">
                                 <div className="packages-header">
-                                    <span>Packages / Stack</span>
-                                    <span>{item.tools.length} Items</span>
+                                    <span>Công cụ dùng thực tế</span>
+                                    <span>{item.tools.length} mục</span>
                                 </div>
                                 <ul className="packages-list">
                                     {item.tools.map((tool) => (
@@ -85,7 +85,7 @@ export function StackPage() {
 
                             {item.evidence.length > 0 && (
                                 <div className="blueprint-traces">
-                                    <span>Traces:</span>
+                                    <span>Bằng chứng:</span>
                                     <div className="traces-links">
                                         {item.evidence.map((project) => (
                                             <a 
@@ -114,7 +114,7 @@ export function StackPage() {
                     <p>Stack trả lời dùng gì. Workflow trả lời mình vận hành nó như thế nào.</p>
                 </div>
                 <a href="/workflow" className="blueprint-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/workflow"); }}>
-                    Xem Workflow Map <ArrowRight size={16} />
+                    Xem workflow <ArrowRight size={16} />
                 </a>
             </footer>
 

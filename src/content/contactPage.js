@@ -21,10 +21,10 @@ export const contactCapabilities = [
     {
         category: "Supported protocols (Green zone)",
         items: [
-            { type: "green", text: "Website / landing có narrative + CTA rõ" },
+            { type: "green", text: "Website / landing có câu chuyện sản phẩm và CTA rõ" },
             { type: "green", text: "Dashboard dữ liệu cần đọc nhanh, ít nhiễu" },
             { type: "green", text: "Internal tool kết nối API / Odoo / workflow" },
-            { type: "green", text: "AI workflow audit, context và browser QA" },
+            { type: "green", text: "AI workflow có audit, context và browser QA" },
             { type: "green", text: "Brief ngắn, ra bản chạy đầu tiên trong 3-10 ngày" },
         ],
     },

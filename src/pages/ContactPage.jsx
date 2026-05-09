@@ -54,34 +54,34 @@ export function ContactPage() {
             <header className="endpoint-hero">
                 <div className="hero-kicker">
                     <Terminal size={14} />
-                    <span>INITIALIZE PROJECT BRIEF</span>
+                    <span>PROJECT BRIEF</span>
                 </div>
-                <h1 id="endpoint-title">Gửi brief ngắn, nhận hướng triển khai rõ.</h1>
+                <h1 id="endpoint-title">Gửi brief trong 2 phút, nhận hướng triển khai rõ.</h1>
                 <p>
-                    Mình phù hợp với website, dashboard và internal tool cần flow rõ, state rõ và có thể kiểm chứng bằng runtime.
+                    Mình phù hợp với website, dashboard và internal tool có dữ liệu thật, người dùng rõ và mục tiêu cần chốt thành bản chạy được.
                 </p>
                 <div className="endpoint-hero-actions">
                     <a className="endpoint-primary-link" href={mailto}>
                         Gửi email <Mail size={16} aria-hidden="true" />
                     </a>
                     <button className="endpoint-secondary-link" type="button" onClick={copyPayload}>
-                        {copied ? "Đã copy payload" : "Copy brief format"}
+                        {copied ? "Đã copy mẫu brief" : "Copy mẫu brief"}
                         {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
                     </button>
                 </div>
 
                 <div className="endpoint-trust-strip" aria-label="Contact fit summary">
                     <article>
-                        <span>Reply</span>
+                        <span>Phản hồi</span>
                         <strong>24-48h nếu brief đủ context</strong>
                     </article>
                     <article>
-                        <span>Best fit</span>
+                        <span>Phù hợp</span>
                         <strong>Website, dashboard, internal tool</strong>
                     </article>
                     <article>
-                        <span>Need</span>
-                        <strong>Context, data, deadline, target outcome</strong>
+                        <span>Cần có</span>
+                        <strong>Bối cảnh, dữ liệu, deadline, mục tiêu</strong>
                     </article>
                 </div>
             </header>
@@ -120,24 +120,24 @@ export function ContactPage() {
                         <button
                             className="terminal-action-btn"
                             onClick={copyPayload}
-                            aria-label="Copy JSON Payload"
+                            aria-label="Copy mẫu brief"
                             type="button"
                         >
                             {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                            {copied ? "[200 OK] Payload Copied" : "Copy Payload Format"}
+                            {copied ? "Đã copy mẫu brief" : "Copy mẫu brief"}
                         </button>
                         {copyFailed ? (
-                            <span className="error-text">Clipboard blocked. Please copy manually.</span>
+                            <span className="error-text">Trình duyệt chặn clipboard. Bạn có thể bôi đen và copy trực tiếp.</span>
                         ) : null}
                     </div>
                 </div>
 
                 <div className="endpoint-routes">
-                    <div className="routes-label">Available endpoints</div>
+                    <div className="routes-label">Kênh liên hệ</div>
 
                     <a className="route-card" href={mailto}>
-                        <div className="route-method post">POST</div>
-                        <div className="route-path">/contact/email</div>
+                        <div className="route-method post">Email</div>
+                        <div className="route-path">Gửi brief qua email</div>
                         <div className="route-icon">
                             <Mail size={18} />
                         </div>
@@ -150,8 +150,8 @@ export function ContactPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <div className="route-method get">GET</div>
-                        <div className="route-path">/profile/github</div>
+                        <div className="route-method get">GitHub</div>
+                        <div className="route-path">Xem source public</div>
                         <div className="route-icon">
                             <Github size={18} />
                         </div>
@@ -159,7 +159,7 @@ export function ContactPage() {
                     </a>
 
                     <div className="response-contract">
-                        <span>What happens next</span>
+                        <span>Sau khi gửi brief</span>
                         <ol>
                             {contactResponseSteps.map((step) => (
                                 <li key={step}>{step}</li>
@@ -211,7 +211,7 @@ export function ContactPage() {
                         navigateTo("/work");
                     }}
                 >
-                    Đọc case studies <ArrowRight size={16} />
+                    Đọc case study <ArrowRight size={16} />
                 </a>
             </footer>
         </section>

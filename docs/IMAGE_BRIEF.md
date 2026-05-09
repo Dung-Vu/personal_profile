@@ -5,14 +5,14 @@ Current art assets already exist in `public/assets/`. Use this file when you wan
 ## General Rules
 
 - Ratio: 16:9 or 4:5
-- Style: dark tech workspace, abstract, no readable text
-- Color: dark base + one accent per project
+- Style: bright product/interface proof frame for core portfolio assets; dark experimental visuals only for Lab
+- Color: light neutral base for case covers/proof frames, with one restrained accent per project
 - No logos, no real brand names, no people
 - Resolution: at least 1920x1080
 
 ## Current Asset Map
 
-- `signal-workstation-hero-v2.webp` / `.jpg` - Home hero and OG image
+- `signal-workstation-hero-v2.webp` / `.jpg` - OG/social preview image; no longer preloaded by Home
 - `signal-hero-generated-1536.webp` / `.jpg` - Lab archive hero
 - `signal-about-dossier.webp` / `.jpg` - About portrait panel
 - `signal-case-tca-dashboard.webp` / `.jpg` - TCA Crypto Analyzer
@@ -26,7 +26,7 @@ Current art assets already exist in `public/assets/`. Use this file when you wan
 **Tone:** iris (`#6a72d2`)
 
 ```text
-A dark abstract fintech dashboard environment, glowing candlestick chart fragments floating in a deep navy void, neon cyan and violet data streams, holographic grid lines, real-time ticker tape trails, signal waveform pulses --ar 16:9 --style raw --no text,logo,branding,people
+Bright premium fintech dashboard proof frame, light neutral studio background, readable but non-real chart shapes, subtle cyan and gold accents, clean product UI hierarchy, no real data, no readable brand text --ar 16:9 --style raw --no logo,branding,people
 ```
 
 ## 2. Bonario Product Hub - Internal Operations Tool
@@ -35,7 +35,7 @@ A dark abstract fintech dashboard environment, glowing candlestick chart fragmen
 **Tone:** ocean (`#1b6265`)
 
 ```text
-Abstract enterprise operations hub interface, floating database node clusters connected by thin glowing circuit lines on a dark slate background, teal and golden accent highlights, minimal geometric panels suggesting admin controls, warehouse grid pattern fragments, soft volumetric light --ar 16:9 --style raw --no text,logo,branding,people,screenshot
+Bright enterprise operations hub proof frame, light neutral studio surface, product search panel, editable state cards, sync queue hints, teal and gold accents, clean admin UI hierarchy, no real product data, no readable brand text --ar 16:9 --style raw --no logo,branding,people
 ```
 
 ## 3. AI Operator Workflow - Development Process
@@ -44,7 +44,7 @@ Abstract enterprise operations hub interface, floating database node clusters co
 **Tone:** apricot (`#d78b47`)
 
 ```text
-Abstract AI-assisted development pipeline visualization, translucent geometric layers representing plan -> code -> build -> verify stages, warm amber and copper neon traces on a dark charcoal void, stylized terminal windows and browser frames as floating panels, checkpoint beacons along a horizontal procession --ar 16:9 --style raw --no text,logo,branding,robot,face
+Bright AI-assisted delivery workflow proof frame, light neutral workspace, plan patch build browser QA and handoff panels as abstract UI cards, warm amber and cyan accents, clear staged process without readable private logs --ar 16:9 --style raw --no logo,branding,robot,face
 ```
 
 ## 4. Home Hero Background
@@ -53,7 +53,7 @@ Abstract AI-assisted development pipeline visualization, translucent geometric l
 **Tone:** neutral cool
 
 ```text
-Abstract signal analysis workstation, sparse glowing data nodes in a deep dark space, subtle radial gradient suggesting a command center, delicate particle streams converging toward center, cinematic volumetric haze, professional tech atmosphere, minimal and clean --ar 16:9 --style raw --no text,logo,branding,people
+Clean portfolio social preview image, light editorial workstation mood, subtle data/interface cues, professional neutral palette, enough contrast for OG/Twitter crop, no readable private text --ar 1.91:1 --style raw --no logo,branding,people
 ```
 
 ## 5. Lab Archive Background
@@ -70,4 +70,3 @@ Abstract motion-lab backdrop for an experimental interface, layered scanlines, f
 - Keep `.webp` as primary, `.jpg` as fallback.
 - Put files in `public/assets/`.
 - After replacing assets, update references in `src/content/profile.js`, `src/content/projects.js`, `src/content/homePage.js`, `src/pages/AboutPage.jsx`, `src/components/lab/LabHomeSection.jsx`, and `index.html` if needed.
-

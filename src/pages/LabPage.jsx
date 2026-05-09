@@ -332,6 +332,9 @@ export function LabPage() {
 
     return (
         <div ref={rootRef}>
+            <a href="#lab-main" className="skip-link">
+                Bỏ qua điều hướng
+            </a>
             <SignalCanvas
                 activeSection={active}
                 mode={mode}
@@ -347,10 +350,10 @@ export function LabPage() {
             />
             <div className="noise" aria-hidden="true" />
             <TransitionGate gateRef={gateRef} gateLabelRef={gateLabelRef} />
-            <aside className="lab-archive-notice" aria-label="Archive notice">
-                <strong>Archive concept</strong>
+            <aside className="lab-archive-notice" aria-label="Ghi chú archive">
+                <strong>Archive thử nghiệm</strong>
                 <span>
-                    Signal OS là archive experiment. Home, Work và Contact là
+                    Signal OS là bản thử nghiệm cũ. Home, Work và Contact là
                     portfolio chính hiện tại.
                 </span>
             </aside>
@@ -396,7 +399,9 @@ export function LabPage() {
                 />
             ) : null}
 
-            <main>{renderedSections}</main>
+            <main id="lab-main" tabIndex={-1}>
+                {renderedSections}
+            </main>
 
             {commandOpen && (
                 <CommandPanel

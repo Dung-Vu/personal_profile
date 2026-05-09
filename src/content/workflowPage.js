@@ -2,9 +2,9 @@ import { workflow } from "./workflow";
 
 export const workflowHero = {
     eyebrow: "WORKFLOW / PROCESS SUMMARY",
-    headline: "Pipeline 4 giai đoạn: từ bản đặc tả đến sản phẩm thực thi.",
+    headline: "Quy trình 4 bước: từ brief đến bản build có thể kiểm chứng.",
     intro:
-        "Mỗi node trong pipeline yêu cầu đầu ra nghiêm ngặt: xác định rõ phạm vi, xử lý triệt để các trạng thái và phải có bằng chứng vượt qua kiểm thử browser.",
+        "Mỗi bước có đầu ra rõ: phạm vi, cấu trúc, slice chạy được và bằng chứng kiểm tra trên browser.",
 };
 
 export const workflowDeliverables = [
@@ -51,4 +51,3 @@ export const workflowHandoff = [
     "Next slice phải rõ file nào sẽ đụng và verify bằng gì.",
     "Nếu tooling bị giới hạn, ghi rõ blocker và harden bằng audit thay vì im lặng bỏ qua.",
 ];
-

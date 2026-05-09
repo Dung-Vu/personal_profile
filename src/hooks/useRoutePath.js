@@ -3,8 +3,15 @@ import { normalizePath } from "../routes/routes";
 
 export function navigateTo(path) {
     const nextPath = normalizePath(path);
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     if (window.location.pathname === nextPath) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+        });
         return;
     }
 
@@ -16,7 +23,7 @@ export function navigateTo(path) {
         window.dispatchEvent(new Event("popstate"));
     };
 
-    if (document.startViewTransition) {
+    if (document.startViewTransition && !prefersReducedMotion) {
         const transition = document.startViewTransition(run);
         transition.finished.finally(() => {
             delete document.documentElement.dataset.routeTransition;

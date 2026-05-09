@@ -10,6 +10,8 @@ Long-term repo memory for `personal-website`. Keep this file for durable constra
 4. UI/icon stack: lucide-react present.
 5. Verification: `npm run build` is the primary local check; `npm run qa:mobile` and `npm run qa:layout` map to the same viewport QA script.
 6. Content language: site copy is primarily Vietnamese; English is fine for technical terms, project names, and short CTA labels.
+7. On this Windows/Codex setup, run layout QA as `python scripts\mobile_qa.py`; the npm aliases call `python3` and may not match the local shell.
+8. Git safe-directory is configured for `D:/personal-website`, so `git status --short` should work in the Codex sandbox.
 
 ## Product Direction
 
@@ -31,14 +33,20 @@ Long-term repo memory for `personal-website`. Keep this file for durable constra
 - Do not use unsourced percentage metrics as proof; prefer status, timeline, role, deliverables, constraints, and verification notes unless real evidence exists.
 - Lab may keep motion-heavy affordances, but it must not affect performance or UX of core routes.
 - Build mobile and reduced-motion behavior from the start, not as an afterthought.
+- Route navigation must respect `prefers-reduced-motion`: no View Transition under reduced motion, and same-route smooth scroll only when motion is allowed.
+- Client route changes should move focus to `#main-content`; do not force focus to the page `h1` on initial load.
+- Mobile menu open state must lock body scroll with the same class the shell toggles.
+- Keep Contact brief-first; terminal/API styling is allowed only as a supporting visual, not the primary interaction model.
 
 ## Active Heuristics
 
 - Prefer data-driven page content under `src/content/` so copy is not hard-coded across JSX.
 - Prefer one main ScrollTrigger timeline for Home desktop scrollytelling; keep mobile stacked and readable.
 - Keep route metadata in `src/App.jsx` aligned with current page copy.
+- Unknown `/work/:slug` routes should use 404 metadata, not Home metadata.
 - Use `public/assets/` as the single image inventory for the portfolio.
 - Treat `homeStoryScenes.js` as archive unless code starts importing it again.
+- Treat `signal-workstation-hero-v2` as OG/social preview unless it is restored to first-viewport Home usage; do not preload it while unused by the initial Home viewport.
 
 ## Known Anti-Patterns
 
@@ -50,4 +58,3 @@ Long-term repo memory for `personal-website`. Keep this file for durable constra
 ## Update Rule
 
 Update this file when a new hard constraint, recurring failure mode, or durable cross-cutting implementation rule is discovered.
-

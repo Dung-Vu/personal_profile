@@ -160,14 +160,6 @@ export function HomePage() {
                                 </NavLink>
                             </div>
 
-                            <div className="h2-proof-strip" aria-label="Home proof points">
-                                {homeProofPoints.map((point) => (
-                                    <div className="h2-proof-item" key={point.label}>
-                                        <span>{point.label}</span>
-                                        <strong>{point.value}</strong>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
 
                         <article
@@ -186,6 +178,15 @@ export function HomePage() {
                                 </div>
                             </div>
                         </article>
+
+                        <div className="h2-proof-strip" aria-label="Home proof points">
+                            {homeProofPoints.map((point) => (
+                                <div className="h2-proof-item" key={point.label}>
+                                    <span>{point.label}</span>
+                                    <strong>{point.value}</strong>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -274,7 +275,7 @@ export function HomePage() {
                                     <div className={isFeatured ? "h2-case-panel" : "h2-case-overlay"}>
                                         <div className="h2-case-head">
                                             <span className="h2-case-type">{project.type}</span>
-                                            <span className="h2-case-link">View case</span>
+                                            <span className="h2-case-link">Xem case</span>
                                         </div>
                                         <div className="h2-case-copy">
                                             <h3 className="h2-case-title">{project.title}</h3>

@@ -98,7 +98,7 @@ export function SiteShell({ children, currentPath }) {
                     className="site-menu-toggle"
                     type="button"
                     aria-label={
-                        menuOpen ? "Close navigation" : "Open navigation"
+                        menuOpen ? "Đóng menu điều hướng" : "Mở menu điều hướng"
                     }
                     aria-expanded={menuOpen}
                     onClick={() => setMenuOpen((open) => !open)}
@@ -111,13 +111,13 @@ export function SiteShell({ children, currentPath }) {
                 </button>
             </header>
 
-            <main className="route-main" id="main-content">
+            <main className="route-main" id="main-content" tabIndex={-1}>
                 {children}
             </main>
 
             <footer className="route-footer">
                 <div className="route-footer-copy">
-                    <span>Available for focused builds</span>
+                    <span>Sẵn sàng cho dự án rõ scope</span>
                     <strong>{profile.focus}</strong>
                     <p>
                         Website, dashboard, internal tool và workflow AI cần
@@ -129,7 +129,7 @@ export function SiteShell({ children, currentPath }) {
                         className="footer-primary-link"
                         href={`mailto:${profile.email}`}
                     >
-                        <Mail aria-hidden="true" /> Email me{" "}
+                        <Mail aria-hidden="true" /> Gửi email{" "}
                         <ArrowRight aria-hidden="true" />
                     </a>
                     <a
@@ -138,15 +138,6 @@ export function SiteShell({ children, currentPath }) {
                         rel="noopener noreferrer"
                     >
                         GitHub <ArrowUpRight aria-hidden="true" />
-                    </a>
-                    <a
-                        href="/lab"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            goTo("/lab");
-                        }}
-                    >
-                        Lab archive
                     </a>
                 </div>
             </footer>

@@ -9,6 +9,8 @@ Repo-specific workflows for `personal-website`. Keep this file current, compact,
 - Route data: `src/content/*.js` (`homePage.js`, `contactPage.js`, `projects.js`, `workflow.js`, `workflowPage.js`, `about.js`, `stack.js`)
 - Live coordination: `docs/CHECK_IN.md`
 - Build gate: `npm run build`
+- Layout gate: `python scripts\mobile_qa.py` on Windows/Codex, or `npm run qa:mobile` where `python3` is available
+- Git status: repo is marked safe via global `safe.directory` for `D:/personal-website`
 
 ## Custom Skills
 
@@ -33,7 +35,8 @@ Repo-specific workflows for `personal-website`. Keep this file current, compact,
 2. Work: keep 3 case studies aligned with `src/content/projects.js` and `src/pages/WorkPage.jsx`.
 3. Contact: keep payload fields, mailto, GitHub, and capability gates aligned with `src/content/contactPage.js` and `src/pages/ContactPage.jsx`.
 4. Keep motion restrained on core routes; Home desktop may use GSAP, mobile must stay readable.
-5. Verify responsive output and build.
+5. Keep Contact language brief-first, not terminal/API-first; the JSON-like sample is supporting UI only.
+6. Verify responsive output and build.
 
 ### Verification Loop
 
@@ -43,7 +46,8 @@ Repo-specific workflows for `personal-website`. Keep this file current, compact,
 1. Run `npm run build`.
 2. If viewport-sensitive changes land, run `npm run qa:mobile`.
 3. If the route shell changes, inspect desktop and mobile runtime screenshots.
-4. Report only the checks that actually ran.
+4. Check `prefers-reduced-motion`, route focus, skip link, and mobile menu scroll lock when navigation or motion code changes.
+5. Report only the checks that actually ran.
 
 ## Custom Workflows
 

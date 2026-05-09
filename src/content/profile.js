@@ -5,12 +5,12 @@ import { workflow } from "./workflow";
 export const profileBase = {
     name: "Vũ Đình Dũng",
     headline:
-        "Mình xây web app, dashboard và internal tool có flow rõ, state rõ và đủ chứng cứ để ship.",
+        "Mình thiết kế và build web app, dashboard, internal tool để người dùng đọc dữ liệu nhanh và thao tác chắc hơn.",
     email: "dinhdung521@gmail.com",
     github: "https://github.com/Dung-Vu",
     githubName: "Dung-Vu",
     heroImage: "/assets/signal-workstation-hero-v2.webp",
-    intro: "Mình ưu tiên layout dễ đọc, dữ liệu dễ kiểm tra và runtime nhất quán. Bắt đầu từ cấu trúc, rồi mới polish motion.",
+    intro: "Mình bắt đầu từ bài toán, dữ liệu và hành động chính; sau đó mới dùng UI, copy và motion để làm trải nghiệm rõ hơn.",
     birthday: "13/05/2001",
     location: "Việt Nam / Remote",
     focus: "Web apps, dashboards, API integration, AI workflow",

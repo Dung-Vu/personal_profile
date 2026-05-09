@@ -39,7 +39,7 @@ export function NotFoundPage() {
                         navigateTo("/work");
                     }}
                 >
-                    Xem case studies
+                    Xem case study
                     <ArrowRight size={14} aria-hidden="true" />
                 </a>
             </div>

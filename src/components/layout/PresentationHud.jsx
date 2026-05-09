@@ -38,19 +38,19 @@ export function PresentationHud({
     return (
         <aside
             className="presentation-hud"
-            aria-label="Guided route status"
+            aria-label="Trạng thái guided route"
             data-mode={mode}
         >
             <div className="presentation-hud-topline">
                 <span>{copy.label}</span>
                 <strong>
-                    {presentationMode ? "reel / running" : "reel / standby"}
+                    {presentationMode ? "reel / đang chạy" : "reel / chờ"}
                 </strong>
             </div>
 
             <div
                 className="presentation-hud-meter"
-                aria-label="Guided reel timing"
+                aria-label="Thời gian guided reel"
             >
                 <div
                     className="presentation-hud-meter-track"
@@ -59,11 +59,11 @@ export function PresentationHud({
                     <i style={{ transform: `scaleX(${reelProgress})` }} />
                 </div>
                 <div className="presentation-hud-meter-copy">
-                    <span>{copy.paceLabel ?? "pace / guided"}</span>
+                    <span>{copy.paceLabel ?? "nhịp / guided"}</span>
                     <strong>
                         {presentationMode
-                            ? `${reelSecondsLeft}s to next hop`
-                            : `${Math.round(reelDurationMs / 1000)}s reel pace`}
+                            ? `${reelSecondsLeft}s tới mục tiếp theo`
+                            : `${Math.round(reelDurationMs / 1000)}s mỗi nhịp reel`}
                     </strong>
                 </div>
             </div>
@@ -74,7 +74,7 @@ export function PresentationHud({
 
             <div
                 className="presentation-hud-route"
-                aria-label="Guided route chapters"
+                aria-label="Các chương guided route"
             >
                 <div className="presentation-route-line" aria-hidden="true">
                     <i
@@ -132,10 +132,10 @@ export function PresentationHud({
 
             <div
                 className="presentation-hud-grid"
-                aria-label="Current guided route state"
+                aria-label="Trạng thái guided route hiện tại"
             >
                 <article>
-                    <span>current</span>
+                    <span>hiện tại</span>
                     <strong>
                         {activeRecord?.displayChapter ?? "00"} /{" "}
                         {formatLabel(
@@ -145,7 +145,7 @@ export function PresentationHud({
                     <small>{activeRecord?.shellHint ?? copy.detail}</small>
                 </article>
                 <article>
-                    <span>next</span>
+                    <span>tiếp theo</span>
                     <strong>
                         {nextRecord?.displayChapter ?? "00"} /{" "}
                         {formatLabel(
@@ -155,7 +155,7 @@ export function PresentationHud({
                     <small>{nextRecord?.shellHint ?? copy.detail}</small>
                 </article>
                 <article>
-                    <span>route</span>
+                    <span>tiến độ</span>
                     <strong>
                         {(activeRecord
                             ? Number(activeRecord.displayChapter)
@@ -179,7 +179,7 @@ export function PresentationHud({
                         <Play aria-hidden="true" />
                     )}
                     <span>
-                        {presentationMode ? "Pause reel" : "Start reel"}
+                        {presentationMode ? "Tạm dừng reel" : "Chạy reel"}
                     </span>
                 </button>
                 <button
@@ -188,7 +188,7 @@ export function PresentationHud({
                     onClick={() => jumpTo(`#${nextRecord?.id ?? "home"}`)}
                 >
                     <ArrowRight aria-hidden="true" />
-                    <span>Jump next</span>
+                    <span>Tới mục tiếp theo</span>
                 </button>
             </div>
         </aside>

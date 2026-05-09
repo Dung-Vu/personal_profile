@@ -7,32 +7,32 @@ export const homeHeroMeta = [
 
 export const homeProofPoints = [
     {
-        label: "Ship profile",
-        value: "3 case studies + live routes",
+        label: "Evidence",
+        value: "3 case study có proof đã redacted",
     },
     {
         label: "Build loop",
-        value: "Plan -> code -> build -> verify",
+        value: "Plan, code, build, browser QA",
     },
     {
         label: "Focus",
-        value: "Readable state, clear flow, real runtime",
+        value: "Clear state, fast scan, usable handoff",
     },
 ];
 
 export const homeTrustSignals = [
     {
-        label: "Best fit",
+        label: "Phù hợp",
         title: "Website, dashboard, internal tool",
         text: "Scope rõ, data thật, cần layout và trạng thái đọc được ngay.",
     },
     {
-        label: "Best fit",
+        label: "Phù hợp",
         title: "AI workflow với check-in",
         text: "Có plan, diff, build và browser QA để verify output.",
     },
     {
-        label: "Not fit",
+        label: "Cần làm rõ",
         title: "Brief mơ hồ, không data",
         text: "Nếu không có context để kiểm chứng, mình sẽ chốt scope trước.",
     },
@@ -148,7 +148,7 @@ export const homeStoryScenes = [
     {
         id: "build",
         step: "03",
-        kicker: "Case Studies",
+        kicker: "Case study",
         headline: "Giao diện phải giải quyết bài toán vận hành.",
         body: "Từ dữ liệu rời rạc đến dashboard và tool dùng được thật. Ít màn hình hơn, nhiều quyết định rõ hơn.",
         accent: "ocean",

@@ -366,6 +366,11 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
     z-index: 1;
 }
 
+.route-main:focus,
+#lab-main:focus {
+    outline: none;
+}
+
 .page {
     width: min(1180px, calc(100% - 2rem));
     margin: 0 auto;
@@ -468,6 +473,12 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
 
 .skeleton-body.short {
     width: 75%;
+}
+
+.site-shell[data-theme="light"] .skeleton-kicker,
+.site-shell[data-theme="light"] .skeleton-title,
+.site-shell[data-theme="light"] .skeleton-body {
+    background: rgba(23, 24, 28, 0.08);
 }
 
 @keyframes skeleton-pulse {
@@ -694,6 +705,23 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
 
     .site-topbar {
         grid-template-columns: 1fr auto;
+        overflow: visible;
+    }
+
+    .site-shell[data-theme="light"] .site-topbar.scrolled,
+    .site-topbar.scrolled {
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: none;
+    }
+
+    body.route-menu-open .site-topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(12px);
     }
 
     .site-menu-toggle {
@@ -707,15 +735,20 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
 
     .site-nav {
         position: fixed;
-        inset: 4.9rem 1rem auto;
-        max-height: calc(100vh - 6rem);
+        top: 4.85rem;
+        right: clamp(0.75rem, 3vw, 1rem);
+        left: clamp(0.75rem, 3vw, 1rem);
+        z-index: 30;
+        max-height: min(28rem, calc(100dvh - 6rem));
         overflow-y: auto;
         display: none;
         flex-direction: column;
         padding: 0.75rem;
-        border: 1px solid rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(23, 24, 28, 0.1);
         border-radius: 1.2rem;
-        background: rgba(4, 8, 13, 0.96);
+        background: rgba(249, 250, 247, 0.96);
+        box-shadow: 0 1.25rem 3rem rgba(23, 24, 28, 0.16);
+        backdrop-filter: blur(18px);
     }
 
     .site-nav.open {
@@ -724,6 +757,25 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
 
     .site-nav-link {
         min-width: 0;
+        border-color: rgba(23, 24, 28, 0.08);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--h2-ink, #17181c);
+    }
+
+    .site-nav-link small {
+        display: block;
+        color: var(--h2-ink-soft, #60645f);
+    }
+
+    .site-nav-link[data-priority="secondary"] small {
+        display: block;
+    }
+
+    .site-nav-link:hover,
+    .site-nav-link:focus-visible,
+    .site-nav-link.active {
+        border-color: var(--h2-ocean, #1b6265);
+        background: rgba(27, 98, 101, 0.08);
     }
 
     .home-hero-shell,

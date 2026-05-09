@@ -21,17 +21,17 @@ export const projects = [
         privateReason: "Private because market data and account context are not public.",
         team: "Solo frontend/product UI",
         evidenceNote:
-            "Sanitized interface preview is used; live market/account data stays private.",
+            "Preview đã redacted; dữ liệu market/account thật được giữ riêng tư.",
         nextProof:
             "Add a redacted demo clip or public sandbox when data can be safely mocked.",
         proofMedia: {
             image: "/assets/case-proof-tca.webp",
-            alt: "Sanitized TCA Crypto Analyzer dashboard proof frame",
+            alt: "Redacted proof frame của dashboard TCA Crypto Analyzer",
             caption:
-                "Sanitized proof frame: market chart, signal priority, risk overview and fast-scan metrics without private account data.",
+                "Proof frame đã redacted: chart thị trường, mức ưu tiên signal, risk overview và fast-scan metrics, không lộ dữ liệu tài khoản.",
         },
         flowProof: {
-            label: "Redacted flow screenshot",
+            label: "Flow đã redacted",
             title: "Watchlist -> signal scan -> risk check",
             description:
                 "Một bản chụp luồng đã che dữ liệu nhạy cảm, cho thấy cách mình giữ thứ tự đọc từ signal tới hành động.",
@@ -141,17 +141,17 @@ export const projects = [
         privateReason: "Private because it touches operations data and Odoo context.",
         team: "Solo full-stack implementation support",
         evidenceNote:
-            "Sanitized preview only; internal product/Odoo data cannot be published.",
+            "Chỉ dùng preview đã redacted; dữ liệu product/Odoo nội bộ không public.",
         nextProof:
             "Add redacted workflow screenshots for search, edit, sync, and error states.",
         proofMedia: {
             image: "/assets/case-proof-bonario.webp",
-            alt: "Sanitized Bonario Product Hub operations proof frame",
+            alt: "Redacted proof frame của Bonario Product Hub",
             caption:
-                "Sanitized proof frame: product search, editable product state, Odoo sync status and batch queue.",
+                "Proof frame đã redacted: tìm kiếm sản phẩm, trạng thái chỉnh sửa, trạng thái sync Odoo và batch queue.",
         },
         flowProof: {
-            label: "Redacted flow screenshot",
+            label: "Flow đã redacted",
             title: "Search -> edit -> sync -> verify",
             description:
                 "Luồng vận hành được chụp lại theo dạng đỏ hóa để thấy rõ nhịp làm việc, còn dữ liệu nội bộ thì không lộ.",
@@ -267,12 +267,12 @@ export const projects = [
             "Publish a cleaned walkthrough of plan, diff, build, browser QA, and check-in handoff.",
         proofMedia: {
             image: "/assets/case-proof-ai-workflow.webp",
-            alt: "Sanitized AI Operator Workflow proof frame",
+            alt: "Redacted proof frame của AI Operator Workflow",
             caption:
-                "Sanitized proof frame: plan, patch, build, browser QA and handoff checklist in one delivery loop.",
+                "Proof frame đã redacted: plan, patch, build, browser QA và handoff checklist trong một delivery loop.",
         },
         flowProof: {
-            label: "Redacted flow screenshot",
+            label: "Flow đã redacted",
             title: "Plan -> patch -> build -> QA -> handoff",
             description:
                 "Một capture theo kiểu operator log, đủ thấy vòng lặp làm việc nhưng không lộ session hay context riêng.",

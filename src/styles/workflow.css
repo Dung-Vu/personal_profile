@@ -6,7 +6,7 @@
 .workflow-scrolly-page {
     width: min(100%, 1400px);
     margin: 0 auto;
-    padding: calc(var(--header, 76px) + 4rem) clamp(1rem, 4vw, 3rem) 6rem;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem) 6rem;
     display: flex;
     flex-direction: column;
 }
@@ -76,7 +76,7 @@
     width: 2px;
     height: 48px;
     background: linear-gradient(to bottom, var(--cyan), transparent);
-    animation: scrollBlink 2s infinite;
+    opacity: 0.72;
 }
 
 @keyframes scrollBlink {
@@ -546,7 +546,7 @@
 
 @media (max-width: 560px) {
     .workflow-scrolly-page {
-        padding-top: calc(var(--header, 76px) + 2.5rem);
+        padding-top: 1.35rem;
     }
 
     .workflow-hero-center {

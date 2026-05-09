@@ -51,6 +51,13 @@ This document is the durable architectural decision ledger for the repository. U
 - Decision: Treat `src/content/homePage.js`, `src/content/contactPage.js`, `src/content/projects.js`, and the route files in `src/pages/` as the current source of truth. Treat `src/content/homeStoryScenes.js` as legacy unless runtime imports it again.
 - Consequences: README, Check-In, image briefs, and workflow docs must describe the active route/content structure instead of older `/home2` or Signal OS implementation plans.
 
+### ADR-008: Core Route Accessibility And Motion Contract
+
+- Status: Accepted
+- Context: The portfolio now uses client-side route navigation, optional View Transitions, GSAP reveals, a mobile menu, and an archived Lab shell. A strict FE polish pass found that route focus, mobile scroll lock, reduced-motion behavior, and first-screen spacing directly affect perceived seniority and trust.
+- Decision: Core routes must respect `prefers-reduced-motion`, disable View Transition under reduced motion, focus `#main-content` after client route changes, keep mobile menu scroll locked while open, and keep Lab-only motion/command affordances isolated from the primary portfolio.
+- Consequences: Future navigation, shell, and motion changes must verify build, viewport layout QA, reduced-motion behavior, and keyboard/focus behavior. Lab can stay experimental, but Home/Work/Stack/Workflow/Contact must remain content-first, readable, and low-friction.
+
 ## Logging Guidance
 
 Add a short ADR entry when a decision changes architecture, durable workflow structure, or cross-repo standards future agents must obey.

@@ -141,7 +141,7 @@ export function AboutPage() {
                             <h3>Kiểm chứng bằng sản phẩm thật.</h3>
                             <p>Đọc case study để xem cách mình giải quyết bài toán UI/UX và logic vận hành.</p>
                             <RouteLink href="/work">
-                                Xem case studies <ArrowRight size={16} />
+                                Xem case study <ArrowRight size={16} />
                             </RouteLink>
                         </div>
 

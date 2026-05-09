@@ -57,13 +57,15 @@ Active copy/data nằm trong `src/content/`.
 | `/work/:slug` | CaseDetailPage | Deep case narrative |
 | `/stack` | StackPage | Capability matrix |
 | `/workflow` | WorkflowPage | 4-step delivery pipeline |
-| `/contact` | ContactPage | Intake console + brief payload |
+| `/contact` | ContactPage | Low-friction brief intake, email CTA, copyable brief sample |
 | `/lab` | LabPage | Archived Signal OS shell |
 | `/404` | NotFoundPage | Fallback |
 
 ## UX / Motion
 
 - Home dùng GSAP ScrollTrigger cho desktop, fallback stacked cho mobile và reduced motion.
+- Route navigation tôn trọng `prefers-reduced-motion`; same-route scroll dùng smooth only khi motion không bị reduce.
+- Client route change focus chuyển về `#main-content`, không ép focus vào `h1` ở lần load đầu.
 - Lab giữ experimental shell, command panel, cursor, presentation mode và signal canvas.
 - Route meta update ở `src/App.jsx` cho title, description, canonical và social tags.
 - `Ctrl/Cmd+K` mở command panel trong Lab shell.
@@ -77,15 +79,15 @@ Active copy/data nằm trong `src/content/`.
 
 Current art assets nằm trong `public/assets/` và đã được map vào runtime.
 
-- `signal-workstation-hero-v2.webp` / `.jpg` - Home hero và OG image
+- `signal-workstation-hero-v2.webp` / `.jpg` - OG/social preview image, not preloaded on Home
 - `signal-hero-generated-1536.webp` / `.jpg` - Lab archive hero
 - `signal-about-dossier.webp` / `.jpg` - About portrait panel
 - `signal-case-tca-dashboard.webp` / `.jpg` - TCA case art
 - `signal-case-bonario-hub.webp` / `.jpg` - Bonario case art
 - `signal-case-ai-workflow.webp` / `.jpg` - AI workflow case art
-- `case-proof-tca.webp` - sanitized TCA proof frame
-- `case-proof-bonario.webp` - sanitized Bonario proof frame
-- `case-proof-ai-workflow.webp` - sanitized AI workflow proof frame
+- `case-proof-tca.webp` - redacted TCA proof frame
+- `case-proof-bonario.webp` - redacted Bonario proof frame
+- `case-proof-ai-workflow.webp` - redacted AI workflow proof frame
 - `apple-touch-icon.png` - present
 
 See `docs/IMAGE_BRIEF.md` if you want regenerate any slot.

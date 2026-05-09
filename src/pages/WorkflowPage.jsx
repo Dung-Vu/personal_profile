@@ -18,7 +18,7 @@ export function WorkflowPage() {
                 
                 <div className="hero-scroll-hint">
                     <div className="scroll-dot"></div>
-                    <span>Scroll to execute pipeline</span>
+                    <span>Xem 4 bước delivery</span>
                 </div>
             </header>
 

@@ -6,7 +6,7 @@
 .stack-blueprint-page {
     width: min(100%, 1400px);
     margin: 0 auto;
-    padding: calc(var(--header, 76px) + 3rem) clamp(1rem, 4vw, 3rem) 6rem;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem) 6rem;
     display: flex;
     flex-direction: column;
     gap: clamp(4rem, 8vw, 7rem);
@@ -405,7 +405,7 @@
 
 @media (max-width: 560px) {
     .stack-blueprint-page {
-        padding-top: calc(var(--header, 76px) + 2.5rem);
+        padding-top: 1.35rem;
         gap: 3.5rem;
     }
 

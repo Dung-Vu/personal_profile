@@ -28,7 +28,7 @@
         radial-gradient(circle at top right, rgba(19, 138, 163, 0.08), transparent 26%),
         linear-gradient(180deg, #f7f8f6 0%, #eef1ef 100%);
 
-    padding-top: calc(var(--header, 76px) + 0.5rem);
+    padding-top: clamp(1.25rem, 3vw, 2rem);
 
     display: grid;
     gap: clamp(1.4rem, 3vw, 2.4rem);
@@ -37,6 +37,16 @@
 .case-back-link {
     width: fit-content;
     display: none;
+    color: var(--cd-text-soft);
+    border-color: var(--cd-border);
+    background: rgba(255, 255, 255, 0.58);
+}
+
+.case-back-link:hover,
+.case-back-link:focus-visible {
+    color: var(--cd-text);
+    border-color: var(--cd-accent-cyan-soft);
+    background: rgba(255, 255, 255, 0.86);
 }
 
 .case-detail-hero {

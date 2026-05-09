@@ -249,20 +249,20 @@ export function CommandPanel({
                         id="command-panel-title"
                         enabled={scrambleEnabled}
                     >
-                        command center
+                        Lab command
                     </ScrambleText>
-                    <small>Mode, theme, density, motion, deep links</small>
+                    <small>Tùy chỉnh mode, theme, density, motion và deep link</small>
                     <button
                         type="button"
                         onClick={onClose}
-                        aria-label="Close command panel"
+                        aria-label="Đóng command panel"
                     >
                         <X aria-hidden="true" />
                     </button>
                 </div>
                 <div
                     className="command-status"
-                    aria-label="Current shell status"
+                    aria-label="Trạng thái shell hiện tại"
                 >
                     <span>mode / {formatLabel(mode)}</span>
                     <span>density / {density}</span>

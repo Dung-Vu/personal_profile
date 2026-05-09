@@ -23,7 +23,7 @@ const stackTools = {
 };
 
 export const stackHero = {
-    eyebrow: "STACK / SYSTEM ARCHITECTURE",
+    eyebrow: "STACK / DELIVERY SYSTEM",
     headline:
         "Kiến trúc công nghệ thực dụng cho web app, dashboard và internal workflow.",
     intro:
@@ -62,8 +62,7 @@ export const stackPrinciples = [
 ];
 
 export const stackStats = [
-    { value: "04", label: "capability groups" },
-    { value: "03", label: "evidence projects" },
+    { value: "04", label: "nhóm năng lực" },
+    { value: "03", label: "case có bằng chứng" },
     { value: "3+", label: "năm ship sản phẩm với stack này" },
 ];
-

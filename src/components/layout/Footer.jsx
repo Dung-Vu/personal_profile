@@ -46,13 +46,13 @@ export function Footer({
                 <span>{copy.footerLabel}</span>
                 <strong>{copy.footerLead}</strong>
                 <small>
-                    {presentationMode ? "Reel đang chạy" : "Manual scan"}
-                    {" / now "}
+                    {presentationMode ? "Reel đang chạy" : "Scan thủ công"}
+                    {" / hiện tại "}
                     {activeRecord?.displayChapter ?? "00"}{" "}
                     {formatLabel(
                         activeRecord?.railLabel ?? activeRecord?.label,
                     )}
-                    {" / next "}
+                    {" / tiếp theo "}
                     {nextRecord?.displayChapter ?? "00"}{" "}
                     {formatLabel(nextRecord?.railLabel ?? nextRecord?.label)}
                 </small>
@@ -61,7 +61,7 @@ export function Footer({
                 <span>{copy.footerDetail}</span>
                 <small>{profile.footer}</small>
             </div>
-            <div className="footer-actions" aria-label="Mode actions">
+            <div className="footer-actions" aria-label="Hành động Lab mode">
                 {(copy.footerActions ?? []).map((action) => (
                     <button
                         type="button"
@@ -80,7 +80,7 @@ export function Footer({
                 type="button"
                 data-magnetic
                 onClick={() => jumpTo("#home")}
-                aria-label="Back to top"
+                aria-label="Quay lên đầu trang"
             >
                 <ArrowRight
                     aria-hidden="true"

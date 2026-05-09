@@ -21,6 +21,7 @@ Home route `/` is now an editorial, route-driven entry point. It is implemented 
 
 - Home desktop may use GSAP/ScrollTrigger.
 - Mobile and reduced-motion must stay stacked and readable.
+- Mobile first fold should show copy, primary CTA, secondary CTA, and a visible proof/visual cue without forcing a long blank lead-in.
 - CTA paths must go to real routes, not anchor-only stand-ins.
 - Home must stay lighter than Lab; Lab remains the archive shell.
 
@@ -35,4 +36,3 @@ Home route `/` is now an editorial, route-driven entry point. It is implemented 
 - If Home copy changes, update `src/content/homePage.js` first.
 - If Home layout changes, keep text overflow and card heights stable on mobile.
 - If the scene model changes again, archive the old shape here and keep `docs/CHECK_IN.md` short.
-

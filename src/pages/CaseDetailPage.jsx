@@ -64,7 +64,7 @@ function CaseProofFrame({ project }) {
                 height="1024"
             />
             <figcaption>
-                <span>Sanitized proof frame</span>
+                <span>Proof đã redacted</span>
                 <strong>{project.proofMedia.caption}</strong>
             </figcaption>
         </figure>
@@ -93,7 +93,7 @@ function CaseFlowProof({ project }) {
                 </div>
 
                 <div className="case-flow-stage">
-                    <div className="case-flow-timeline" aria-label="Redacted flow steps">
+                    <div className="case-flow-timeline" aria-label="Các bước flow đã redacted">
                         {project.flowProof.steps.map((step) => (
                             <article key={step.label} className="case-flow-step">
                                 <span>{step.label}</span>
@@ -103,10 +103,10 @@ function CaseFlowProof({ project }) {
                         ))}
                     </div>
 
-                    <aside className="case-flow-redactions" aria-label="Redacted fields">
+                    <aside className="case-flow-redactions" aria-label="Các trường dữ liệu đã che">
                         <div className="case-flow-redactions-head">
                             <EyeOff aria-hidden="true" />
-                            <span>Sanitized fields</span>
+                            <span>Dữ liệu đã che</span>
                         </div>
                         <ul>
                             {project.flowProof.redactions.map((item) => (
@@ -238,7 +238,7 @@ export function CaseDetailPage({ slug }) {
             {(project.architectureContext || project.coreChallenges) && (
                 <div className="case-deep-dive">
                     <div className="deep-dive-header">
-                        <span className="route-kicker">Engineering teardown</span>
+                        <span className="route-kicker">Mổ xẻ kỹ thuật</span>
                         <h2>Giải phẫu hệ thống</h2>
                     </div>
 
@@ -284,7 +284,7 @@ export function CaseDetailPage({ slug }) {
                         <div className="business-impact-banner">
                             <LineChart className="impact-icon" />
                             <div>
-                                <h3>Business impact</h3>
+                                <h3>Tác động vận hành</h3>
                                 <p>{project.businessImpact}</p>
                             </div>
                         </div>
@@ -353,7 +353,7 @@ export function CaseDetailPage({ slug }) {
             ) : null}
 
             <div className="route-panel case-detail-route-panel">
-                <span>Next project</span>
+                <span>Bước tiếp theo</span>
                 <strong>Muốn áp dụng tư duy này cho sản phẩm của bạn?</strong>
                 <a
                     className="route-cta primary"

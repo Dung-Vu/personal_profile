@@ -170,7 +170,7 @@ function WorkCaseDossier({ project, index }) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Live proof <ExternalLink size={14} aria-hidden="true" />
+                                Proof public <ExternalLink size={14} aria-hidden="true" />
                             </a>
                         ) : null}
                         <a
@@ -197,22 +197,28 @@ export function WorkPage() {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        const ctx = gsap.context(() => {
-            gsap.from(".dossier-card", {
-                scrollTrigger: {
-                    trigger: ".work-editorial-content",
-                    start: "top 80%",
-                },
-                y: 40,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "power3.out",
-                clearProps: "all",
-            });
-        }, containerRef);
+        const mm = gsap.matchMedia(containerRef);
 
-        return () => ctx.revert();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+            const ctx = gsap.context(() => {
+                gsap.from(".dossier-card", {
+                    scrollTrigger: {
+                        trigger: ".work-editorial-content",
+                        start: "top 80%",
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: "power3.out",
+                    clearProps: "all",
+                });
+            }, containerRef);
+
+            return () => ctx.revert();
+        });
+
+        return () => mm.revert();
     }, []);
 
     return (
@@ -225,7 +231,7 @@ export function WorkPage() {
                 <aside className="work-sidebar">
                     <div className="work-sidebar-sticky">
                         <div className="work-manifesto">
-                            <span className="work-kicker">Case Studies</span>
+                            <span className="work-kicker">Case study</span>
                             <h1 id="work-title">Giao diện là hệ quả của dữ liệu.</h1>
                             <p>
                                 Mình thiết kế UI như lớp vận hành: bài toán, quyết định, kết quả và proof đều phải đọc được trong cùng một mạch.

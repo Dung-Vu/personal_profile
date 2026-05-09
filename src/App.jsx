@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { SiteShell } from "./components/layout/SiteShell";
 import { useRoutePath } from "./hooks/useRoutePath";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -99,7 +99,7 @@ function CurrentRoute({ path }) {
 const routeMetaMap = {
     "/": {
         title: "Vũ Đình Dũng - Web apps, dashboards, internal tools",
-        desc: "Portfolio của Vũ Đình Dũng: web app, dashboard, internal tool và AI workflow có flow rõ, state rõ và runtime có thể kiểm chứng.",
+        desc: "Portfolio của Vũ Đình Dũng: web app, dashboard, internal tool và AI workflow tập trung vào dữ liệu dễ đọc, thao tác rõ và bằng chứng triển khai.",
     },
     "/about": {
         title: "About - Vũ Đình Dũng",
@@ -137,6 +137,10 @@ const routeMetaMap = {
         title: "Lab Archive - Vũ Đình Dũng",
         desc: "Archive Signal OS cũ. Giữ lại như phòng thử nghiệm, không đại diện cho portfolio chính.",
     },
+    "/404": {
+        title: "404 - Vũ Đình Dũng",
+        desc: "Route không tồn tại trong portfolio của Vũ Đình Dũng. Quay lại Home hoặc Work để tiếp tục.",
+    },
 };
 
 const siteOrigin = "https://dinhdung.dev";
@@ -153,7 +157,9 @@ function setLinkHref(selector, value) {
 
 function useRouteMeta(path) {
     useEffect(() => {
-        const meta = routeMetaMap[path] || routeMetaMap["/"];
+        const meta =
+            routeMetaMap[path] ||
+            (path.startsWith("/work/") ? routeMetaMap["/404"] : routeMetaMap["/"]);
         const canonicalPath = path === "/" ? "/" : path;
         const canonicalUrl = `${siteOrigin}${canonicalPath}`;
 
@@ -170,6 +176,7 @@ function useRouteMeta(path) {
 
 export function App() {
     const currentPath = useRoutePath();
+    const previousPathRef = useRef(currentPath);
     useRouteMeta(currentPath);
 
     useEffect(() => {
@@ -190,18 +197,26 @@ export function App() {
 
     useEffect(() => {
         const attemptFocus = () => {
-            const heading = document.querySelector("h1[id]");
-            if (heading) {
-                heading.setAttribute("tabindex", "-1");
-                heading.focus({ preventScroll: true });
+            const main = document.getElementById("main-content");
+            if (main) {
+                main.focus({ preventScroll: true });
                 return true;
             }
             return false;
         };
+
+        if (previousPathRef.current === currentPath) {
+            return undefined;
+        }
+
+        previousPathRef.current = currentPath;
+
         if (!attemptFocus()) {
             const timer = window.setTimeout(attemptFocus, 150);
             return () => window.clearTimeout(timer);
         }
+
+        return undefined;
     }, [currentPath]);
 
     if (currentPath === "/lab") {

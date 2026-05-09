@@ -340,7 +340,7 @@
 
 @media (max-width: 768px) {
     .about-page {
-        padding-top: calc(var(--header) + 2rem);
+        padding-top: 1.35rem;
     }
 
     .editorial-sidebar {
