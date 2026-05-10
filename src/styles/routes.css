@@ -291,10 +291,6 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
     opacity: 0.82;
 }
 
-.site-nav-link[data-priority="secondary"] small {
-    display: none;
-}
-
 .site-nav-link strong {
     line-height: 1.05;
 }
@@ -313,8 +309,7 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
         gap: 0.6rem;
     }
 
-    .site-brand small,
-    .site-nav-link small {
+    .site-brand small {
         display: none;
     }
 
@@ -654,13 +649,23 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
     position: relative;
     z-index: 1;
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     width: min(1380px, calc(100% - 2rem));
+    min-height: 9rem;
     margin: 0 auto;
     padding: 2rem 0 3rem;
     color: rgba(247, 243, 232, 0.72);
+    opacity: 1;
+    transition: opacity 180ms ease;
+}
+
+.route-footer-hidden {
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .route-footer-copy {

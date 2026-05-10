@@ -29,15 +29,24 @@ function NavLink({ route, currentPath, onNavigate }) {
 export function SiteShell({ children, currentPath }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [pageReady, setPageReady] = useState(false);
     const isLightPage = currentPath === "/";
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 40);
         };
+        const handleLoad = () => setPageReady(true);
+
         window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("load", handleLoad);
         handleScroll();
-        return () => window.removeEventListener("scroll", handleScroll);
+        setPageReady(document.readyState === "complete");
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("load", handleLoad);
+        };
     }, []);
 
     const goTo = (path) => {
@@ -115,7 +124,10 @@ export function SiteShell({ children, currentPath }) {
                 {children}
             </main>
 
-            <footer className="route-footer">
+            <footer
+                className={pageReady ? "route-footer" : "route-footer route-footer-hidden"}
+                aria-hidden={pageReady ? undefined : "true"}
+            >
                 <div className="route-footer-copy">
                     <span>Sẵn sàng cho dự án rõ scope</span>
                     <strong>{profile.focus}</strong>

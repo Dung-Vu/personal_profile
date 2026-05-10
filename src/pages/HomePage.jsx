@@ -266,7 +266,8 @@ export function HomePage() {
                                         <img
                                             src={project.image}
                                             alt={project.title}
-                                            loading="lazy"
+                                            loading={isFeatured ? "eager" : "lazy"}
+                                            fetchPriority={isFeatured ? "high" : "auto"}
                                             decoding="async"
                                             width="1200"
                                             height="800"
