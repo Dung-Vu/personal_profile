@@ -26,26 +26,21 @@ function NavLink({ route, currentPath, onNavigate }) {
     );
 }
 
-export function SiteShell({ children, currentPath }) {
+export function SiteShell({ children, currentPath, pageReady }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [pageReady, setPageReady] = useState(false);
     const isLightPage = currentPath === "/";
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 40);
         };
-        const handleLoad = () => setPageReady(true);
 
         window.addEventListener("scroll", handleScroll, { passive: true });
-        window.addEventListener("load", handleLoad);
         handleScroll();
-        setPageReady(document.readyState === "complete");
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("load", handleLoad);
         };
     }, []);
 
@@ -128,29 +123,31 @@ export function SiteShell({ children, currentPath }) {
                 className={pageReady ? "route-footer" : "route-footer route-footer-hidden"}
                 aria-hidden={pageReady ? undefined : "true"}
             >
-                <div className="route-footer-copy">
-                    <span>Sẵn sàng cho dự án rõ scope</span>
-                    <strong>{profile.focus}</strong>
-                    <p>
-                        Website, dashboard, internal tool và workflow AI cần
-                        scope rõ, build nhanh, kiểm chứng được.
-                    </p>
-                </div>
-                <div className="route-footer-links">
-                    <a
-                        className="footer-primary-link"
-                        href={`mailto:${profile.email}`}
-                    >
-                        <Mail aria-hidden="true" /> Gửi email{" "}
-                        <ArrowRight aria-hidden="true" />
-                    </a>
-                    <a
-                        href={profile.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        GitHub <ArrowUpRight aria-hidden="true" />
-                    </a>
+                <div className="route-footer-inner">
+                    <div className="route-footer-copy">
+                        <span>Sẵn sàng cho dự án rõ scope</span>
+                        <strong>{profile.focus}</strong>
+                        <p>
+                            Website, dashboard, internal tool và workflow AI cần
+                            scope rõ, build nhanh, kiểm chứng được.
+                        </p>
+                    </div>
+                    <div className="route-footer-links">
+                        <a
+                            className="footer-primary-link"
+                            href={`mailto:${profile.email}`}
+                        >
+                            <Mail aria-hidden="true" /> Gửi email{" "}
+                            <ArrowRight aria-hidden="true" />
+                        </a>
+                        <a
+                            href={profile.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            GitHub <ArrowUpRight aria-hidden="true" />
+                        </a>
+                    </div>
                 </div>
             </footer>
         </div>

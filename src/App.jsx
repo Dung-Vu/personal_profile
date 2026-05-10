@@ -1,4 +1,11 @@
-import { Suspense, lazy, useEffect, useRef } from "react";
+import {
+    Suspense,
+    lazy,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 import { SiteShell } from "./components/layout/SiteShell";
 import { useRoutePath } from "./hooks/useRoutePath";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -97,6 +104,14 @@ function CurrentRoute({ path }) {
     }
 }
 
+function RouteContent({ path, onReady }) {
+    useEffect(() => {
+        onReady();
+    }, [onReady, path]);
+
+    return <CurrentRoute path={path} />;
+}
+
 function setMetaContent(selector, value) {
     const node = document.querySelector(selector);
     if (node) node.setAttribute("content", value);
@@ -126,7 +141,12 @@ function useRouteMeta(path) {
 export function App() {
     const currentPath = useRoutePath();
     const previousPathRef = useRef(currentPath);
+    const [pageReady, setPageReady] = useState(false);
     useRouteMeta(currentPath);
+
+    useLayoutEffect(() => {
+        setPageReady(false);
+    }, [currentPath]);
 
     useEffect(() => {
         const idleId = window.requestIdleCallback
@@ -177,9 +197,9 @@ export function App() {
     }
 
     return (
-        <SiteShell currentPath={currentPath}>
+        <SiteShell currentPath={currentPath} pageReady={pageReady}>
             <Suspense fallback={<RouteFallback />}>
-                <CurrentRoute path={currentPath} />
+                <RouteContent path={currentPath} onReady={() => setPageReady(true)} />
             </Suspense>
         </SiteShell>
     );
