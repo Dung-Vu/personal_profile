@@ -63,6 +63,20 @@ export const projects = [
                 "Private labels removed",
             ],
         },
+        proofSignals: [
+            {
+                label: "Signal scan",
+                text: "Chart context, signal priority và risk state nằm chung một surface.",
+            },
+            {
+                label: "Redacted proof",
+                text: "Preview vẫn đọc được luồng nhưng dữ liệu tài khoản thật không lộ.",
+            },
+            {
+                label: "Decision speed",
+                text: "Trader đọc nhanh hơn vì màn hình không ép nhảy qua nhiều tab.",
+            },
+        ],
         decisionLedger: [
             {
                 label: "Constraint",
@@ -183,6 +197,20 @@ export const projects = [
                 "Sync notes truncated",
             ],
         },
+        proofSignals: [
+            {
+                label: "Operator flow",
+                text: "Search, edit và sync nằm trên cùng một surface thao tác.",
+            },
+            {
+                label: "State clarity",
+                text: "Sync status, queue và lỗi đều visible thay vì ẩn sau nhiều màn hình.",
+            },
+            {
+                label: "Rollback safe",
+                text: "Flow ưu tiên thao tác rõ trước rồi mới đến batch hoặc rollback.",
+            },
+        ],
         decisionLedger: [
             {
                 label: "Constraint",
@@ -304,6 +332,20 @@ export const projects = [
                 "Private diffs truncated",
             ],
         },
+        proofSignals: [
+            {
+                label: "Delivery loop",
+                text: "Plan, patch, build, QA và handoff thành một vòng lặp nhìn được.",
+            },
+            {
+                label: "Context safe",
+                text: "Session logs và client context được giữ kín trong proof public.",
+            },
+            {
+                label: "Check-in ready",
+                text: "Mỗi slice có đầu ra để phiên sau đọc tiếp mà không bị mất nhịp.",
+            },
+        ],
         decisionLedger: [
             {
                 label: "Constraint",

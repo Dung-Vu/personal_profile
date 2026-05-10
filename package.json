@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/generate_sitemap.mjs",
     "build": "vite build",
     "assets:generate": "node scripts/generate_image_assets.mjs",
     "assets:audit": "node scripts/audit_image_assets.mjs",

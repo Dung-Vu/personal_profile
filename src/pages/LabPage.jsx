@@ -1,15 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "../styles/lab.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SignalCanvas } from "../components/canvas/SignalCanvas";
-import { CommandPanel } from "../components/layout/CommandPanel";
 import { Footer } from "../components/layout/Footer";
 import { Header } from "../components/layout/Header";
-import { PresentationHud } from "../components/layout/PresentationHud";
 import { ProgressRail } from "../components/layout/ProgressRail";
 import { TransitionGate } from "../components/layout/TransitionGate";
-import { CustomCursor } from "../components/ui/CustomCursor";
 import { LabRenderedSections } from "../components/lab/LabRenderedSections";
 import { getShellModeCopy } from "../content/shellModeCopy";
 import { useActiveSection } from "../hooks/useActiveSection";
@@ -23,6 +19,30 @@ import { sectionGateTiming, sceneColors } from "../motionPresets";
 import { profile } from "../profileData";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const SignalCanvas = lazy(() =>
+    import("../components/canvas/SignalCanvas").then((module) => ({
+        default: module.SignalCanvas,
+    })),
+);
+
+const CommandPanel = lazy(() =>
+    import("../components/layout/CommandPanel").then((module) => ({
+        default: module.CommandPanel,
+    })),
+);
+
+const PresentationHud = lazy(() =>
+    import("../components/layout/PresentationHud").then((module) => ({
+        default: module.PresentationHud,
+    })),
+);
+
+const CustomCursor = lazy(() =>
+    import("../components/ui/CustomCursor").then((module) => ({
+        default: module.CustomCursor,
+    })),
+);
 
 export function LabPage() {
     const [active, setActive] = useState("home");
@@ -335,19 +355,23 @@ export function LabPage() {
             <a href="#lab-main" className="skip-link">
                 Bỏ qua điều hướng
             </a>
-            <SignalCanvas
-                activeSection={active}
-                mode={mode}
-                motionEnabled={canUseDesktopMotion}
-                presentationMode={presentationMode}
-                scrollVelocityRef={scrollVelocityRef}
-            />
-            <CustomCursor
-                activeSection={active}
-                enabled={canUseDesktopMotion}
-                mode={mode}
-                presentationMode={presentationMode}
-            />
+            <Suspense fallback={null}>
+                <SignalCanvas
+                    activeSection={active}
+                    mode={mode}
+                    motionEnabled={canUseDesktopMotion}
+                    presentationMode={presentationMode}
+                    scrollVelocityRef={scrollVelocityRef}
+                />
+            </Suspense>
+            <Suspense fallback={null}>
+                <CustomCursor
+                    activeSection={active}
+                    enabled={canUseDesktopMotion}
+                    mode={mode}
+                    presentationMode={presentationMode}
+                />
+            </Suspense>
             <div className="noise" aria-hidden="true" />
             <TransitionGate gateRef={gateRef} gateLabelRef={gateLabelRef} />
             <aside className="lab-archive-notice" aria-label="Ghi chú archive">
@@ -384,19 +408,21 @@ export function LabPage() {
                 reelProgress={reelProgress}
             />
             {!commandOpen && activeRecord ? (
-                <PresentationHud
-                    activeRecord={activeRecord}
-                    jumpTo={jumpTo}
-                    mode={mode}
-                    nextRecord={nextRecord}
-                    presentationMode={presentationMode}
-                    reelDurationMs={reelDurationMs}
-                    reelProgress={reelProgress}
-                    reelSecondsLeft={reelSecondsLeft}
-                    routeRecords={sectionRecords}
-                    sectionCount={sectionRecords.length}
-                    setPresentationMode={setPresentationMode}
-                />
+                <Suspense fallback={null}>
+                    <PresentationHud
+                        activeRecord={activeRecord}
+                        jumpTo={jumpTo}
+                        mode={mode}
+                        nextRecord={nextRecord}
+                        presentationMode={presentationMode}
+                        reelDurationMs={reelDurationMs}
+                        reelProgress={reelProgress}
+                        reelSecondsLeft={reelSecondsLeft}
+                        routeRecords={sectionRecords}
+                        sectionCount={sectionRecords.length}
+                        setPresentationMode={setPresentationMode}
+                    />
+                </Suspense>
             ) : null}
 
             <main id="lab-main" tabIndex={-1}>
@@ -404,27 +430,29 @@ export function LabPage() {
             </main>
 
             {commandOpen && (
-                <CommandPanel
-                    commandButtonRef={commandButtonRef}
-                    copyEmail={copyEmail}
-                    density={density}
-                    jumpTo={jumpTo}
-                    mode={mode}
-                    motionEnabled={motionEnabled}
-                    motionProfile={motionProfile}
-                    onClose={() => setCommandOpen(false)}
-                    presentationMode={presentationMode}
-                    profile={profile}
-                    scrambleEnabled={canUseDesktopMotion}
-                    setDensity={setDensity}
-                    setMode={setMode}
-                    setMotionEnabled={setMotionEnabled}
-                    setMotionProfile={setMotionProfile}
-                    setPresentationMode={setPresentationMode}
-                    setTheme={setTheme}
-                    showToast={showToast}
-                    theme={theme}
-                />
+                <Suspense fallback={null}>
+                    <CommandPanel
+                        commandButtonRef={commandButtonRef}
+                        copyEmail={copyEmail}
+                        density={density}
+                        jumpTo={jumpTo}
+                        mode={mode}
+                        motionEnabled={motionEnabled}
+                        motionProfile={motionProfile}
+                        onClose={() => setCommandOpen(false)}
+                        presentationMode={presentationMode}
+                        profile={profile}
+                        scrambleEnabled={canUseDesktopMotion}
+                        setDensity={setDensity}
+                        setMode={setMode}
+                        setMotionEnabled={setMotionEnabled}
+                        setMotionProfile={setMotionProfile}
+                        setPresentationMode={setPresentationMode}
+                        setTheme={setTheme}
+                        showToast={showToast}
+                        theme={theme}
+                    />
+                </Suspense>
             )}
 
             <div

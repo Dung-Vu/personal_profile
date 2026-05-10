@@ -113,9 +113,19 @@ export function StackPage() {
                     <h2>Tiếp theo: Workflow</h2>
                     <p>Stack trả lời dùng gì. Workflow trả lời mình vận hành nó như thế nào.</p>
                 </div>
-                <a href="/workflow" className="blueprint-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/workflow"); }}>
-                    Xem workflow <ArrowRight size={16} />
-                </a>
+                <div className="stack-footer-actions">
+                    <a href="/workflow" className="blueprint-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/workflow"); }}>
+                        Xem workflow <ArrowRight size={16} />
+                    </a>
+                    <div className="stack-footer-links" aria-label="Điểm nối liên quan">
+                        <a href="/work" className="stack-mini-link" onClick={(e) => { e.preventDefault(); navigateTo("/work"); }}>
+                            Xem case
+                        </a>
+                        <a href="/contact" className="stack-mini-link" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
+                            Gửi brief
+                        </a>
+                    </div>
+                </div>
             </footer>
 
         </section>

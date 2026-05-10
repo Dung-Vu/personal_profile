@@ -4,7 +4,7 @@
 
 Home route `/` is now an editorial, route-driven entry point. It is implemented in `src/pages/HomePage.jsx` and driven by `src/content/homePage.js`.
 
-`src/content/homeStoryScenes.js` is legacy context from the earlier Signal OS shape. It is kept for reference, but current runtime does not import it.
+Legacy Signal OS Home experiments were pruned from source. Current Home runtime should stay in `HomePage.jsx`, `homePage.js`, `ScratchCloud.jsx`, and `home.css`.
 
 ## Active Pieces
 
@@ -15,7 +15,7 @@ Home route `/` is now an editorial, route-driven entry point. It is implemented 
 
 ## Current Arc
 
-`Noise -> Structure -> Build -> Verify -> Choose`
+`Hero -> Bio -> Trust -> Projects -> Method -> Destinations`
 
 ## Runtime Rules
 
@@ -35,4 +35,4 @@ Home route `/` is now an editorial, route-driven entry point. It is implemented 
 
 - If Home copy changes, update `src/content/homePage.js` first.
 - If Home layout changes, keep text overflow and card heights stable on mobile.
-- If the scene model changes again, archive the old shape here and keep `docs/CHECK_IN.md` short.
+- If the Home model changes again, update this note and keep `docs/CHECK_IN.md` short.

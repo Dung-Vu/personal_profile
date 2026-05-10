@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef } from "react";
 import { SiteShell } from "./components/layout/SiteShell";
 import { useRoutePath } from "./hooks/useRoutePath";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { getCanonicalUrl, getRouteMeta } from "./routes/siteRoutes";
 
 const routeLoaders = {
     home: () => import("./pages/HomePage"),
@@ -96,55 +97,6 @@ function CurrentRoute({ path }) {
     }
 }
 
-const routeMetaMap = {
-    "/": {
-        title: "Vũ Đình Dũng - Web apps, dashboards, internal tools",
-        desc: "Portfolio của Vũ Đình Dũng: web app, dashboard, internal tool và AI workflow tập trung vào dữ liệu dễ đọc, thao tác rõ và bằng chứng triển khai.",
-    },
-    "/about": {
-        title: "About - Vũ Đình Dũng",
-        desc: "Frontend developer cho website, dashboard và internal tool. Làm việc theo slice nhỏ, kiểm chứng bằng build và browser QA.",
-    },
-    "/work": {
-        title: "Work - Vũ Đình Dũng",
-        desc: "3 case study chính: TCA Crypto Analyzer, Bonario Product Hub và AI Operator Workflow. Mỗi case có context, quyết định và proof.",
-    },
-    "/work/tca-crypto-analyzer": {
-        title: "TCA Crypto Analyzer - Case Study",
-        desc: "Dashboard crypto market tập trung vào đọc nhanh tín hiệu, chart context và hierarchy rõ để trader ra quyết định nhanh hơn.",
-    },
-    "/work/bonario-product-hub": {
-        title: "Bonario Product Hub - Case Study",
-        desc: "Internal tool nối React, Flask và Odoo để tìm kiếm, chỉnh sửa và đồng bộ sản phẩm trên một layout duy nhất.",
-    },
-    "/work/ai-operator-workflow": {
-        title: "AI Operator Workflow - Case Study",
-        desc: "Workflow AI-assisted với vòng lặp plan, code, build và browser QA để giữ context và kiểm chứng runtime.",
-    },
-    "/stack": {
-        title: "Stack - Vũ Đình Dũng",
-        desc: "React, Vite, Flask, Odoo, GSAP và automation tools dùng để ship website, dashboard và internal tool.",
-    },
-    "/workflow": {
-        title: "Workflow - Vũ Đình Dũng",
-        desc: "Quy trình 4 bước từ đọc bối cảnh đến verify runtime. Mỗi bước có deliverable cụ thể.",
-    },
-    "/contact": {
-        title: "Contact - Vũ Đình Dũng",
-        desc: "Gửi brief ngắn để chốt scope MVP cho website, dashboard, internal tool hoặc AI workflow.",
-    },
-    "/lab": {
-        title: "Lab Archive - Vũ Đình Dũng",
-        desc: "Archive Signal OS cũ. Giữ lại như phòng thử nghiệm, không đại diện cho portfolio chính.",
-    },
-    "/404": {
-        title: "404 - Vũ Đình Dũng",
-        desc: "Route không tồn tại trong portfolio của Vũ Đình Dũng. Quay lại Home hoặc Work để tiếp tục.",
-    },
-};
-
-const siteOrigin = "https://dinhdung.dev";
-
 function setMetaContent(selector, value) {
     const node = document.querySelector(selector);
     if (node) node.setAttribute("content", value);
@@ -157,11 +109,8 @@ function setLinkHref(selector, value) {
 
 function useRouteMeta(path) {
     useEffect(() => {
-        const meta =
-            routeMetaMap[path] ||
-            (path.startsWith("/work/") ? routeMetaMap["/404"] : routeMetaMap["/"]);
-        const canonicalPath = path === "/" ? "/" : path;
-        const canonicalUrl = `${siteOrigin}${canonicalPath}`;
+        const meta = getRouteMeta(path);
+        const canonicalUrl = getCanonicalUrl(path);
 
         document.title = meta.title;
         setMetaContent('meta[name="description"]', meta.desc);

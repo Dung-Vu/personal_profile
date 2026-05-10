@@ -7,17 +7,12 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { spawn } = require("child_process");
+const { pathToFileURL } = require("url");
 
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 const PORT = 8777;
 const CDP_PORT = 9225;
-
-const ROUTES = [
-  "/", "/about", "/work", "/work/tca-crypto-analyzer",
-  "/work/bonario-product-hub", "/work/ai-operator-workflow",
-  "/stack", "/workflow", "/contact", "/lab",
-];
 
 function startServer() {
   return new Promise((resolve) => {
@@ -48,6 +43,10 @@ function startServer() {
 }
 
 async function main() {
+  const { prerenderRoutes } = await import(
+    pathToFileURL(path.join(ROOT, "src/routes/siteRoutes.js")).href
+  );
+
   if (!fs.existsSync(path.join(DIST, "index.html"))) {
     console.error("dist/index.html not found. Run 'npm run build' first.");
     process.exit(1);
@@ -59,9 +58,20 @@ async function main() {
   const userData = path.join(ROOT, ".chrome-prerender");
   fs.mkdirSync(userData, { recursive: true });
 
-  const chromeExe = fs.existsSync("/mnt/c/Program Files/Google/Chrome/Application/chrome.exe")
-    ? "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
-    : "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe";
+  const chromeCandidates = [
+    "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
+    "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe",
+    "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "/mnt/c/Program Files/Microsoft/Edge/Application/msedge.exe",
+  ];
+  const chromeExe = chromeCandidates.find((candidate) => fs.existsSync(candidate));
+  if (!chromeExe) {
+    console.error("Chrome/Edge executable not found.");
+    server.close();
+    process.exit(1);
+  }
 
   const chrome = spawn(chromeExe, [
     `--remote-debugging-port=${CDP_PORT}`,
@@ -101,9 +111,9 @@ async function main() {
   const page = await browser.newPage();
   let success = 0;
 
-  console.log(`\nPrerendering ${ROUTES.length} routes...`);
+  console.log(`\nPrerendering ${prerenderRoutes.length} routes...`);
 
-  for (const route of ROUTES) {
+  for (const route of prerenderRoutes) {
     try {
       const url = `http://127.0.0.1:${PORT}${route}`;
       await page.goto(url, { waitUntil: "networkidle0", timeout: 15000 });
@@ -125,6 +135,8 @@ async function main() {
       let outPath;
       if (route === "/") {
         outPath = path.join(DIST, "index.html");
+      } else if (route === "/404") {
+        outPath = path.join(DIST, "404.html");
       } else {
         const outDir = path.join(DIST, route.replace(/^\//, ""));
         fs.mkdirSync(outDir, { recursive: true });
@@ -133,6 +145,12 @@ async function main() {
 
       fs.writeFileSync(outPath, finalHtml);
       console.log(`  Saved ${path.relative(ROOT, outPath)}`);
+      if (route === "/404") {
+        const nested404 = path.join(DIST, "404", "index.html");
+        fs.mkdirSync(path.dirname(nested404), { recursive: true });
+        fs.writeFileSync(nested404, finalHtml);
+        console.log(`  Saved ${path.relative(ROOT, nested404)}`);
+      }
       success++;
     } catch (e) {
       console.error(`  ERROR ${route}:`, e.message);
@@ -144,8 +162,8 @@ async function main() {
   chrome.kill();
   server.close();
 
-  console.log(`\nPrerender done: ${success}/${ROUTES.length}`);
-  process.exit(success === ROUTES.length ? 0 : 1);
+  console.log(`\nPrerender done: ${success}/${prerenderRoutes.length}`);
+  process.exit(success === prerenderRoutes.length ? 0 : 1);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

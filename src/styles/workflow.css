@@ -506,6 +506,50 @@
     }
 }
 
+.workflow-footer-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.workflow-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.workflow-mini-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    background: var(--surface-1);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.workflow-mini-link:hover,
+.workflow-mini-link:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--cyan);
+    background: color-mix(in srgb, var(--cyan) 10%, transparent);
+    outline: none;
+}
+
+@media (min-width: 768px) {
+    .workflow-footer-actions {
+        align-items: flex-end;
+    }
+}
+
 .cta-info h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.8rem;

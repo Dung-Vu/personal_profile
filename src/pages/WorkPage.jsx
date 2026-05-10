@@ -107,6 +107,17 @@ function WorkCaseDossier({ project, index }) {
                     </div>
                 </div>
 
+                {project.proofSignals?.length ? (
+                    <div className="dossier-proof-signals" aria-label="Proof signals">
+                        {project.proofSignals.map((signal) => (
+                            <article key={signal.label}>
+                                <span>{signal.label}</span>
+                                <p>{signal.text}</p>
+                            </article>
+                        ))}
+                    </div>
+                ) : null}
+
                 <div className="dossier-grid">
                     <div className="dossier-block span-2">
                         <h3>Context & Problem</h3>

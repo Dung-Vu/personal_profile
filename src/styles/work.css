@@ -404,6 +404,38 @@
     color: var(--text-primary);
 }
 
+.dossier-proof-signals {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.dossier-proof-signals article {
+    display: grid;
+    gap: 0.35rem;
+    min-height: 100%;
+    padding: 1rem 1.05rem;
+    border: 1px solid color-mix(in srgb, var(--tone-color) 16%, var(--border-color));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--tone-color) 6%, var(--surface-2));
+}
+
+.dossier-proof-signals span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tone-color);
+}
+
+.dossier-proof-signals p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
 /* Dossier Grid Layout */
 .dossier-grid {
     display: grid;
@@ -614,6 +646,7 @@
 
 @media (max-width: 680px) {
     .dossier-proof-strip,
+    .dossier-proof-signals,
     .dossier-ledger {
         grid-template-columns: 1fr;
     }

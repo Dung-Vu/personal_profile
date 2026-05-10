@@ -40,11 +40,21 @@ Short-term live coordination for `personal-website`. Keep this file compact.
 - Reduced mobile top whitespace on About, Work, Stack, Workflow, Contact, and Case Detail routes
 - Fixed Case Detail mobile back-link contrast
 - Added Git `safe.directory` for `D:/personal-website` so `git status` works in the Codex sandbox
+- Pruned unused Home legacy/prototype source before the next website upgrade: old Signal OS Home components, dormant `homeStoryScenes` data, temporary design bundles, old login mockups, and recovered text dumps
+- Restored desktop nav secondary labels so `Capabilities` and `Delivery loop` stay visible outside mobile, and kept the compact mobile nav behavior intact
+- Added route graph links on Stack and Workflow footers so the site now pushes into Work and Contact from capability/process pages too
+- Extended prerender output to include `/404` as both `dist/404.html` and `dist/404/index.html` for cleaner static-host fallback
+- Centralized route/meta data in `src/routes/siteRoutes.js`, generated `public/sitemap.xml` from that registry, and kept App/prerender in sync from the same source
+- Added proof-signal bands to Work cards and Case Detail pages so each case now carries one more visible verification layer
+- Split heavy Lab subcomponents behind lazy imports so the archive shell stays lighter; `LabPage` chunk shrank while canvas/command/hud became separate chunks
 
 ## Verification
 
 - `npm run build` passed
 - `python scripts\mobile_qa.py` passed across 70 configured route/viewport checks after the FE polish pass
+- Manual browser check on `artifacts/layout-qa/home-1366x768.png` confirmed desktop nav labels now show `Capabilities` and `Delivery loop`
+- `node -c scripts\prerender.cjs` passed after the 404 prerender update
+- `npm run prerender` passed after syncing Chrome path handling and route registry
 - `npm run assets:audit` now reports zero WebP review candidates
 - QA screenshots refreshed in `artifacts/layout-qa/`
 - Manual scroll check passed for Home trust section and TCA case proof / decision ledger
@@ -58,7 +68,8 @@ Short-term live coordination for `personal-website`. Keep this file compact.
 - Stack: Vite 7 + React 19 + GSAP/ScrollTrigger + lucide-react
 - Routes: `/`, `/about`, `/work`, `/work/:slug`, `/stack`, `/workflow`, `/contact`, `/lab`, `/404`
 - Website is now focused on production polish, trust, proof, and conversion; deployment concerns intentionally untouched
-- Case proof depth, route handoff, contact conversion, reduced-motion behavior, mobile spacing, and WebP audit are now in place
+- Case proof depth, route handoff, contact conversion, reduced-motion behavior, mobile spacing, route graph links, 404 prerender, route registry sync, proof signals, Lab code-splitting, and WebP audit are now in place
+- Source tree no longer carries the unused Home transformation-story prototype files
 - Dev server was started at `http://127.0.0.1:5173/` during the final polish pass
 
 ## Next Steps

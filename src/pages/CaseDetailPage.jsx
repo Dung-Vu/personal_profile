@@ -71,6 +71,29 @@ function CaseProofFrame({ project }) {
     );
 }
 
+function CaseProofSignals({ project }) {
+    if (!project.proofSignals?.length) return null;
+
+    return (
+        <section className="case-proof-signals" aria-labelledby={`${project.slug}-proof-signals-title`}>
+            <div className="case-proof-signals-head">
+                <span className="route-kicker">Verification signals</span>
+                <h2 id={`${project.slug}-proof-signals-title`}>
+                    {project.title} proof cues
+                </h2>
+            </div>
+            <div className="case-proof-signals-grid">
+                {project.proofSignals.map((signal) => (
+                    <article key={signal.label}>
+                        <span>{signal.label}</span>
+                        <p>{signal.text}</p>
+                    </article>
+                ))}
+            </div>
+        </section>
+    );
+}
+
 function CaseFlowProof({ project }) {
     if (!project.flowProof) return null;
 
@@ -230,6 +253,8 @@ export function CaseDetailPage({ slug }) {
             </div>
 
             <CaseProofFrame project={project} />
+
+            <CaseProofSignals project={project} />
 
             <CaseFlowProof project={project} />
 

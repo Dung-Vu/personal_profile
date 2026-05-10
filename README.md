@@ -32,8 +32,7 @@ Active copy/data nằm trong `src/content/`.
 - `profile.js` - identity, links, hero image
 - `projects.js` - 3 case study và detail data
 - `about.js`, `stack.js`, `workflow.js`, `workflowPage.js`, `contactPage.js` - copy và data theo route
-- `homePage.js` - active Home content cho hero meta, projects, destinations, và scene copy
-- `homeStoryScenes.js` - legacy snapshot, không được runtime current import
+- `homePage.js` - active Home content cho hero meta, projects, methods, trust signals và destinations
 
 ## Architecture
 

@@ -250,6 +250,60 @@
     list-style: none;
 }
 
+.case-proof-signals {
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1rem, 2.4vw, 1.5rem);
+    border: 1px solid var(--cd-border);
+    border-radius: 1.75rem;
+    background: linear-gradient(145deg, var(--cd-bg), var(--cd-bg-soft));
+    box-shadow: 0 1.4rem 4rem var(--cd-shadow);
+}
+
+.case-proof-signals-head {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.case-proof-signals-head h2 {
+    margin: 0;
+    color: var(--cd-text);
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+}
+
+.case-proof-signals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.case-proof-signals-grid article {
+    display: grid;
+    gap: 0.45rem;
+    padding: 1rem 1.05rem;
+    border: 1px solid var(--cd-border-light);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.74);
+}
+
+.case-proof-signals-grid span {
+    color: var(--cd-accent-gold);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.case-proof-signals-grid p {
+    margin: 0;
+    color: var(--cd-text-soft);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
 @media (max-width: 1120px) {
     .case-detail-hero {
         grid-template-columns: 1fr;
@@ -283,6 +337,10 @@
 
     .case-detail-grid,
     .decision-ledger {
+        grid-template-columns: 1fr;
+    }
+
+    .case-proof-signals-grid {
         grid-template-columns: 1fr;
     }
 

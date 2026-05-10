@@ -117,9 +117,19 @@ export function WorkflowPage() {
                     <h2>Sẵn sàng triển khai?</h2>
                     <p>Nếu flow này hợp với bài toán của bạn, hãy gửi mình context và mục tiêu cần đạt.</p>
                 </div>
-                <a href="/contact" className="workflow-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
-                    Gửi yêu cầu bắt đầu <ArrowRight size={16} />
-                </a>
+                <div className="workflow-footer-actions">
+                    <a href="/contact" className="workflow-cta-btn" onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}>
+                        Gửi yêu cầu bắt đầu <ArrowRight size={16} />
+                    </a>
+                    <div className="workflow-footer-links" aria-label="Điểm nối liên quan">
+                        <a href="/stack" className="workflow-mini-link" onClick={(e) => { e.preventDefault(); navigateTo("/stack"); }}>
+                            Xem stack
+                        </a>
+                        <a href="/work" className="workflow-mini-link" onClick={(e) => { e.preventDefault(); navigateTo("/work"); }}>
+                            Xem case
+                        </a>
+                    </div>
+                </div>
             </footer>
 
         </section>
