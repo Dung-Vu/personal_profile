@@ -102,7 +102,7 @@ export function TimelineItem({
  */
 export function Timeline({ children, className = "" }) {
     return (
-        <div className={`timeline ${className}`.trim()} role="list">
+        <div className={`timeline ${className}`.trim()}>
             {children}
         </div>
     );

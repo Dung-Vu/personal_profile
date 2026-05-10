@@ -1,6 +1,4 @@
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
     ArrowRight,
     ArrowDownToLine,
@@ -10,6 +8,8 @@ import {
     ExternalLink,
     Workflow,
 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../styles/work.css";
 import { projects } from "../content/projects";
 import { navigateTo } from "../hooks/useRoutePath";
@@ -49,6 +49,7 @@ const caseDesign = {
 function WorkCaseDossier({ project, index }) {
     const design = caseDesign[project.slug];
     const Icon = design.icon;
+    const topArtifacts = project.artifactGallery?.slice(0, 2) ?? [];
 
     return (
         <article
@@ -98,14 +99,61 @@ function WorkCaseDossier({ project, index }) {
                         <strong>{project.status}</strong>
                     </div>
                     <div>
-                        <span>Deliverables</span>
-                        <strong>{project.deliverables.length} slices</strong>
+                        <span>Measured impact</span>
+                        <strong>{project.measuredImpact?.[0]?.value ?? "Tight flow"}</strong>
                     </div>
                     <div>
                         <span>Next proof</span>
                         <strong>{project.nextProof}</strong>
                     </div>
                 </div>
+
+                {project.measuredImpact?.length ? (
+                    <div className="dossier-metric-strip" aria-label="Measured impact">
+                        {project.measuredImpact.map((metric) => (
+                            <article key={metric.label}>
+                                <span>{metric.label}</span>
+                                <strong>{metric.value}</strong>
+                                <p>{metric.note}</p>
+                            </article>
+                        ))}
+                    </div>
+                ) : null}
+
+                {project.beforeAfter ? (
+                    <div className="dossier-before-after" aria-label="Before and after summary">
+                        <article>
+                            <span>Before</span>
+                            <p>{project.beforeAfter.before}</p>
+                        </article>
+                        <article>
+                            <span>After</span>
+                            <p>{project.beforeAfter.after}</p>
+                        </article>
+                    </div>
+                ) : null}
+
+                {topArtifacts.length ? (
+                    <div className="dossier-artifact-strip" aria-label="Artifact gallery">
+                        {topArtifacts.map((artifact) => (
+                            <figure key={artifact.label}>
+                                <img
+                                    src={artifact.image}
+                                    alt={artifact.alt}
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                    fetchPriority={index === 0 ? "high" : "auto"}
+                                    decoding="async"
+                                    width="640"
+                                    height="426"
+                                />
+                                <figcaption>
+                                    <strong>{artifact.label}</strong>
+                                    <span>{artifact.caption}</span>
+                                </figcaption>
+                            </figure>
+                        ))}
+                    </div>
+                ) : null}
 
                 {project.proofSignals?.length ? (
                     <div className="dossier-proof-signals" aria-label="Proof signals">
@@ -163,6 +211,26 @@ function WorkCaseDossier({ project, index }) {
                                 <span>{item.label}</span>
                                 <p>{item.text}</p>
                             </article>
+                        ))}
+                    </div>
+                ) : null}
+
+                {project.qaEvidence?.length ? (
+                    <div className="dossier-qa-strip" aria-label="QA evidence">
+                        {project.qaEvidence.map((item) => (
+                            <article key={item.label}>
+                                <span>{item.label}</span>
+                                <strong>{item.value}</strong>
+                                <p>{item.note}</p>
+                            </article>
+                        ))}
+                    </div>
+                ) : null}
+
+                {project.constraintsResolved?.length ? (
+                    <div className="dossier-constraint-strip" aria-label="Constraints resolved">
+                        {project.constraintsResolved.map((item) => (
+                            <span key={item}>{item}</span>
                         ))}
                     </div>
                 ) : null}

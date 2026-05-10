@@ -9,7 +9,7 @@ import {
 import { SiteShell } from "./components/layout/SiteShell";
 import { useRoutePath } from "./hooks/useRoutePath";
 import { NotFoundPage } from "./pages/NotFoundPage";
-import { getCanonicalUrl, getRouteMeta } from "./routes/siteRoutes";
+import { getCanonicalUrl, getRouteMeta, getRouteSchema } from "./routes/siteRoutes";
 
 const routeLoaders = {
     home: () => import("./pages/HomePage"),
@@ -122,19 +122,50 @@ function setLinkHref(selector, value) {
     if (node) node.setAttribute("href", value);
 }
 
+function setScriptJson(id, value) {
+    const existing = document.getElementById(id);
+    if (!value) {
+        if (existing) existing.remove();
+        return;
+    }
+
+    const nextValue = Array.isArray(value) ? value : [value];
+    const script = existing ?? document.createElement("script");
+    script.id = id;
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(nextValue.length === 1 ? nextValue[0] : nextValue);
+
+    if (!existing) {
+        document.head.appendChild(script);
+    }
+}
+
 function useRouteMeta(path) {
     useEffect(() => {
         const meta = getRouteMeta(path);
+        const schema = getRouteSchema(path);
         const canonicalUrl = getCanonicalUrl(path);
 
         document.title = meta.title;
         setMetaContent('meta[name="description"]', meta.desc);
+        setMetaContent('meta[name="keywords"]', meta.keywords.join(", "));
+        setMetaContent('meta[name="robots"]', meta.robots ?? "index,follow");
+        setMetaContent('meta[name="author"]', "Vũ Đình Dũng");
+        setMetaContent('meta[property="og:type"]', meta.ogType ?? "website");
+        setMetaContent('meta[property="og:site_name"]', "Vũ Đình Dũng Portfolio");
+        setMetaContent('meta[property="og:locale"]', "vi_VN");
         setMetaContent('meta[property="og:title"]', meta.title);
         setMetaContent('meta[property="og:description"]', meta.desc);
-        setMetaContent('meta[property="og:url"]', canonicalUrl);
+        setMetaContent('meta[property="og:image"]', meta.image);
+        setMetaContent('meta[property="og:image:alt"]', meta.imageAlt);
+        setMetaContent('meta[name="twitter:card"]', "summary_large_image");
         setMetaContent('meta[name="twitter:title"]', meta.title);
         setMetaContent('meta[name="twitter:description"]', meta.desc);
+        setMetaContent('meta[name="twitter:image"]', meta.image);
+        setMetaContent('meta[name="twitter:image:alt"]', meta.imageAlt);
+        setMetaContent('meta[property="og:url"]', canonicalUrl);
         setLinkHref('link[rel="canonical"]', canonicalUrl);
+        setScriptJson("route-structured-data", schema);
     }, [path]);
 }
 

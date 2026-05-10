@@ -99,7 +99,7 @@
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.08em;
-    color: var(--line);
+    color: rgba(17, 24, 39, 0.48);
     user-select: none;
 }
 

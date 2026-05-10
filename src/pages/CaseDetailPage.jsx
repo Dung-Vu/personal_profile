@@ -50,6 +50,180 @@ function CaseDetailStat({ label, value }) {
     );
 }
 
+function buildCaseFlow(project) {
+    const decision = project.technicalDecisions?.[0];
+    const artifact = project.artifactGallery?.[1] ?? project.artifactGallery?.[0];
+    const runtimeProof = project.qaEvidence?.[0];
+
+    return [
+        {
+            phase: "Problem",
+            title: "Bài toán cần giải",
+            text: project.problem,
+        },
+        {
+            phase: "Constraint",
+            title: "Giới hạn phải giữ",
+            text: project.constraintsResolved?.[0] ?? project.constraints?.[0],
+            list: project.constraintsResolved,
+        },
+        {
+            phase: "Decision",
+            title: decision?.title ?? "Product decision",
+            text: decision?.desc ?? project.role,
+        },
+        {
+            phase: "Artifact",
+            title: artifact?.label ?? "Proof artifact",
+            text: artifact?.caption ?? project.evidenceNote,
+        },
+        {
+            phase: "Runtime proof",
+            title: runtimeProof?.value ?? project.status,
+            text: runtimeProof?.note ?? project.evidenceNote,
+        },
+        {
+            phase: "Result",
+            title: "Kết quả vận hành",
+            text: project.businessImpact ?? project.outcome,
+        },
+    ];
+}
+
+function CaseNarrativeFlow({ project }) {
+    const flow = buildCaseFlow(project);
+
+    return (
+        <section
+            className="case-narrative-flow"
+            aria-labelledby={`${project.slug}-narrative-flow-title`}
+        >
+            <div className="case-section-heading">
+                <span className="route-kicker">Proof-driven flow</span>
+                <h2 id={`${project.slug}-narrative-flow-title`}>
+                    {[
+                        "Problem",
+                        "Constraint",
+                        "Decision",
+                        "Artifact",
+                        "Runtime proof",
+                        "Result",
+                    ].join(" -> ")}
+                </h2>
+            </div>
+            <div className="case-narrative-grid">
+                {flow.map((item) => (
+                    <article key={item.phase}>
+                        <span>{item.phase}</span>
+                        <h3>{item.title}</h3>
+                        <p>{item.text}</p>
+                        {item.list?.length ? (
+                            <ul>
+                                {item.list.slice(1).map((entry) => (
+                                    <li key={entry}>{entry}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                    </article>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+function CaseArtifactGallery({ project }) {
+    if (!project.artifactGallery?.length) return null;
+
+    return (
+        <section
+            className="case-artifact-gallery"
+            aria-labelledby={`${project.slug}-artifact-gallery-title`}
+        >
+            <div className="case-section-heading">
+                <span className="route-kicker">Artifact gallery</span>
+                <h2 id={`${project.slug}-artifact-gallery-title`}>
+                    Artifact thật, dữ liệu nhạy cảm đã che.
+                </h2>
+            </div>
+            <div className="case-artifact-grid">
+                {project.artifactGallery.map((artifact, index) => (
+                    <figure key={artifact.label}>
+                        <img
+                            src={artifact.image}
+                            alt={artifact.alt}
+                            loading={index === 0 ? "eager" : "lazy"}
+                            fetchPriority={index === 0 ? "high" : "auto"}
+                            decoding="async"
+                            width="1200"
+                            height="800"
+                        />
+                        <figcaption>
+                            <span>{artifact.label}</span>
+                            <strong>{artifact.caption}</strong>
+                        </figcaption>
+                    </figure>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+function CaseRuntimeProof({ project }) {
+    return (
+        <section
+            className="case-runtime-proof"
+            aria-labelledby={`${project.slug}-runtime-proof-title`}
+        >
+            <div className="case-section-heading">
+                <span className="route-kicker">Runtime proof</span>
+                <h2 id={`${project.slug}-runtime-proof-title`}>
+                    Status, measurable cues và QA evidence.
+                </h2>
+            </div>
+
+            <div className="case-detail-stat-grid">
+                <CaseDetailStat label="Status" value={project.status} />
+                <CaseDetailStat label="Timeline" value={project.timeline} />
+                <CaseDetailStat label="Team" value={project.team} />
+                <CaseDetailStat label="Next proof" value={project.nextProof} />
+            </div>
+
+            {project.measuredImpact?.length ? (
+                <div className="case-impact-grid" aria-label="Measured impact">
+                    {project.measuredImpact.map((metric) => (
+                        <article key={metric.label}>
+                            <span>{metric.label}</span>
+                            <strong>{metric.value}</strong>
+                            <p>{metric.note}</p>
+                        </article>
+                    ))}
+                </div>
+            ) : null}
+
+            {project.qaEvidence?.length ? (
+                <div className="case-qa-grid" aria-label="QA evidence">
+                    {project.qaEvidence.map((item) => (
+                        <article key={item.label}>
+                            <span>{item.label}</span>
+                            <strong>{item.value}</strong>
+                            <p>{item.note}</p>
+                        </article>
+                    ))}
+                </div>
+            ) : null}
+
+            <ul className="case-runtime-focus">
+                {project.uiFocus.map((item) => (
+                    <li key={item}>
+                        <CheckCircle2 aria-hidden="true" />
+                        <span>{item}</span>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    );
+}
+
 function CaseProofFrame({ project }) {
     if (!project.proofMedia) return null;
 
@@ -231,28 +405,11 @@ export function CaseDetailPage({ slug }) {
                 </aside>
             </div>
 
-            <div className="case-detail-proof">
-                <div>
-                    <span className="route-kicker">Scope & proof</span>
-                    <h2>Minh chứng thực tế thay cho số liệu không có nguồn.</h2>
-                </div>
-                <div className="case-detail-stat-grid">
-                    <CaseDetailStat label="Status" value={project.status} />
-                    <CaseDetailStat label="Timeline" value={project.timeline} />
-                    <CaseDetailStat label="Team" value={project.team} />
-                    <CaseDetailStat label="Next proof" value={project.nextProof} />
-                </div>
-                <ul>
-                    {project.uiFocus.map((item) => (
-                        <li key={item}>
-                            <CheckCircle2 aria-hidden="true" />
-                            <span>{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <CaseNarrativeFlow project={project} />
 
-            <CaseProofFrame project={project} />
+            <CaseArtifactGallery project={project} />
+
+            <CaseRuntimeProof project={project} />
 
             <CaseProofSignals project={project} />
 

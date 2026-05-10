@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react";
+import { ArrowRight, Send, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Send, ArrowUpRight } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
 import { ScratchCloud } from "../components/home2/ScratchCloud";
 import { navigateTo } from "../hooks/useRoutePath";
 import {
@@ -16,6 +14,8 @@ import {
 } from "../content/homePage";
 import { profile } from "../profileData";
 import "../styles/home.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function NavLink({ href, className, children }) {
     return (

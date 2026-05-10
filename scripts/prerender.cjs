@@ -6,6 +6,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { spawn } = require("child_process");
 const { pathToFileURL } = require("url");
 
@@ -19,7 +20,14 @@ function startServer() {
     const server = http.createServer((req, res) => {
       const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
       let filePath = path.join(DIST, url.pathname === "/" ? "index.html" : url.pathname);
-      if (!fs.existsSync(filePath)) filePath = path.join(DIST, "index.html");
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        const directoryIndex = path.join(filePath, "index.html");
+        filePath = fs.existsSync(directoryIndex)
+          ? directoryIndex
+          : path.join(DIST, "index.html");
+      } else if (!fs.existsSync(filePath)) {
+        filePath = path.join(DIST, "index.html");
+      }
 
       const ext = path.extname(filePath);
       const mime = {
@@ -31,15 +39,25 @@ function startServer() {
       }[ext] || "application/octet-stream";
 
       try {
+        const body = fs.readFileSync(filePath);
         res.writeHead(200, { "Content-Type": mime });
-        res.end(fs.readFileSync(filePath));
+        res.end(body);
       } catch {
+        const fallback = fs.readFileSync(path.join(DIST, "index.html"));
         res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(fs.readFileSync(path.join(DIST, "index.html")));
+        res.end(fallback);
       }
     });
     server.listen(PORT, "127.0.0.1", () => resolve(server));
   });
+}
+
+function safeRemove(target) {
+  try {
+    fs.rmSync(target, { recursive: true, force: true });
+  } catch {
+    // best effort only
+  }
 }
 
 async function main() {
@@ -55,7 +73,7 @@ async function main() {
   const server = await startServer();
   console.log(`Static server on http://127.0.0.1:${PORT}`);
 
-  const userData = path.join(ROOT, ".chrome-prerender");
+  const userData = fs.mkdtempSync(path.join(os.tmpdir(), "personal-website-prerender-"));
   fs.mkdirSync(userData, { recursive: true });
 
   const chromeCandidates = [
@@ -124,6 +142,14 @@ async function main() {
         { timeout: 8000 }
       ).catch(() => {});
 
+      await page.waitForFunction(
+        () =>
+          document.title &&
+          document.querySelector('meta[property="og:image"]')?.getAttribute("content") &&
+          document.getElementById("route-structured-data")?.textContent?.length > 50,
+        { timeout: 8000 }
+      ).catch(() => {});
+
       await new Promise((r) => setTimeout(r, 500));
 
       const html = await page.content();
@@ -161,6 +187,7 @@ async function main() {
   await browser.disconnect();
   chrome.kill();
   server.close();
+  safeRemove(userData);
 
   console.log(`\nPrerender done: ${success}/${prerenderRoutes.length}`);
   process.exit(success === prerenderRoutes.length ? 0 : 1);

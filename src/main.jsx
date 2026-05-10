@@ -11,8 +11,13 @@ import "./styles/timeline.css";
 import "./styles/empty-states.css";
 import { App } from "./App";
 
-createRoot(document.getElementById("root")).render(
+const rootElement = document.getElementById("root");
+const app = (
     <React.StrictMode>
         <App />
-    </React.StrictMode>,
+    </React.StrictMode>
 );
+
+if (rootElement) {
+    createRoot(rootElement).render(app);
+}

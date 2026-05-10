@@ -1,4 +1,4 @@
-export const projects = [
+const rawProjects = [
     {
         slug: "tca-crypto-analyzer",
         title: "TCA Crypto Analyzer",
@@ -403,3 +403,204 @@ export const projects = [
             "Giữ workflow AI thực dụng hơn: có điểm bắt đầu, có bằng chứng kết thúc và giảm rủi ro agent làm lệch mục tiêu ban đầu.",
     },
 ];
+
+const caseProofDossiers = {
+    "tca-crypto-analyzer": {
+        measuredImpact: [
+            {
+                label: "Reading surface",
+                value: "1 board",
+                note: "Chart context, signal priority and risk state stay together.",
+            },
+            {
+                label: "Scan path",
+                value: "4 steps",
+                note: "Watchlist, priority scan, risk check and action record.",
+            },
+            {
+                label: "Proof depth",
+                value: "3 artifacts",
+                note: "Cover, redacted frame and share preview are all route-ready.",
+            },
+        ],
+        beforeAfter: {
+            before:
+                "Trader had to chase chart, signal, volatility and account context across separate views.",
+            after:
+                "Signal hierarchy, chart context and risk state read as one operator board.",
+        },
+        constraintsResolved: [
+            "Realtime data noise -> signal-first hierarchy with fewer competing metrics.",
+            "Private account data -> redacted proof that still shows the reading order.",
+            "Fast market movement -> stable first-screen priority before deeper drill-down.",
+        ],
+        qaEvidence: [
+            {
+                label: "Runtime path",
+                value: "Watchlist -> signal -> risk",
+                note: "Flow proof keeps action order visible without live account data.",
+            },
+            {
+                label: "Privacy check",
+                value: "Redacted preview",
+                note: "Account ids, live prices and labels stay masked.",
+            },
+            {
+                label: "Route proof",
+                value: "Case + Work",
+                note: "Same data drives listing, detail page and route metadata.",
+            },
+        ],
+    },
+    "bonario-product-hub": {
+        measuredImpact: [
+            {
+                label: "Operator flow",
+                value: "4 actions",
+                note: "Search, edit, sync and verify stay inside one hub.",
+            },
+            {
+                label: "State surface",
+                value: "1 queue view",
+                note: "Sync state, errors and batch feedback stay visible.",
+            },
+            {
+                label: "Proof depth",
+                value: "3 artifacts",
+                note: "Cover, redacted workflow and social frame document the build.",
+            },
+        ],
+        beforeAfter: {
+            before:
+                "Product handling was split across internal data, Odoo state and repeated manual checks.",
+            after:
+                "Operators get one workflow surface for search, edit, sync feedback and verification.",
+        },
+        constraintsResolved: [
+            "Odoo payload complexity -> Flask middleware normalizes state before UI rendering.",
+            "Batch update risk -> sync queue and rollback feedback stay visible.",
+            "Internal product data -> redacted artifact keeps workflow public-safe.",
+        ],
+        qaEvidence: [
+            {
+                label: "Runtime path",
+                value: "Search -> edit -> sync",
+                note: "Flow proof checks the operator loop, not only screen polish.",
+            },
+            {
+                label: "State check",
+                value: "Queue + error states",
+                note: "Sync feedback appears beside the working record.",
+            },
+            {
+                label: "Route proof",
+                value: "Case + Work",
+                note: "Same project dossier renders the case route and listing.",
+            },
+        ],
+    },
+    "ai-operator-workflow": {
+        measuredImpact: [
+            {
+                label: "Delivery loop",
+                value: "5 checkpoints",
+                note: "Plan, patch, build, browser QA and handoff close each slice.",
+            },
+            {
+                label: "Context layer",
+                value: "1 check-in",
+                note: "Session handoff keeps the next run from starting cold.",
+            },
+            {
+                label: "Proof depth",
+                value: "3 artifacts",
+                note: "Cover, operator proof frame and share preview document the workflow.",
+            },
+        ],
+        beforeAfter: {
+            before:
+                "AI-assisted work lost context when plan, diff, verification and handoff lived apart.",
+            after:
+                "Each slice moves through a visible state machine and ends with verifiable output.",
+        },
+        constraintsResolved: [
+            "LLM context drift -> markdown state and check-in files preserve intent.",
+            "Tooling spread -> CLI, MCP and browser QA sit in one delivery loop.",
+            "Private sessions -> public proof hides logs while keeping process readable.",
+        ],
+        qaEvidence: [
+            {
+                label: "Runtime path",
+                value: "Plan -> patch -> QA",
+                note: "Proof frame shows where the loop starts and stops.",
+            },
+            {
+                label: "Verification check",
+                value: "Build + browser QA",
+                note: "Output is not treated as done until runtime proof exists.",
+            },
+            {
+                label: "Route proof",
+                value: "Case + Workflow",
+                note: "Case detail links back to the broader process page.",
+            },
+        ],
+    },
+};
+
+function buildArtifactGallery(project) {
+    const socialImage = project.assets?.cover?.replace(".webp", ".jpg");
+    const artifacts = [
+        {
+            label: "Case cover",
+            image: project.assets?.cover,
+            alt: `${project.title} interface cover`,
+            caption: "Route cover dùng trên Work list và Case detail hero.",
+        },
+    ];
+
+    if (project.proofMedia) {
+        artifacts.push({
+            label: "Redacted proof",
+            image: project.proofMedia.image,
+            alt: project.proofMedia.alt,
+            caption: project.proofMedia.caption,
+        });
+    }
+
+    if (socialImage) {
+        artifacts.push({
+            label: "Social preview",
+            image: socialImage,
+            alt: `${project.title} social preview`,
+            caption: "Preview dùng cho Open Graph, Twitter card và route metadata.",
+        });
+    }
+
+    return artifacts.filter((artifact) => Boolean(artifact.image));
+}
+
+function enrichProject(project) {
+    const dossier = caseProofDossiers[project.slug] ?? {};
+    const artifactGallery = buildArtifactGallery(project);
+    const socialImage =
+        artifactGallery.find((artifact) => artifact.label === "Social preview")
+            ?.image ?? project.proofMedia?.image ?? project.assets?.cover;
+
+    return {
+        ...project,
+        ...dossier,
+        artifactGallery,
+        socialImage,
+        seoKeywords: [
+            project.title,
+            project.type,
+            project.category,
+            project.systemRole,
+            ...project.tech,
+            ...project.signals,
+        ].filter(Boolean),
+    };
+}
+
+export const projects = rawProjects.map(enrichProject);

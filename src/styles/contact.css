@@ -58,6 +58,72 @@
     gap: 0.85rem;
 }
 
+.endpoint-preset-switch {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+}
+
+.preset-chip {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--muted);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.preset-chip span {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: inherit;
+}
+
+.preset-chip small {
+    font-size: 0.72rem;
+    line-height: 1.35;
+}
+
+.preset-chip.active,
+.preset-chip:hover {
+    border-color: var(--cyan);
+    background: color-mix(in srgb, var(--cyan) 8%, white);
+    color: var(--ink);
+}
+
+.endpoint-preset-copy {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.endpoint-preset-copy strong {
+    color: var(--ink);
+    font-size: 0.95rem;
+}
+
+.endpoint-preset-copy p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.endpoint-preset-copy span {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
 .endpoint-trust-strip {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -304,9 +370,18 @@
     text-transform: uppercase;
 }
 
-.route-method.post { background: color-mix(in srgb, var(--cyan) 20%, transparent); color: var(--cyan); }
-.route-method.get { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
-.route-method.options { background: color-mix(in srgb, var(--muted) 20%, transparent); color: var(--muted); }
+.route-method.post {
+    background: color-mix(in srgb, var(--cyan) 18%, white);
+    color: var(--ink);
+}
+.route-method.get {
+    background: color-mix(in srgb, var(--green) 18%, white);
+    color: var(--ink);
+}
+.route-method.options {
+    background: color-mix(in srgb, var(--muted) 18%, white);
+    color: var(--ink);
+}
 
 .route-path {
     font-family: var(--font-mono);
@@ -554,6 +629,10 @@
     .endpoint-primary-link,
     .endpoint-secondary-link {
         width: 100%;
+    }
+
+    .endpoint-preset-switch {
+        grid-template-columns: 1fr;
     }
 
     .endpoint-trust-strip {

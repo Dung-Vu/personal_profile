@@ -13,30 +13,40 @@ import {
 import { profile } from "../profileData";
 import { navigateTo } from "../hooks/useRoutePath";
 import {
-    contactBriefLines as briefLines,
+    contactBriefPresets,
     contactCapabilities as capabilities,
     contactResponseSteps,
 } from "../content/contactPage";
 
 export function ContactPage() {
+    const [selectedPresetId, setSelectedPresetId] = useState(contactBriefPresets[0].id);
     const [copied, setCopied] = useState(false);
     const [copyFailed, setCopyFailed] = useState(false);
+
+    const activePreset = useMemo(
+        () =>
+            contactBriefPresets.find((preset) => preset.id === selectedPresetId) ??
+            contactBriefPresets[0],
+        [selectedPresetId],
+    );
 
     const payloadText = useMemo(
         () =>
             "{\n" +
-            briefLines
+            activePreset.briefLines
                 .map((line) => `  "${line.key}": "${line.value}"`)
                 .join(",\n") +
             "\n}",
-        [],
+        [activePreset],
     );
 
     const mailto = useMemo(() => {
-        const subject = encodeURIComponent(`Project brief for ${profile.name}`);
-        const body = encodeURIComponent("```json\n" + payloadText + "\n```");
+        const subject = encodeURIComponent(activePreset.subject);
+        const body = encodeURIComponent(
+            `${activePreset.intro}\n\n${payloadText}\n`,
+        );
         return `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    }, [payloadText]);
+    }, [activePreset, payloadText]);
 
     const copyPayload = async () => {
         try {
@@ -50,25 +60,52 @@ export function ContactPage() {
     };
 
     return (
-        <section className="route-page endpoint-page" aria-labelledby="endpoint-title">
-            <header className="endpoint-hero">
-                <div className="hero-kicker">
-                    <Terminal size={14} />
-                    <span>PROJECT BRIEF</span>
-                </div>
-                <h1 id="endpoint-title">Gửi brief trong 2 phút, nhận hướng triển khai rõ.</h1>
-                <p>
-                    Mình phù hợp với website, dashboard và internal tool có dữ liệu thật, người dùng rõ và mục tiêu cần chốt thành bản chạy được.
-                </p>
-                <div className="endpoint-hero-actions">
-                    <a className="endpoint-primary-link" href={mailto}>
-                        Gửi email <Mail size={16} aria-hidden="true" />
-                    </a>
-                    <button className="endpoint-secondary-link" type="button" onClick={copyPayload}>
-                        {copied ? "Đã copy mẫu brief" : "Copy mẫu brief"}
-                        {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                    </button>
-                </div>
+            <section className="route-page endpoint-page" aria-labelledby="endpoint-title">
+                <header className="endpoint-hero">
+                    <div className="hero-kicker">
+                        <Terminal size={14} />
+                        <span>PROJECT BRIEF</span>
+                    </div>
+                    <h1 id="endpoint-title">Gửi brief trong 2 phút, nhận hướng triển khai rõ.</h1>
+                    <p>
+                        Mình phù hợp với website, dashboard và internal tool có dữ liệu thật, người dùng rõ và mục tiêu cần chốt thành bản chạy được.
+                    </p>
+                    <div className="endpoint-preset-switch" aria-label="Brief presets">
+                        {contactBriefPresets.map((preset) => (
+                            <button
+                                key={preset.id}
+                                type="button"
+                                aria-pressed={selectedPresetId === preset.id}
+                                className={
+                                    selectedPresetId === preset.id
+                                        ? "preset-chip active"
+                                        : "preset-chip"
+                                }
+                                onClick={() => {
+                                    setSelectedPresetId(preset.id);
+                                    setCopied(false);
+                                    setCopyFailed(false);
+                                }}
+                            >
+                                <span>{preset.label}</span>
+                                <small>{preset.badge}</small>
+                            </button>
+                        ))}
+                    </div>
+                    <div className="endpoint-preset-copy">
+                        <strong>{activePreset.label}</strong>
+                        <p>{activePreset.intro}</p>
+                        <span>{activePreset.summary}</span>
+                    </div>
+                    <div className="endpoint-hero-actions">
+                        <a className="endpoint-primary-link" href={mailto}>
+                            Gửi email <Mail size={16} aria-hidden="true" />
+                        </a>
+                        <button className="endpoint-secondary-link" type="button" onClick={copyPayload}>
+                            {copied ? "Đã copy mẫu brief" : `Copy ${activePreset.label}`}
+                            {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+                        </button>
+                    </div>
 
                 <div className="endpoint-trust-strip" aria-label="Contact fit summary">
                     <article>
@@ -101,12 +138,12 @@ export function ContactPage() {
                         <span className="code-line">
                             <span className="code-syntax">{"{"}</span>
                         </span>
-                        {briefLines.map((line, idx) => (
+                        {activePreset.briefLines.map((line, idx) => (
                             <span className="code-line indent" key={line.key}>
                                 <span className="code-key">"{line.key}"</span>
                                 <span className="code-syntax">: </span>
                                 <span className="code-value">"{line.value}"</span>
-                                {idx < briefLines.length - 1 ? (
+                                {idx < activePreset.briefLines.length - 1 ? (
                                     <span className="code-syntax">,</span>
                                 ) : null}
                             </span>
@@ -124,7 +161,7 @@ export function ContactPage() {
                             type="button"
                         >
                             {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                            {copied ? "Đã copy mẫu brief" : "Copy mẫu brief"}
+                            {copied ? "Đã copy mẫu brief" : `Copy ${activePreset.label}`}
                         </button>
                         {copyFailed ? (
                             <span className="error-text">Trình duyệt chặn clipboard. Bạn có thể bôi đen và copy trực tiếp.</span>

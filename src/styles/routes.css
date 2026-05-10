@@ -288,7 +288,7 @@ html[data-route-transition="work-case"]::view-transition-new(root) {
 
 .site-nav-link[data-priority="secondary"] {
     min-width: 5.9rem;
-    opacity: 0.82;
+    opacity: 1;
 }
 
 .site-nav-link strong {

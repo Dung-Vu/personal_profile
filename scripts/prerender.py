@@ -9,6 +9,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import tempfile
 import socket
 import struct
 import subprocess
@@ -184,8 +185,7 @@ def main():
     server = start_static_server()
 
     # Launch Chrome headless with CDP
-    user_data = str(ROOT / ".chrome-prerender")
-    os.makedirs(user_data, exist_ok=True)
+    user_data = tempfile.mkdtemp(prefix="personal-website-prerender-")
     chrome_args = [
         chrome,
         f"--remote-debugging-port={CDP_PORT}",

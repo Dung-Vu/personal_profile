@@ -48,10 +48,23 @@ Short-term live coordination for `personal-website`. Keep this file compact.
 - Added proof-signal bands to Work cards and Case Detail pages so each case now carries one more visible verification layer
 - Split heavy Lab subcomponents behind lazy imports so the archive shell stays lighter; `LabPage` chunk shrank while canvas/command/hud became separate chunks
 
+## Completed Work (2026-05-10)
+
+- Expanded project dossiers with `measuredImpact`, `beforeAfter`, `artifactGallery`, `qaEvidence`, `constraintsResolved`, and social preview images
+- Reworked Work + Case Detail into fixed proof flow: Problem, Constraint, Decision, Artifact, Runtime proof, Result
+- Added Contact presets for `Website`, `Dashboard`, and `Internal tool`, with preset-driven `mailto` subject/body and copy payload
+- Centralized route SEO/schema data further in `src/routes/siteRoutes.js`, including JSON-LD, keywords, canonical, and robots per route
+- Added `build:static`, `qa:perf`, and `qa:a11y` scripts with local browser harnesses
+- Tightened route contrast and ARIA semantics after axe pass
+
 ## Verification
 
 - `npm run build` passed
-- `python scripts\mobile_qa.py` passed across 70 configured route/viewport checks after the FE polish pass
+- `npm run prerender` passed
+- `npm run qa:perf` passed
+- `npm run qa:a11y` passed
+- `npm run assets:audit` passed with zero WebP review candidates
+- `python scripts\mobile_qa.py` passed across 70 configured route/viewport checks
 - Manual browser check on `artifacts/layout-qa/home-1366x768.png` confirmed desktop nav labels now show `Capabilities` and `Delivery loop`
 - `node -c scripts\prerender.cjs` passed after the 404 prerender update
 - `npm run prerender` passed after syncing Chrome path handling and route registry

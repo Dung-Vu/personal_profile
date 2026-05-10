@@ -7,11 +7,14 @@
     "dev": "vite --host 127.0.0.1",
     "prebuild": "node scripts/generate_sitemap.mjs",
     "build": "vite build",
+    "build:static": "npm run build && npm run prerender",
     "assets:generate": "node scripts/generate_image_assets.mjs",
     "assets:audit": "node scripts/audit_image_assets.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "qa:mobile": "python3 scripts/mobile_qa.py",
     "qa:layout": "python3 scripts/mobile_qa.py",
+    "qa:perf": "node scripts/qa_perf.cjs",
+    "qa:a11y": "node scripts/qa_a11y.cjs",
     "prerender": "node scripts/prerender.cjs"
   },
   "dependencies": {
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.1",
+    "axe-core": "^4.11.4",
     "puppeteer-core": "^24.42.0",
     "vite": "^7.3.0"
   }
