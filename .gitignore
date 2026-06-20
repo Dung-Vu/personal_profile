@@ -12,3 +12,21 @@ pnpm-debug.log*
 .vscode/
 .idea/
 artifacts/
+
+# Tool state dirs (no longer tracked)
+.hermes/
+.konductor/
+.agents/
+.opencode/
+.claude/
+.playwright-mcp/
+.wrangler/
+
+# Stale paths
+screenshots/
+*.pid
+vite-review*.log
+
+# Python bytecode
+scripts/__pycache__/
+*.pyc
