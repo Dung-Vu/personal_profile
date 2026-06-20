@@ -92,7 +92,6 @@ export const contactBriefPresets = [
     },
 ];
 
-export const contactBriefLines = contactBriefPresets[0].briefLines;
 
 export const contactCapabilities = [
     {

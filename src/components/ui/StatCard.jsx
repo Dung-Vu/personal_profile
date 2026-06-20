@@ -46,10 +46,3 @@ export function StatCard({
  *   children: các StatCard
  *   className: thêm class
  */
-export function StatCardRow({ children, className = "" }) {
-    return (
-        <div className={`stat-card-row ${className}`.trim()}>
-            {children}
-        </div>
-    );
-}

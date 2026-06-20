@@ -53,6 +53,3 @@ export const sceneConfig = [
     },
 ];
 
-export const sceneLookup = Object.fromEntries(
-    sceneConfig.map((record) => [record.id, record]),
-);

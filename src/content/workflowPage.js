@@ -7,7 +7,7 @@ export const workflowHero = {
         "Mỗi bước có đầu ra rõ: phạm vi, cấu trúc, slice chạy được và bằng chứng kiểm tra trên browser.",
 };
 
-export const workflowDeliverables = [
+const workflowDeliverables = [
     "Brief doc: context, data, goal, timeline",
     "Structure map: route, state model, CTA flow",
     "Running slice: UI + data path + error states",
