@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * SurfaceCard — Card container chung, có border + glass + shadow.

@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowRight, CornerDownLeft } from "lucide-react";
 import { navigateTo } from "../hooks/useRoutePath";
 
