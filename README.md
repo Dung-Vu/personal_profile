@@ -37,11 +37,10 @@ Active copy/data nằm trong `src/content/`.
 ## Architecture
 
 - `src/App.jsx` - route switch, lazy load, per-route meta
-- `src/routes/routes.js` - route registry và normalize path
+- `src/routes/siteRoutes.js` - single source of truth cho routes + meta + sitemap + JSON-LD. `src/routes/routes.js` là thin re-export.
 - `src/pages/` - route pages
 - `src/components/home2/` - current Home hero/interactive layer
 - `src/components/lab/` - archive Signal OS shell
-- `src/components/sections/` - shared section primitives
 - `src/features/` - workflow, case theater, capability matrix, intake console
 - `src/hooks/` - motion, routing, shell state, interaction helpers
 - `src/styles/` - global CSS + route CSS
@@ -93,11 +92,8 @@ See `docs/IMAGE_BRIEF.md` if you want regenerate any slot.
 
 ## Screenshots
 
-Runtime screenshots live in `screenshots/`:
+Fresh QA captures live in:
 
-- `desktop-runtime.png`
-- `mobile-runtime.png`
-- `projects-scroll.png`
-- `workflow-stack.png`
-
-Fresh QA captures also live in `artifacts/layout-qa/`.
+- `artifacts/layout-qa/` - mobile/tablet/desktop overflow checks via `qa:mobile`/`qa:layout`
+- `artifacts/layout-qa-extra/` - extended viewport coverage
+- `artifacts/mobile-qa/` - mobile QA captures

@@ -4,13 +4,29 @@ Repo-specific workflows for `personal-website`. Keep this file current, compact,
 
 ## Current Source Of Truth
 
-- Route shell: `src/App.jsx` and `src/routes/routes.js`
+- Route shell: `src/App.jsx` (router) and `src/routes/siteRoutes.js` (single source of truth for routes + meta + sitemap + JSON-LD). `src/routes/routes.js` is a thin re-export.
 - Route pages: `src/pages/*.jsx`
-- Route data: `src/content/*.js` (`homePage.js`, `contactPage.js`, `projects.js`, `workflow.js`, `workflowPage.js`, `about.js`, `stack.js`)
+- Route data: `src/content/*.js` — page content (`homePage.js`, `contactPage.js`, `projects.js`, `workflow.js`, `workflowPage.js`, `about.js`, `stack.js`), identity and capability (`profile.js`, `capabilities.js`, `timeline.js`), shell controls (`sceneConfig.js`, `shellModeCopy.js`, `sectionModeCopy.js`, `themePacks.js`).
 - Live coordination: `docs/CHECK_IN.md`
 - Build gate: `npm run build`
 - Layout gate: `python scripts\mobile_qa.py` on Windows/Codex, or `npm run qa:mobile` where `python3` is available
 - Git status: repo is marked safe via global `safe.directory` for `D:/personal-website`
+
+## Konductor Read Order (replaces docs/KONDUCTOR_GUIDE.md)
+
+1. `KONDUCTOR.md` — compact machine contract.
+2. `docs/CHECK_IN.md` — current live state and handoff.
+3. `README.md` — runtime architecture, scripts, routes, assets.
+4. `.konductor/memory/KONDUCTOR_MEMORY.md` — durable constraints.
+5. `.konductor/memory/KONDUCTOR_ADR_HISTORY.md` — major decisions.
+
+## Konductor Operating Rules
+
+- Treat source files as truth before docs.
+- Keep `/lab` archival and secondary.
+- Keep Home, Work, Workflow, Stack, and Contact aligned with `src/content/`.
+- Do not cite old `/home2` plans as current runtime unless code imports them.
+- Report exact verification commands that ran.
 
 ## Custom Skills
 

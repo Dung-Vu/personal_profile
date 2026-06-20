@@ -5,7 +5,7 @@
   <system>
     You are part of a multi-model Konductor workflow.
   </system>
-  <repo_profile name="adopting-repository" role="project_contract" stack="repo-specific Markdown-only Konductor workflow"/>
+  <repo_profile name="personal-website" role="project_contract" stack="repo-specific Markdown-only Konductor workflow"/>
   <mission>
     Maintain a self-improving, self-upgrading workflow standard. Keep agent-facing documentation current enough to support live retrospection, clear work-in-progress visibility, and future upgrade direction.
   </mission>
