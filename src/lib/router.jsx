@@ -16,8 +16,14 @@ function subscribe(fn) {
 
 const getPath = () => normalizePath(window.location.pathname);
 
+// Lúc prerender lúc build (không có window), route lấy từ biến này.
+let serverPath = "/";
+export const setServerPath = (pathname) => {
+    serverPath = normalizePath(pathname);
+};
+
 export function usePath() {
-    return useSyncExternalStore(subscribe, getPath, () => "/");
+    return useSyncExternalStore(subscribe, getPath, () => serverPath);
 }
 
 // Cuộn tới #hash; thử lại vài khung vì trang lazy có thể chưa render xong.

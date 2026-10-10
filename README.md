@@ -1,103 +1,51 @@
 # Personal Website — Vũ Đình Dũng
 
-Vite + React 19 portfolio cho website, dashboard, internal tool và AI-assisted workflow. Hiện site có route `/`, `/about`, `/work`, `/work/:slug`, `/stack`, `/workflow`, `/contact`, `/lab`, và `/404`.
+Profile cá nhân tại [profile.bonstu.site](https://profile.bonstu.site): Vite 7 + React 19, CSS thuần, phim cuộn dựng bằng Remotion. Kế hoạch v2 ở `docs/V2_PLAN.md`.
 
-## Run
+## Chạy
 
-```powershell
-npm install
-npm run dev
+```bash
+pnpm install
+pnpm dev            # http://127.0.0.1:5173
+pnpm build          # build client + prerender mọi route vào dist/
+pnpm preview        # xem dist/ ở http://127.0.0.1:4173
 ```
 
-Build production:
+`pnpm build` gồm 3 bước, không cần trình duyệt nên chạy được trên Cloudflare Pages:
 
-```powershell
-npm run build
+1. `vite build` — bundle client (có manifest).
+2. `vite build --ssr src/entry-server.jsx --outDir dist-ssr` — bản render phía server.
+3. `scripts/prerender.mjs` — render từng route thành HTML tĩnh, chèn title/description/canonical/OG/JSON-LD riêng và CSS của trang lazy.
+
+## Sửa nội dung
+
+Mọi chữ nằm trong `src/content/` — sửa nội dung không cần đụng component.
+
+| File | Nội dung |
+| --- | --- |
+| `site.js` | Tên, vai trò, liên hệ, số liệu trang chủ, brief |
+| `projects.js` | 6 case: thẻ, chi tiết, số liệu, trước → sau |
+| `clips.js` | Clip bằng chứng ở trang case (dữ liệu minh hoạ đã che) |
+| `story.js`, `about.js` | Câu chuyện trang chủ, trang Cách làm |
+
+Đổi tên/số liệu case thì chạy lại `node scripts/gen_og.mjs` để sinh lại ảnh share trong `public/og/`.
+
+## Cấu trúc
+
+- `src/App.jsx` — chọn trang theo route (trang phụ lazy-load), đồng bộ meta.
+- `src/routes/siteRoutes.js` — danh sách route + meta SEO, dùng chung cho app, sitemap và prerender.
+- `src/sections/`, `src/film/` — trang chủ: hero, câu chuyện 5 chương, phim cuộn Remotion (chỉ tải khi cuộn tới, có bản tĩnh khi giảm chuyển động).
+- `src/components/CaseClip.jsx` — clip bằng chứng chạy một lần khi cuộn tới; cảnh cuối là bản tĩnh.
+- `public/_headers` — cache: `/static/*` (file có hash) vĩnh viễn, HTML luôn kiểm tra lại.
+
+## QA
+
+```bash
+pnpm qa:a11y                                   # axe WCAG 2.1 AA, mobile + desktop
+pnpm qa:perf                                   # LCP / CLS từng route
+WIDTHS=360,768,1440,1920 node scripts/qa_shots.mjs http://127.0.0.1:4173 <thư-mục>
+node scripts/qa_clips.mjs http://127.0.0.1:4173 <thư-mục>   # clip trang case
+node scripts/qa_film.mjs                       # phim cuộn trang chủ
 ```
 
-Optional scripts:
-
-```powershell
-npm run preview
-npm run qa:mobile
-npm run qa:layout
-npm run prerender
-npm run assets:generate
-```
-
-## Edit Content
-
-Active copy/data nằm trong `src/content/`.
-
-- `profile.js` - identity, links, hero image
-- `projects.js` - 3 case study và detail data
-- `about.js`, `stack.js`, `workflow.js`, `workflowPage.js`, `contactPage.js` - copy và data theo route
-- `homePage.js` - active Home content cho hero meta, projects, methods, trust signals và destinations
-
-## Architecture
-
-- `src/App.jsx` - route switch, lazy load, per-route meta
-- `src/routes/routes.js` - route registry và normalize path
-- `src/pages/` - route pages
-- `src/components/home2/` - current Home hero/interactive layer
-- `src/components/lab/` - archive Signal OS shell
-- `src/components/sections/` - shared section primitives
-- `src/features/` - workflow, case theater, capability matrix, intake console
-- `src/hooks/` - motion, routing, shell state, interaction helpers
-- `src/styles/` - global CSS + route CSS
-
-## Routes
-
-| Path | Page | Use |
-| --- | --- | --- |
-| `/` | HomePage | Editorial home, case links, workflow and contact entry points |
-| `/about` | AboutPage | Fit, beliefs, process, timeline |
-| `/work` | WorkPage | 3 case studies |
-| `/work/:slug` | CaseDetailPage | Deep case narrative |
-| `/stack` | StackPage | Capability matrix |
-| `/workflow` | WorkflowPage | 4-step delivery pipeline |
-| `/contact` | ContactPage | Low-friction brief intake, email CTA, copyable brief sample |
-| `/lab` | LabPage | Archived Signal OS shell |
-| `/404` | NotFoundPage | Fallback |
-
-## UX / Motion
-
-- Home dùng GSAP ScrollTrigger cho desktop, fallback stacked cho mobile và reduced motion.
-- Route navigation tôn trọng `prefers-reduced-motion`; same-route scroll dùng smooth only khi motion không bị reduce.
-- Client route change focus chuyển về `#main-content`, không ép focus vào `h1` ở lần load đầu.
-- Lab giữ experimental shell, command panel, cursor, presentation mode và signal canvas.
-- Route meta update ở `src/App.jsx` cho title, description, canonical và social tags.
-- `Ctrl/Cmd+K` mở command panel trong Lab shell.
-
-## SEO / Sharing
-
-- `public/sitemap.xml` liệt kê routes chính và case detail routes.
-- `index.html` giữ OG/Twitter image, alt text và `color-scheme` cho browser UI sáng.
-
-## Assets
-
-Current art assets nằm trong `public/assets/` và đã được map vào runtime.
-
-- `signal-workstation-hero-v2.webp` / `.jpg` - OG/social preview image, not preloaded on Home
-- `signal-hero-generated-1536.webp` / `.jpg` - Lab archive hero
-- `signal-about-dossier.webp` / `.jpg` - About portrait panel
-- `signal-case-tca-dashboard.webp` / `.jpg` - TCA case art
-- `signal-case-bonario-hub.webp` / `.jpg` - Bonario case art
-- `signal-case-ai-workflow.webp` / `.jpg` - AI workflow case art
-- `case-proof-tca.webp` - redacted TCA proof frame
-- `case-proof-bonario.webp` - redacted Bonario proof frame
-- `case-proof-ai-workflow.webp` - redacted AI workflow proof frame
-- `apple-touch-icon.png` - present
-
-See `docs/IMAGE_BRIEF.md` if you want regenerate any slot.
-
-## Screenshots
-
-Runtime screenshots live in `screenshots/`:
-
-- `desktop-runtime.png`
-- `mobile-runtime.png`
-- `projects-scroll.png`
-- `workflow-stack.png`
-
-Fresh QA captures also live in `artifacts/layout-qa/`.
+Chuẩn "xong": Lighthouse mobile Performance ≥ 90, Accessibility ≥ 95; JS tải lần đầu ở trang chủ < 250 KB; không vỡ layout 360 → 1920px; không lộ dữ liệu khách, token, URL nội bộ.

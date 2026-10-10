@@ -1,6 +1,6 @@
 # v2 — Nháp số liệu & nội dung case (P0)
 
-> Soạn 10/10/2026 từ git + nhật ký làm việc. Nguyên tắc sếp chốt: **không đưa Seamater**; số liệu chỉ ở mức "vừa đủ" — làm tròn, tổng hợp, không lộ dữ liệu khách/nội bộ.
+> Soạn 10/10/2026 từ git + nhật ký làm việc. Nguyên tắc sếp chốt: **không đưa dự án của công ty**; số liệu chỉ ở mức "vừa đủ" — làm tròn, tổng hợp, không lộ dữ liệu khách/nội bộ.
 > Ký hiệu: ✅ dùng được ngay · ⚠️ cần sếp xác nhận (số gần đúng hoặc hơi sâu) · ✏️ sếp bổ sung nếu muốn.
 
 ## Số tổng (dải số liệu ở trang chủ)

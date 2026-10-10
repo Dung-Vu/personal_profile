@@ -5,7 +5,7 @@ import { site } from "../content/site.js";
 export const siteOrigin = `https://${site.domain}`;
 
 const siteName = `${site.name} — ${site.role}`;
-const defaultImage = "/assets/og-cover.jpg";
+const defaultImage = "/og/home.jpg";
 
 const absoluteUrl = (path) => (path.startsWith("http") ? path : `${siteOrigin}${path}`);
 
@@ -75,6 +75,8 @@ export const siteRoutes = [
             title: `${p.name} — ${p.line} · ${site.name}`,
             desc: `${p.subtitle} Bài toán, cách làm và kết quả đo được.`,
             ogType: "article",
+            image: `/og/${p.slug}.jpg`,
+            imageAlt: `${p.name} — ${p.line}`,
         }, { sitemapPriority: "0.8" }),
     ),
     route("/about", {

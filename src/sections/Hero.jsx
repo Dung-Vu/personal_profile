@@ -52,7 +52,7 @@ export function Hero() {
                 </div>
                 <div className="ava">
                     <div className="ava-card">
-                        <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" fetchpriority="high" />
+                        <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" fetchPriority="high" />
                     </div>
                     {heroChips.map((chip, i) => (
                         <div key={chip.title} className={`chip c${i + 1}`}>

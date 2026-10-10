@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "prebuild": "node scripts/generate_sitemap.mjs",
-    "build": "vite build",
-    "build:static": "npm run build && npm run prerender",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:static": "npm run build",
     "preview": "vite preview --host 127.0.0.1",
     "qa:perf": "node scripts/qa_perf.cjs",
     "qa:a11y": "node scripts/qa_a11y.cjs",
-    "prerender": "node scripts/prerender.cjs",
+    "prerender": "node scripts/prerender.mjs",
     "qa:shots": "node scripts/qa_shots.mjs"
   },
   "dependencies": {
