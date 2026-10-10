@@ -42,7 +42,10 @@ function startServer() {
     const server = http.createServer((req, res) => {
       const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
       let filePath = path.join(DIST, url.pathname === "/" ? "index.html" : url.pathname);
-      if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+      // Giống Cloudflare Pages: /work/evone → work/evone.html.
+      if (url.pathname !== "/" && fs.existsSync(`${filePath}.html`)) {
+        filePath = `${filePath}.html`;
+      } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
         const directoryIndex = path.join(filePath, "index.html");
         filePath = fs.existsSync(directoryIndex)
           ? directoryIndex

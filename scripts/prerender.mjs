@@ -79,8 +79,8 @@ for (const route of prerenderRoutes) {
     const html = headFor(route).replace('<div id="root"></div>', `<div id="root">${body}</div>`);
     const outs =
         route === "/" ? ["index.html"]
-        : route === "/404" ? ["404.html", "404/index.html"]
-        : [`${route.slice(1)}/index.html`];
+        : route === "/404" ? ["404.html"]
+        : [`${route.slice(1)}.html`]; // Cloudflare Pages phục vụ /work/evone từ work/evone.html, không chuyển hướng thêm "/"
     for (const o of outs) {
         const file = path.join(DIST, o);
         fs.mkdirSync(path.dirname(file), { recursive: true });
