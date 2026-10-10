@@ -1,4 +1,4 @@
-// Danh sách route + meta SEO. Dùng chung cho app, scripts/prerender.cjs và scripts/generate_sitemap.mjs.
+// Danh sách route + meta SEO. Dùng chung cho app, scripts/prerender.mjs và scripts/generate_sitemap.mjs.
 import { projects } from "../content/projects.js";
 import { site } from "../content/site.js";
 

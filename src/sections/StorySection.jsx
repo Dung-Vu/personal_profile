@@ -4,8 +4,8 @@ import { StaticStory } from "./Story.jsx";
 const loadFilm = () => import("../film/FilmStory.jsx");
 const FilmStory = lazy(loadFilm);
 
-// Mặc định hiện bản tĩnh (cũng là bản prerender). Khi trang đã tải xong, máy không bật giảm chuyển động
-// và màn đủ cao thì tải phim ở nền, rồi thay vào lúc người xem chưa cuộn tới đoạn câu chuyện (không giật trang).
+// Mặc định hiện bản tĩnh (cũng là bản prerender). Khi người xem bắt đầu tương tác, máy không bật giảm chuyển động
+// và màn đủ cao thì tải phim, rồi thay vào lúc người xem chưa cuộn tới đoạn câu chuyện (không giật trang).
 const MIN_H = 620;
 
 function canFilm() {
@@ -41,15 +41,24 @@ export function StorySection() {
                 };
                 window.addEventListener("scroll", onScroll, { passive: true });
             });
-        const idle = window.requestIdleCallback ?? ((cb) => setTimeout(cb, 400));
-        const id = idle(start, { timeout: 2500 });
+        // Chỉ tải phim khi người xem bắt đầu tương tác (di chuột, chạm, cuộn, phím): trang vừa mở không phải gánh
+        // việc dựng phim, còn người xem thì luôn kịp có phim trước khi cuộn qua hết phần hero.
+        const events = ["pointermove", "pointerdown", "touchstart", "wheel", "scroll", "keydown"];
+        let started = false;
+        const kick = () => {
+            if (started) return;
+            started = true;
+            events.forEach((e) => window.removeEventListener(e, kick));
+            start();
+        };
+        events.forEach((e) => window.addEventListener(e, kick, { passive: true }));
 
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
         const onMotion = () => mq.matches && setMode("off");
         mq.addEventListener("change", onMotion);
         return () => {
             alive = false;
-            window.cancelIdleCallback?.(id);
+            events.forEach((e) => window.removeEventListener(e, kick));
             if (onScroll) window.removeEventListener("scroll", onScroll);
             mq.removeEventListener("change", onMotion);
         };

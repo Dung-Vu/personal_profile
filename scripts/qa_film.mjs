@@ -26,6 +26,9 @@ for (const [w, h] of sizes) {
     await page.setViewport({ width: w, height: h, deviceScaleFactor: 1, isMobile: w < 600, hasTouch: w < 600 });
     await page.goto(base + "/", { waitUntil: "networkidle0" });
     await page.evaluate(() => document.fonts.ready);
+    // Phim chỉ tải khi người xem tương tác.
+    await page.mouse.move(w / 2, h / 2);
+    await page.mouse.move(w / 2 + 20, h / 2 + 20);
     const film = await page.waitForSelector(".film .film-root", { timeout: 6000 }).catch(() => null);
     if (!film) {
         console.log(`${w}x${h}: không bật phim (bản tĩnh)`);
