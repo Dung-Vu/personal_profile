@@ -76,7 +76,7 @@ function headFor(route) {
 let ok = 0;
 for (const route of prerenderRoutes) {
     const body = await render(route);
-    const html = headFor(route).replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+    const html = headFor(route).replace('<div id="root"></div>', `<div id="root" data-ssr="${route}">${body}</div>`);
     const outs =
         route === "/" ? ["index.html"]
         : route === "/404" ? ["404.html"]

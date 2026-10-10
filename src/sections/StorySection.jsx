@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, startTransition, useEffect, useRef, useState } from "react";
 import { StaticStory } from "./Story.jsx";
 
 const loadFilm = () => import("../film/FilmStory.jsx");
@@ -30,11 +30,13 @@ export function StorySection() {
         const start = () =>
             loadFilm().then(() => {
                 if (!alive) return;
-                if (above()) return setMode("film");
+                // Gắn phim trong transition: React chia nhỏ việc render, không khoá luồng chính một mạch.
+                const show = () => startTransition(() => setMode("film"));
+                if (above()) return show();
                 onScroll = () => {
                     if (above()) {
                         window.removeEventListener("scroll", onScroll);
-                        setMode("film");
+                        show();
                     }
                 };
                 window.addEventListener("scroll", onScroll, { passive: true });

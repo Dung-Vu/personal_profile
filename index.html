@@ -28,11 +28,20 @@
     <meta name="twitter:title" content="Vũ Đình Dũng — Odoo, internal tools, AI agents" />
     <meta name="twitter:description" content="Biến cách doanh nghiệp đang vận hành thành hệ thống chạy được — rồi để AI gánh phần lặp lại." />
     <meta name="twitter:image" content="https://profile.bonstu.site/og/home.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Font tải không chặn render: hiện chữ hệ thống trước, đổi sang Be Vietnam Pro khi về. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+    <!-- Font tự host, bật sau lần vẽ đầu: chữ hiện ngay bằng font hệ thống, đổi sang Be Vietnam Pro khi về. -->
+    <link id="font-css" rel="stylesheet" href="/fonts/fonts.css" media="print" />
+    <script>
+      (function () {
+        var on = function () { document.getElementById("font-css").media = "all"; };
+        try {
+          new PerformanceObserver(function (list, obs) {
+            if (list.getEntriesByName("first-contentful-paint").length) { obs.disconnect(); setTimeout(on); }
+          }).observe({ type: "paint", buffered: true });
+        } catch (e) { on(); }
+        setTimeout(on, 3000);
+      })();
+    </script>
+    <noscript><link rel="stylesheet" href="/fonts/fonts.css" /></noscript>
     <link rel="preload" as="image" href="/assets/avatar-720.webp" type="image/webp" fetchpriority="high" />
     <script id="route-structured-data" type="application/ld+json">
       {"@context":"https://schema.org","@type":"Person","name":"Vũ Đình Dũng","url":"https://profile.bonstu.site/","email":"dinhdung521@gmail.com","sameAs":["https://github.com/Dung-Vu"],"jobTitle":"Operations Systems Builder"}

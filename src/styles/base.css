@@ -1,3 +1,23 @@
+/* Font dự phòng chỉnh cỡ khớp Be Vietnam Pro: lúc font thật về và thay vào, chữ gần như không đổi bề rộng → không xô layout. */
+@font-face {
+    font-family: "Be Vietnam Pro Fallback";
+    src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Roboto");
+    font-weight: 100 500;
+    size-adjust: 107.8%;
+    ascent-override: 92.8%;
+    descent-override: 24.6%;
+    line-gap-override: 0%;
+}
+@font-face {
+    font-family: "Be Vietnam Pro Fallback";
+    src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Roboto Bold");
+    font-weight: 600 900;
+    size-adjust: 104.5%;
+    ascent-override: 95.7%;
+    descent-override: 25.4%;
+    line-gap-override: 0%;
+}
+
 /* ===== Design system v2: token, chữ, nút, pill ===== */
 :root {
     --paper: #f3f2ee;
@@ -22,7 +42,7 @@
     --night-2: #14171c;
     --mint: #7be8c8;
 
-    --sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --sans: "Be Vietnam Pro", "Be Vietnam Pro Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
     --pad: 56px;
