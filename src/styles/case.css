@@ -1,0 +1,317 @@
+.page-case {
+    padding: 140px 0 0;
+}
+.crumb {
+    font-size: 14px;
+    color: var(--muted);
+}
+.crumb a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.crumb b {
+    color: var(--ink);
+    font-weight: 600;
+}
+.case-title {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 64px;
+    align-items: end;
+    margin-top: 30px;
+}
+.case-title h1 {
+    font-size: 88px;
+}
+.case-title h1 small {
+    display: block;
+    font-size: 34px;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    font-weight: 700;
+    color: var(--ink-2);
+    margin-top: 18px;
+    text-wrap: balance;
+}
+.case-title .tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+.facts {
+    border-top: 1px solid var(--line);
+}
+.facts div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+}
+.facts dt {
+    color: var(--muted);
+    flex: none;
+}
+.facts dd {
+    font-weight: 600;
+    text-align: right;
+}
+.metrics {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--ink);
+    color: #fff;
+    border-radius: 26px;
+    overflow: hidden;
+}
+.metrics div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    padding: 30px 32px;
+}
+.metrics div + div {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+.metrics dd {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1;
+}
+.metrics dt {
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+}
+.proof {
+    margin-top: 20px;
+    position: relative;
+    border-radius: 26px;
+    background: linear-gradient(160deg, var(--iris-soft), var(--ocean-soft));
+    padding: 48px 48px 0;
+    overflow: hidden;
+}
+.proof-apricot {
+    background: linear-gradient(160deg, var(--apricot-soft), var(--iris-soft));
+}
+.proof-ocean {
+    background: linear-gradient(160deg, var(--ocean-soft), var(--paper-2));
+}
+.proof-mint {
+    background: linear-gradient(160deg, #15201d, var(--night));
+}
+.proof .redact {
+    right: 64px;
+    top: 64px;
+    bottom: auto;
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-radius: 7px;
+}
+.story-row {
+    margin-top: 96px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+}
+.story-row + .story-row {
+    margin-top: 64px;
+    padding-top: 64px;
+    border-top: 1px solid var(--line);
+}
+.story-row h2 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+.story-row p {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 720px;
+    text-wrap: pretty;
+}
+.case-mods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 26px;
+    max-width: 760px;
+}
+.case-mods div {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+}
+.case-mods b {
+    display: block;
+    font-size: 16px;
+}
+.case-mods span {
+    display: block;
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.45;
+    text-wrap: pretty;
+}
+.next {
+    margin-top: 120px;
+    border-top: 1px solid var(--line);
+    padding: 48px 0 96px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+.next b {
+    display: block;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    margin-top: 8px;
+    text-wrap: balance;
+}
+.next .arrow {
+    flex: none;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    transition: transform 0.35s var(--ease);
+}
+.next:hover .arrow {
+    transform: translateX(6px);
+}
+@media (max-width: 1100px) {
+    .case-title {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+    .facts {
+        max-width: 560px;
+    }
+    .story-row {
+        grid-template-columns: 200px 1fr;
+        gap: 40px;
+    }
+    .case-mods {
+        grid-template-columns: 1fr 1fr;
+    }
+    .proof {
+        padding: 32px 32px 0;
+    }
+    .proof .win-body {
+        grid-template-columns: 160px 1fr;
+    }
+}
+@media (max-width: 760px) {
+    .page-case {
+        padding-top: 96px;
+    }
+    .case-title {
+        gap: 28px;
+        margin-top: 20px;
+    }
+    .case-title h1 {
+        font-size: 54px;
+    }
+    .case-title h1 small {
+        font-size: 22px;
+        margin-top: 12px;
+    }
+    .metrics {
+        grid-template-columns: 1fr;
+        margin-top: 36px;
+        border-radius: 22px;
+    }
+    .metrics div {
+        padding: 20px 22px;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        align-items: baseline;
+        gap: 14px;
+    }
+    .metrics div + div {
+        border-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .metrics dd {
+        font-size: 36px;
+    }
+    .metrics dt {
+        margin-top: 0;
+        font-size: 14px;
+    }
+    .proof {
+        padding: 24px 0 0 20px;
+        border-radius: 22px;
+    }
+    .proof .win {
+        border-radius: 12px 0 0 0;
+    }
+    .proof .win-body {
+        grid-template-columns: 1fr;
+        height: 300px;
+    }
+    .proof .win-side {
+        display: none;
+    }
+    .proof .win-kp {
+        grid-template-columns: 1fr 1fr;
+    }
+    .proof .win-tbl > div {
+        grid-template-columns: 1.3fr 1fr 0.9fr;
+    }
+    .proof .win-tbl > div > :nth-child(n + 4) {
+        display: none;
+    }
+    .proof .redact {
+        right: 14px;
+        top: 34px;
+    }
+    .story-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 64px;
+    }
+    .story-row + .story-row {
+        margin-top: 40px;
+        padding-top: 40px;
+    }
+    .story-row h2 {
+        font-size: 24px;
+    }
+    .story-row p {
+        font-size: 16.5px;
+    }
+    .case-mods {
+        gap: 10px;
+    }
+    .case-mods div {
+        padding: 14px;
+    }
+    .next {
+        margin-top: 72px;
+        padding-bottom: 64px;
+    }
+    .next b {
+        font-size: 26px;
+    }
+    .next .arrow {
+        width: 54px;
+        height: 54px;
+    }
+}

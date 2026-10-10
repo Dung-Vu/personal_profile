@@ -1,26 +1,21 @@
 {
-  "name": "dung-signal-profile",
+  "name": "vu-dinh-dung-profile",
   "private": true,
   "packageManager": "pnpm@11.5.1",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "prebuild": "node scripts/generate_sitemap.mjs",
     "build": "vite build",
     "build:static": "npm run build && npm run prerender",
-    "assets:generate": "node scripts/generate_image_assets.mjs",
-    "assets:audit": "node scripts/audit_image_assets.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "qa:mobile": "python3 scripts/mobile_qa.py",
-    "qa:layout": "python3 scripts/mobile_qa.py",
     "qa:perf": "node scripts/qa_perf.cjs",
     "qa:a11y": "node scripts/qa_a11y.cjs",
-    "prerender": "node scripts/prerender.cjs"
+    "prerender": "node scripts/prerender.cjs",
+    "qa:shots": "node scripts/qa_shots.mjs"
   },
   "dependencies": {
-    "gsap": "^3.14.2",
-    "lucide-react": "^0.561.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },

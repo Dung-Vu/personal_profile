@@ -1,0 +1,1109 @@
+/* ===== Câu chuyện 4 chương (bản tĩnh) ===== */
+.stage {
+    position: relative;
+    height: clamp(760px, 100svh, 1080px);
+    overflow: hidden;
+    border-top: 1px solid var(--line-2);
+}
+.grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(15, 17, 21, 0.09) 1px, transparent 1px);
+    background-size: 26px 26px;
+    pointer-events: none;
+}
+.stage .caption {
+    position: absolute;
+    z-index: 10;
+    max-width: 470px;
+}
+.caption .label {
+    display: block;
+    margin-bottom: 18px;
+}
+.caption .h2 {
+    margin-bottom: 18px;
+}
+.caption .lead {
+    font-size: 19px;
+}
+.rail {
+    position: absolute;
+    z-index: 10;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 34px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+.rail div {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.rail div::before {
+    content: "";
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    background: var(--line);
+}
+.rail div.done::before,
+.rail div.on::before {
+    background: var(--ink);
+}
+.rail div.on {
+    color: var(--ink);
+}
+[data-theme="dark"] .grid-bg {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+}
+[data-theme="dark"] .rail div {
+    color: rgba(255, 255, 255, 0.4);
+}
+[data-theme="dark"] .rail div::before {
+    background: rgba(255, 255, 255, 0.12);
+}
+[data-theme="dark"] .rail div.done::before,
+[data-theme="dark"] .rail div.on::before {
+    background: #fff;
+}
+[data-theme="dark"] .rail div.on {
+    color: #fff;
+}
+
+/* ----- Chương 1: hỗn loạn ----- */
+.frags {
+    position: absolute;
+    inset: var(--nav-h) 0 0;
+}
+.frag {
+    position: absolute;
+    transform-origin: 0 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 24px 48px -26px rgba(15, 17, 21, 0.35);
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.frag .meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.frag.chat {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+.frag.chat .av {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+}
+.frag.chat .bub {
+    background: var(--paper);
+    border-radius: 4px 14px 14px 14px;
+    padding: 9px 12px;
+    margin-top: 6px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+.badge {
+    background: #d13438;
+    color: #fff;
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 10px;
+    letter-spacing: 0;
+}
+.frag.sheet {
+    padding: 0;
+    overflow: hidden;
+}
+.frag.sheet .bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #1f6f43;
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+}
+.frag.sheet .bar .meta {
+    color: rgba(255, 255, 255, 0.9);
+    margin-left: auto;
+}
+.cells {
+    display: grid;
+    grid-template-columns: 36px repeat(4, 1fr);
+    font-family: var(--mono);
+    font-size: 11px;
+}
+.cells span {
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    padding: 5px 7px;
+    color: var(--ink-2);
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: 27px;
+}
+.cells span.h {
+    background: var(--paper);
+    color: var(--muted);
+    text-align: center;
+}
+.cells span.err {
+    color: #b42323;
+    background: #fbe9e7;
+    font-weight: 500;
+}
+.frag.note {
+    background: #f7e7b5;
+    border-color: rgba(120, 90, 0, 0.12);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.35;
+    color: #3f3412;
+}
+.frag.note .meta {
+    color: rgba(63, 52, 18, 0.6);
+    margin-top: 10px;
+}
+.frag.paper {
+    background: #fff;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+}
+.frag.paper b {
+    font-family: var(--sans);
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+}
+.frag.paper s {
+    color: var(--muted);
+    margin-right: 4px;
+}
+.paper-line {
+    display: block;
+}
+.stage-chaos .particles {
+    z-index: 4;
+}
+.cap-panel {
+    left: var(--gutter);
+    bottom: 96px;
+    background: rgba(243, 242, 238, 0.84);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 30px 32px 30px 0;
+    border-radius: 0 24px 24px 0;
+    max-width: 560px !important;
+}
+.cap-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 100% 0 -100vw;
+    background: inherit;
+    backdrop-filter: inherit;
+}
+.count {
+    position: absolute;
+    z-index: 10;
+    right: var(--gutter);
+    top: calc(var(--nav-h) + 20px);
+    text-align: right;
+}
+.count b {
+    display: block;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: #d23b3b;
+}
+
+/* ----- Chương 2: đọc hệ thống ----- */
+.stage-read {
+    --ring: 64px;
+}
+.cap-top {
+    left: var(--gutter);
+    top: calc(var(--nav-h) + 66px);
+    max-width: 620px !important;
+}
+.cap-top .lead {
+    max-width: 540px;
+}
+.out {
+    position: absolute;
+    z-index: 6;
+    right: var(--gutter);
+    top: calc(var(--nav-h) + 86px);
+    width: 300px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 24px 48px -30px rgba(15, 17, 21, 0.35);
+}
+.out .label {
+    display: block;
+    margin-bottom: 8px;
+}
+.out .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-2);
+}
+.out .row:first-of-type {
+    border-top: 0;
+}
+.out .row span:last-child {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+}
+.steps {
+    position: absolute;
+    z-index: 5;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: 52%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.step .q {
+    margin-bottom: 56px;
+    white-space: nowrap;
+}
+.core-wrap {
+    position: relative;
+    width: 100%;
+    height: 72px;
+}
+.core-wrap .ring {
+    position: absolute;
+    inset: 0;
+}
+.core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 500;
+}
+.step:not(:last-child) .core-wrap::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(50% + var(--ring) + 14px);
+    width: calc(100% - 2 * var(--ring) - 28px);
+    height: 3px;
+    margin-top: -1.5px;
+    background-image: radial-gradient(circle, rgba(15, 17, 21, 0.28) 1px, transparent 1.6px);
+    background-size: 9px 3px;
+}
+.tone-ocean .core {
+    background: var(--ocean-soft);
+    color: var(--ocean);
+}
+.tone-iris .core {
+    background: var(--iris-soft);
+    color: var(--iris-ink);
+}
+.tone-apricot .core {
+    background: var(--apricot-soft);
+    color: var(--apricot-ink);
+}
+.tone-ink .core {
+    background: var(--paper-2);
+    color: var(--ink);
+}
+.step .txt {
+    margin-top: 70px;
+    padding: 0 18px;
+    max-width: 260px;
+}
+.step h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.step p {
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    text-wrap: balance;
+}
+
+/* ----- Chương 3: dựng lại ----- */
+.stage-build {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 64px;
+    align-items: center;
+    height: auto;
+    min-height: clamp(760px, 100svh, 1080px);
+    padding: calc(var(--nav-h) + 44px) var(--gutter) 104px;
+}
+.stage-build .caption {
+    position: relative;
+    max-width: 400px;
+}
+.cap-side .h2 {
+    font-size: 50px;
+}
+.legend {
+    margin-top: 28px;
+    display: grid;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-2);
+}
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.legend i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+.bento {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 16px;
+}
+.card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 22px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px -40px rgba(15, 17, 21, 0.4);
+    overflow: hidden;
+    min-width: 0;
+    container-type: inline-size;
+}
+.card .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.card .live {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+@container (max-width: 250px) {
+    .card .live {
+        font-size: 0;
+        gap: 0;
+    }
+}
+.card .live::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2fb67c;
+    box-shadow: 0 0 0 3px rgba(47, 182, 124, 0.15);
+}
+.card h3 {
+    margin-top: 16px;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+}
+.card .line {
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    text-wrap: balance;
+}
+.card .mods {
+    margin: 16px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.card .mods span {
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+}
+.card .metric {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-2);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.card .mods + .metric {
+    margin-top: auto;
+}
+.card .mods {
+    margin-bottom: 14px;
+}
+.card .metric b {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    white-space: nowrap;
+}
+.card .metric span {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.35;
+}
+.card.feature {
+    background: var(--ink);
+    color: #fff;
+    border-color: transparent;
+}
+.card.feature .line,
+.card.feature .metric span,
+.card.feature .live {
+    color: rgba(255, 255, 255, 0.6);
+}
+.card.feature .metric {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.card.feature .mods span {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* ----- Chương 4: AI vận hành ----- */
+.stage-ai {
+    background: var(--night);
+    color: #fff;
+    border-top: 0;
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    gap: 90px;
+    padding: calc(var(--nav-h) + 36px) var(--gutter) 100px;
+}
+.stage-ai .label {
+    color: rgba(255, 255, 255, 0.5);
+}
+.stage-ai .label b {
+    color: #fff;
+}
+.stage-ai .lead {
+    color: rgba(255, 255, 255, 0.66);
+}
+.glow {
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(closest-side, rgba(123, 232, 200, 0.13), transparent);
+    pointer-events: none;
+}
+.ai-left {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    padding-top: 16px;
+}
+.stage-ai .caption {
+    position: relative;
+    max-width: 430px;
+}
+.log {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.55);
+}
+.log .h {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.log div {
+    display: grid;
+    grid-template-columns: 44px 58px 1fr auto;
+    gap: 8px;
+    white-space: nowrap;
+}
+.log .ok {
+    color: var(--mint);
+}
+.log .who {
+    color: #fff;
+}
+.map {
+    position: relative;
+    z-index: 5;
+    min-height: 0;
+}
+.wires {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.wire {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 1.2;
+}
+.pulse {
+    fill: none;
+    stroke: var(--mint);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 14 86;
+    filter: drop-shadow(0 0 4px var(--mint));
+    animation: pulse 3.2s linear infinite;
+}
+@keyframes pulse {
+    to {
+        stroke-dashoffset: -100;
+    }
+}
+.map .row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+.agents {
+    top: 0;
+}
+.systems {
+    bottom: 44px;
+}
+.agent {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--night-2);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+.agent .ic {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+}
+.agent b {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.agent small {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+}
+.hub {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    padding: 22px 24px;
+    border-radius: 22px;
+    text-align: center;
+    background: linear-gradient(180deg, #17201f, #101615);
+    border: 1px solid rgba(123, 232, 200, 0.35);
+    box-shadow: 0 0 0 8px rgba(123, 232, 200, 0.05), 0 0 80px rgba(123, 232, 200, 0.18);
+}
+.hub .label {
+    display: block;
+    margin-bottom: 6px;
+}
+.hub b {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.hub-steps {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+.hub-steps span {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(123, 232, 200, 0.1);
+    color: var(--mint);
+    white-space: nowrap;
+}
+.sys {
+    flex: 1;
+    text-align: center;
+    padding: 12px 6px;
+    border-radius: 14px;
+    border: 1px dashed rgba(255, 255, 255, 0.16);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    white-space: nowrap;
+}
+.sys small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+    margin-top: 2px;
+}
+.human {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+.human i {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--night);
+    display: grid;
+    place-items: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* ===== Rộng ===== */
+@media (min-width: 1600px) {
+    .stage-build {
+        grid-template-columns: 440px 1fr;
+    }
+}
+
+/* ===== Tablet: xếp dọc, giữ thành phần lớn ===== */
+@media (max-width: 1180px) {
+    .stage-build,
+    .stage-ai {
+        height: auto;
+        min-height: 100svh;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding-bottom: 110px;
+    }
+    .stage-build .caption,
+    .stage-ai .caption {
+        max-width: 640px;
+    }
+    .legend {
+        grid-template-columns: repeat(3, auto);
+        justify-content: start;
+        gap: 10px 22px;
+    }
+    .bento {
+        height: auto;
+        grid-template-rows: auto;
+    }
+    .card {
+        min-height: 250px;
+    }
+    .ai-left {
+        padding-top: 0;
+        flex-direction: row;
+        align-items: flex-end;
+    }
+    .ai-left .log {
+        flex: none;
+        width: 400px;
+    }
+    .map {
+        height: 460px;
+    }
+}
+@media (max-width: 900px) {
+    .stage-read {
+        height: auto;
+        min-height: 100svh;
+        padding: calc(var(--nav-h) + 24px) var(--gutter) 110px;
+    }
+    .stage-read .caption {
+        position: relative;
+        left: 0;
+        top: 0;
+    }
+    .out {
+        display: none;
+    }
+    .steps {
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        margin-top: 40px;
+        grid-template-columns: 1fr;
+        gap: 46px;
+    }
+    .stage-read {
+        --ring: 34px;
+    }
+    .step {
+        flex-direction: row;
+        text-align: left;
+        gap: 24px;
+    }
+    .step .q {
+        display: none;
+    }
+    .core-wrap {
+        flex: none;
+        width: 68px;
+        height: 68px;
+    }
+    .core {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
+    .step:not(:last-child) .core-wrap::after {
+        left: 50%;
+        top: calc(50% + var(--ring) + 10px);
+        width: 3px;
+        height: 26px;
+        margin: 0 0 0 -1.5px;
+        background-size: 3px 9px;
+    }
+    .step .txt {
+        margin-top: 0;
+        padding: 0;
+        max-width: 420px;
+    }
+    .step h3 {
+        font-size: 18px;
+    }
+    .step p {
+        font-size: 13.5px;
+        margin-top: 2px;
+        text-wrap: pretty;
+    }
+    .ai-left {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ai-left .log {
+        display: none;
+    }
+    .map {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+    }
+    .wires {
+        display: none;
+    }
+    .map .row {
+        position: static;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .agent {
+        flex: 0 0 calc(50% - 4px);
+    }
+    .hub {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
+        width: 100%;
+    }
+    .hub::before,
+    .hub::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        width: 1.5px;
+        height: 34px;
+        margin-left: -0.75px;
+        background: linear-gradient(transparent, var(--mint));
+    }
+    .hub::before {
+        bottom: calc(100% + 7px);
+    }
+    .hub::after {
+        top: calc(100% + 7px);
+        transform: rotate(180deg);
+    }
+    .sys {
+        flex: 0 0 calc(33.33% - 6px);
+    }
+    .human {
+        position: static;
+        margin-top: -28px;
+    }
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 600px) {
+    .stage {
+        height: auto;
+        min-height: 100svh;
+    }
+    .stage-chaos {
+        height: max(760px, 100svh);
+    }
+    .stage .caption .h2 {
+        font-size: 30px;
+    }
+    .caption .lead {
+        font-size: 15.5px;
+    }
+    .rail {
+        bottom: 22px;
+        gap: 8px;
+    }
+    .rail div {
+        font-size: 0;
+    }
+    .rail div::before {
+        margin-bottom: 0;
+    }
+    .frag {
+        padding: 10px 12px;
+        font-size: 12.5px;
+        border-radius: 13px;
+    }
+    .frag.chat .av {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+    .frag.chat .bub {
+        padding: 7px 10px;
+    }
+    .frag.note {
+        font-size: 14px;
+    }
+    .cells {
+        font-size: 10px;
+    }
+    .cap-panel {
+        left: 0;
+        right: 0;
+        bottom: 56px;
+        padding: 22px var(--pad) 18px;
+        border-radius: 24px 24px 0 0;
+    }
+    .cap-panel::before,
+    .count {
+        display: none;
+    }
+    .legend {
+        display: none;
+    }
+    .bento {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .card {
+        min-height: 0;
+        padding: 14px 14px 13px;
+        border-radius: 16px;
+    }
+    .card .pill {
+        height: 22px;
+        padding: 0 8px;
+        font-size: 10px;
+    }
+    .card .live {
+        font-size: 0;
+        gap: 0;
+    }
+    .card .live::before {
+        width: 6px;
+        height: 6px;
+    }
+    .card h3 {
+        margin-top: 10px;
+        font-size: 16px;
+    }
+    .card .line,
+    .card .mods {
+        display: none;
+    }
+    .card .metric {
+        margin-top: 14px;
+        padding-top: 9px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+    .card .metric b {
+        font-size: 24px;
+    }
+    .card .metric span {
+        font-size: 11.5px;
+    }
+    .stage-build,
+    .stage-ai {
+        gap: 26px;
+        padding-top: calc(var(--nav-h) + 24px);
+        padding-bottom: 70px;
+    }
+    .glow {
+        right: -400px;
+    }
+    .map {
+        gap: 40px;
+    }
+    .agent {
+        padding: 9px 10px;
+        gap: 9px;
+        border-radius: 13px;
+    }
+    .agent .ic {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+    .agent b {
+        font-size: 13.5px;
+    }
+    .agent small {
+        display: none;
+    }
+    .hub {
+        padding: 14px;
+        border-radius: 16px;
+    }
+    .hub b {
+        font-size: 16px;
+    }
+    .hub-steps {
+        margin-top: 8px;
+    }
+    .hub-steps span {
+        font-size: 10px;
+        padding: 3px 7px;
+    }
+    .hub::before,
+    .hub::after {
+        height: 26px;
+    }
+    .sys {
+        font-size: 12px;
+        padding: 8px 4px;
+        border-radius: 11px;
+    }
+    .sys small {
+        display: none;
+    }
+    .human {
+        font-size: 12.5px;
+        margin-top: -22px;
+    }
+    .human i {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+}

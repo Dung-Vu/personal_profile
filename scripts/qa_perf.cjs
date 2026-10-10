@@ -25,6 +25,8 @@ function safeRemove(target) {
 
 function findChrome() {
   const candidates = [
+    process.env.CHROME_PATH,
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "C:/Program Files/Google/Chrome/Application/chrome.exe",
     "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
@@ -32,7 +34,7 @@ function findChrome() {
     "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "/mnt/c/Program Files/Microsoft/Edge/Application/msedge.exe",
   ];
-  return candidates.find((candidate) => fs.existsSync(candidate));
+  return candidates.find((candidate) => candidate && fs.existsSync(candidate));
 }
 
 function startServer() {

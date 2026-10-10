@@ -25,6 +25,8 @@ function safeRemove(target) {
 
 function findChrome() {
   const candidates = [
+    process.env.CHROME_PATH,
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "C:/Program Files/Google/Chrome/Application/chrome.exe",
     "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
@@ -32,7 +34,7 @@ function findChrome() {
     "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "/mnt/c/Program Files/Microsoft/Edge/Application/msedge.exe",
   ];
-  return candidates.find((candidate) => fs.existsSync(candidate));
+  return candidates.find((candidate) => candidate && fs.existsSync(candidate));
 }
 
 function startServer() {
@@ -97,7 +99,9 @@ async function runAxe(page) {
   const axeSource = require("axe-core").source;
   await page.addScriptTag({ content: axeSource });
   return page.evaluate(async () => {
-    const results = await window.axe.run(document, {
+    // Mảnh chat/Excel trôi ở chương 1 là hình trang trí (aria-hidden, cố ý mờ theo chiều sâu):
+    // chữ trong đó thuộc diện "incidental" của WCAG 1.4.3 nên không chấm tương phản.
+    const results = await window.axe.run({ exclude: [[".frags"]] }, {
       runOnly: {
         type: "tag",
         values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"],

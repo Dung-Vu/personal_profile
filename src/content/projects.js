@@ -1,606 +1,340 @@
-const rawProjects = [
+// 6 case chính + "Và còn nữa". Số liệu làm tròn, tổng hợp; dữ liệu khách đã che.
+// tone: màu nhóm (ocean | iris | apricot | mint). proof: cấu hình ảnh minh hoạ giao diện đã che dữ liệu.
+export const categories = [
+    { id: "all", label: "Tất cả" },
+    { id: "odoo", label: "Odoo" },
+    { id: "erp", label: "ERP theo ngành" },
+    { id: "excel", label: "Thay Excel" },
+    { id: "bot", label: "Bot" },
+    { id: "ai", label: "Dữ liệu & AI" },
+];
+
+export const projects = [
     {
-        slug: "tca-crypto-analyzer",
-        title: "TCA Crypto Analyzer",
-        type: "Market data dashboard",
-        category: "dashboard",
-        importance: "flagship",
-        year: "2026",
-        image: "/assets/signal-case-tca-dashboard.webp",
-        tech: ["React", "Recharts", "Binance API", "WebSockets"],
-        summary:
-            "Dashboard theo dõi crypto market, gom chart, tín hiệu và dữ liệu biến động vào một trải nghiệm đọc nhanh.",
+        slug: "evone",
+        name: "EVOne",
+        cardTitle: "EVOne — ERP cho chuỗi showroom xe điện",
+        category: "erp",
+        tag: "ERP theo ngành",
+        tone: "iris",
+        before: "Sổ sách + Excel cho bán hàng, kho xe, trả góp",
+        after: "một hệ thống: kho theo số khung, công nợ trả góp, VietQR, làm việc cả khi mất mạng.",
+        cardMetrics: [
+            { value: "1.400+", label: "commit trong 3 tháng" },
+            { value: "8.000+", label: "test tự động" },
+            { value: "1.700+", label: "xe đang quản lý" },
+        ],
+        line: "ERP cho chuỗi showroom xe điện",
+        modules: ["Bán hàng", "Kho xe", "Trả góp", "VietQR", "Offline"],
+        metric: { value: "8.000+", label: "test tự động" },
+        subtitle: "ERP riêng cho chuỗi showroom xe điện — thay sổ sách và Excel.",
+        facts: [
+            { k: "Vai trò", v: "Phân tích, thiết kế, build" },
+            { k: "Thời gian", v: "3 tháng đầu, vẫn đang phát triển" },
+            { k: "Cách làm", v: "1 người + đội AI agent" },
+            { k: "Nền tảng", v: "Web-app, chạy cả khi mất mạng" },
+        ],
+        metrics: [
+            { value: "1.400+", label: "commit trong 3 tháng" },
+            { value: "8.000+", label: "test tự động" },
+            { value: "1.700+", label: "xe đang được quản lý" },
+        ],
         problem:
-            "Trader phải mở nhiều nguồn để xem chart, biến động và tín hiệu. Việc đọc thị trường bị chậm, dễ nhiễu và khó biết thông tin nào cần ưu tiên.",
-        role:
-            "Thiết kế cấu trúc dashboard, tổ chức module dữ liệu, định nghĩa trạng thái hiển thị và luồng đọc tín hiệu.",
-        outcome:
-            "Một màn hình tập trung hơn, ưu tiên tín hiệu quan trọng, giảm thao tác chuyển tab và giúp người dùng đọc bối cảnh nhanh hơn.",
-        status: "Private build",
-        timeline: "Prototype + dashboard iteration",
-        privateReason: "Private because market data and account context are not public.",
-        team: "Solo frontend/product UI",
-        evidenceNote:
-            "Preview đã redacted; dữ liệu market/account thật được giữ riêng tư.",
-        nextProof:
-            "Add a redacted demo clip or public sandbox when data can be safely mocked.",
-        proofMedia: {
-            image: "/assets/case-proof-tca.webp",
-            alt: "Redacted proof frame của dashboard TCA Crypto Analyzer",
-            caption:
-                "Proof frame đã redacted: chart thị trường, mức ưu tiên signal, risk overview và fast-scan metrics, không lộ dữ liệu tài khoản.",
+            "Chuỗi showroom quản lý bán hàng, kho xe và công nợ trả góp bằng sổ sách và nhiều file Excel. Mỗi chiếc xe đi qua nhiều người, nhiều bước, nhưng không ai nhìn thấy toàn bộ hành trình của nó.",
+        approach:
+            "Đọc quy trình từ quầy bán đến kho, rồi dựng từng phần theo đúng thứ tự công việc thật. Mỗi thay đổi đều có test tự động canh trước khi đưa lên.",
+        modulesDetail: [
+            { title: "Kho theo số khung", desc: "Mỗi xe một hồ sơ từ lúc nhập đến lúc giao" },
+            { title: "Công nợ trả góp", desc: "Lịch thu, nhắc kỳ, đối soát" },
+            { title: "VietQR động", desc: "Mã thanh toán đúng số tiền từng kỳ" },
+            { title: "Bán hàng", desc: "Báo giá, hợp đồng, giao xe" },
+            { title: "Làm việc offline", desc: "Mất mạng vẫn bán được, có mạng tự đồng bộ" },
+            { title: "Phân quyền", desc: "Mỗi vai trò thấy đúng phần việc của mình" },
+        ],
+        result:
+            "Một hệ thống thay cho sổ sách và file rời rạc, đang dùng hằng ngày. Từng chiếc xe có lịch sử rõ ràng, công nợ được nhắc đúng hạn — và mọi thay đổi đều được hơn 8.000 test kiểm tra trước khi tới tay người dùng.",
+        proof: {
+            app: "evone · kho xe",
+            side: ["Tổng quan", "Bán hàng", "Kho xe", "Trả góp", "Thu tiền", "Báo cáo"],
+            active: 2,
+            kpis: ["Tồn kho", "Đang giao", "Chờ đăng ký", "Bảo hành"],
+            cols: ["Số khung", "Mẫu xe", "Showroom", "Trạng thái", "Cập nhật"],
+            statuses: [["Trong kho", "ocean"], ["Đang giao", "apricot"], ["Đã bán", "iris"], ["Trong kho", "ocean"], ["Trong kho", "ocean"]],
         },
-        flowProof: {
-            label: "Flow đã redacted",
-            title: "Watchlist -> signal scan -> risk check",
-            description:
-                "Một bản chụp luồng đã che dữ liệu nhạy cảm, cho thấy cách mình giữ thứ tự đọc từ signal tới hành động.",
-            steps: [
-                {
-                    label: "01",
-                    title: "Open watchlist",
-                    note: "Danh sách cặp theo dõi và trạng thái thị trường mở trước.",
-                },
-                {
-                    label: "02",
-                    title: "Scan priority",
-                    note: "Signal card, invalidation và momentum được đẩy lên trước.",
-                },
-                {
-                    label: "03",
-                    title: "Check risk",
-                    note: "Số liệu tài khoản, position size và vùng cảnh báo bị che.",
-                },
-                {
-                    label: "04",
-                    title: "Record action",
-                    note: "Người dùng chốt hướng đọc mà không cần đổi tab.",
-                },
-            ],
-            redactions: [
-                "Account ids masked",
-                "Live prices blurred",
-                "Private labels removed",
-            ],
-        },
-        proofSignals: [
-            {
-                label: "Signal scan",
-                text: "Chart context, signal priority và risk state nằm chung một surface.",
-            },
-            {
-                label: "Redacted proof",
-                text: "Preview vẫn đọc được luồng nhưng dữ liệu tài khoản thật không lộ.",
-            },
-            {
-                label: "Decision speed",
-                text: "Trader đọc nhanh hơn vì màn hình không ép nhảy qua nhiều tab.",
-            },
-        ],
-        decisionLedger: [
-            {
-                label: "Constraint",
-                text: "Realtime market data changes fast, so the UI cannot force users to chase context across tabs.",
-            },
-            {
-                label: "Decision",
-                text: "Put chart context, signal priority and risk state into one reading surface.",
-            },
-            {
-                label: "Trade-off",
-                text: "Keep the first screen focused instead of exposing every raw metric at once.",
-            },
-            {
-                label: "Result",
-                text: "The dashboard reads like an operator surface: scan first, drill down only when needed.",
-            },
-        ],
-        liveUrl: "",
-        repoUrl: "",
-        constraints: [
-            "Luồng dữ liệu realtime dễ nhiễu",
-            "Cần giữ chart và signal cùng một ngữ cảnh",
-            "Tránh quá tải DOM khi giá tick liên tục",
-        ],
-        deliverables: [
-            "Dashboard information architecture",
-            "Signal-first card and chart hierarchy",
-            "Runtime states for loading, empty and fast-scan flows",
-        ],
-        uiFocus: ["dashboard hierarchy", "signal prioritization", "fast scanning"],
-        systemRole: "Signal-first market reading surface",
-        signals: ["clarity", "speed", "data-density"],
-        assets: {
-            cover: "/assets/signal-case-tca-dashboard.webp",
-        },
-        links: {},
-        architectureContext:
-            "Hệ thống cần đọc luồng dữ liệu từ Binance Futures, gom nhiều khung thời gian và biến kết quả thành signal card dễ quét. Frontend đóng vai trò aggregator: nhận dữ liệu thô, tổ chức trạng thái và hiển thị điểm cần chú ý trước khi người dùng đi sâu vào chart.",
-        coreChallenges:
-            "Thách thức chính là giữ UI ổn định khi dữ liệu thay đổi liên tục, đồng thời không biến dashboard thành một bảng thông tin dày đặc khó đọc.",
-        technicalDecisions: [
-            {
-                title: "Signal-first hierarchy",
-                desc:
-                    "Đẩy tín hiệu, invalidation và trạng thái rủi ro lên trước chart detail để người dùng có hướng đọc rõ ngay từ màn hình đầu.",
-            },
-            {
-                title: "Runtime states before polish",
-                desc:
-                    "Thiết kế loading, empty, reconnect và fast-scan states trước khi thêm motion để dashboard vẫn dùng được khi dữ liệu chưa ổn định.",
-            },
-        ],
-        businessImpact:
-            "Giúp trải nghiệm đọc thị trường tập trung hơn: ít nhảy tab, ít nhiễu và rõ hơn về tín hiệu nào cần ưu tiên.",
     },
     {
-        slug: "bonario-product-hub",
-        title: "Bonario Product Hub",
-        type: "Internal operations tool",
-        category: "internal-tool",
-        importance: "high",
-        year: "2026",
-        image: "/assets/signal-case-bonario-hub.webp",
-        tech: ["Flask", "React", "Odoo API", "Redis"],
-        summary:
-            "Công cụ web kết nối Flask, React và Odoo để tra cứu, xử lý và kiểm soát dữ liệu sản phẩm nội bộ.",
+        slug: "odoo-bonario",
+        name: "Odoo Bonario",
+        cardTitle: "Vận hành doanh nghiệp trên Odoo",
+        category: "odoo",
+        tag: "Odoo",
+        tone: "ocean",
+        before: "Thông báo, báo cáo, kiểm kho làm tay",
+        after: "tự động hoá quanh Odoo: helpdesk, serial RFID, in label, bot kiểm kho.",
+        cardMetrics: [
+            { value: "5", label: "tool vệ tinh" },
+            { value: "30+", label: "phiếu & task từ 07/2026" },
+        ],
+        line: "Bán hàng, kho, helpdesk bớt thao tác tay",
+        modules: ["Helpdesk", "Kho", "Serial RFID", "In label", "Báo cáo"],
+        metric: { value: "5", label: "tool vệ tinh quanh Odoo" },
+        subtitle: "Vận hành bán hàng, kho và helpdesk trên Odoo — bớt thao tác tay.",
+        facts: [
+            { k: "Vai trò", v: "Vận hành & phát triển Odoo" },
+            { k: "Thời gian", v: "Từ 07/2026, đang chạy" },
+            { k: "Cách làm", v: "Theo từng phiếu thật, sửa đúng chỗ tắc" },
+            { k: "Nền tảng", v: "Odoo + tool vệ tinh" },
+        ],
+        metrics: [
+            { value: "5", label: "tool vệ tinh nối với Odoo" },
+            { value: "30+", label: "phiếu helpdesk & task vận hành" },
+            { value: "07/2026", label: "bắt đầu vận hành" },
+        ],
         problem:
-            "Đội vận hành cần xử lý dữ liệu sản phẩm nhanh hơn nhưng thao tác đang phân tán giữa nhiều màn hình và nhiều nguồn dữ liệu.",
-        role:
-            "Kết nối API, dựng giao diện quản trị, tổ chức dữ liệu theo workflow và tối ưu các thao tác lặp lại.",
-        outcome:
-            "Một hub vận hành rõ trạng thái, dễ mở rộng và giảm phụ thuộc vào xử lý thủ công khi làm việc với dữ liệu sản phẩm.",
-        status: "Internal tool",
-        timeline: "Internal workflow build",
-        privateReason: "Private because it touches operations data and Odoo context.",
-        team: "Solo full-stack implementation support",
-        evidenceNote:
-            "Chỉ dùng preview đã redacted; dữ liệu product/Odoo nội bộ không public.",
-        nextProof:
-            "Add redacted workflow screenshots for search, edit, sync, and error states.",
-        proofMedia: {
-            image: "/assets/case-proof-bonario.webp",
-            alt: "Redacted proof frame của Bonario Product Hub",
-            caption:
-                "Proof frame đã redacted: tìm kiếm sản phẩm, trạng thái chỉnh sửa, trạng thái sync Odoo và batch queue.",
+            "Bán hàng, kho và helpdesk đã chạy trên Odoo nhưng còn nhiều bước làm tay: báo đơn, nhập serial, in phiếu, kiểm kho. Báo cáo nằm rải rác, mỗi người giữ một bản.",
+        approach:
+            "Đi theo từng phiếu helpdesk thật để thấy chỗ hay tắc, rồi tự động hoá đúng chỗ đó thay vì làm lại cả hệ thống. Việc Odoo làm chưa gọn thì dựng tool vệ tinh nhỏ nối vào Odoo.",
+        modulesDetail: [
+            { title: "Thông báo đơn hàng", desc: "Đơn mới tự báo đúng người, đúng nhóm" },
+            { title: "Serial RFID", desc: "Đồng bộ serial từ máy quét vào Odoo" },
+            { title: "In label", desc: "In nhãn ngay từ phiếu nhập kho" },
+            { title: "Bot kiểm kho", desc: "Gửi file quét, nhận đối soát tồn kho" },
+            { title: "Báo cáo chuẩn hoá", desc: "Một mẫu thay cho nhiều bản tự làm" },
+            { title: "Helpdesk nội bộ", desc: "Phiếu có người nhận, có hạn, có dấu vết" },
+        ],
+        result:
+            "Các bước lặp lại trong bán hàng và kho đã có luồng tự động hoặc tool hỗ trợ. Yêu cầu vận hành đi qua helpdesk, có người nhận và có dấu vết — không còn trôi trong tin nhắn.",
+        proof: {
+            app: "odoo · helpdesk",
+            side: ["Thảo luận", "Bán hàng", "Kho", "Helpdesk", "Báo cáo"],
+            active: 3,
+            kpis: ["Phiếu mới", "Đang xử lý", "Chờ phản hồi", "Đã xong"],
+            cols: ["Mã phiếu", "Chủ đề", "Người nhận", "Trạng thái", "Cập nhật"],
+            statuses: [["Mới", "apricot"], ["Đang xử lý", "iris"], ["Đã xong", "ocean"], ["Đang xử lý", "iris"], ["Đã xong", "ocean"]],
         },
-        flowProof: {
-            label: "Flow đã redacted",
-            title: "Search -> edit -> sync -> verify",
-            description:
-                "Luồng vận hành được chụp lại theo dạng đỏ hóa để thấy rõ nhịp làm việc, còn dữ liệu nội bộ thì không lộ.",
-            steps: [
-                {
-                    label: "01",
-                    title: "Search product",
-                    note: "Tìm đúng SKU hoặc record mà không nhảy qua nhiều màn hình.",
-                },
-                {
-                    label: "02",
-                    title: "Edit state",
-                    note: "Field nhạy cảm được che, chỉ giữ mạch thao tác chính.",
-                },
-                {
-                    label: "03",
-                    title: "Sync Odoo",
-                    note: "Trạng thái đồng bộ, queue và lỗi được gom vào cùng bề mặt.",
-                },
-                {
-                    label: "04",
-                    title: "Verify result",
-                    note: "Nhìn lại feedback trước khi chuyển sang bản ghi tiếp theo.",
-                },
-            ],
-            redactions: [
-                "Product values masked",
-                "Internal ids blurred",
-                "Sync notes truncated",
-            ],
-        },
-        proofSignals: [
-            {
-                label: "Operator flow",
-                text: "Search, edit và sync nằm trên cùng một surface thao tác.",
-            },
-            {
-                label: "State clarity",
-                text: "Sync status, queue và lỗi đều visible thay vì ẩn sau nhiều màn hình.",
-            },
-            {
-                label: "Rollback safe",
-                text: "Flow ưu tiên thao tác rõ trước rồi mới đến batch hoặc rollback.",
-            },
-        ],
-        decisionLedger: [
-            {
-                label: "Constraint",
-                text: "Operations work was spread across product data, Odoo state and repeated manual checks.",
-            },
-            {
-                label: "Decision",
-                text: "Make one hub that keeps search, edit, sync and error feedback on the same surface.",
-            },
-            {
-                label: "Trade-off",
-                text: "Prioritize operator clarity over manager-style analytics charts.",
-            },
-            {
-                label: "Result",
-                text: "Operators get a steadier workflow with visible sync state and fewer hidden handoffs.",
-            },
-        ],
-        liveUrl: "",
-        repoUrl: "",
-        constraints: [
-            "Odoo API phản hồi không đồng đều",
-            "Nhu cầu batch update liên tục",
-            "Trạng thái đồng bộ dễ đứt gãy",
-        ],
-        deliverables: [
-            "Operations hub structure",
-            "Admin workflow screens",
-            "API/Odoo state handling and operator feedback",
-        ],
-        uiFocus: ["state clarity", "admin flows", "operational consistency"],
-        systemRole: "Operations hub for product handling",
-        signals: ["workflow", "system-state", "reliability"],
-        assets: {
-            cover: "/assets/signal-case-bonario-hub.webp",
-        },
-        links: {},
-        architectureContext:
-            "Ứng dụng nội bộ làm cầu nối giữa React frontend và hệ thống ERP Odoo thông qua Flask API. Hub hợp nhất các thao tác tìm kiếm, chỉnh sửa, đồng bộ và phản hồi lỗi vào một bề mặt thao tác nhất quán.",
-        coreChallenges:
-            "Odoo payload phức tạp, trạng thái đồng bộ dễ chậm và operator cần feedback rõ để biết thao tác nào đã lưu, đang chờ hoặc cần rollback.",
-        technicalDecisions: [
-            {
-                title: "Optimistic UI with rollback path",
-                desc:
-                    "Cho người dùng thấy phản hồi thao tác ngay trên giao diện, nhưng vẫn giữ trạng thái rollback và cảnh báo lỗi khi sync với Odoo không thành công.",
-            },
-            {
-                title: "Flask middleware bridge",
-                desc:
-                    "Không gọi trực tiếp Odoo từ client. Flask làm lớp format payload, gom trạng thái và giữ API client dễ đọc hơn.",
-            },
-        ],
-        businessImpact:
-            "Giảm việc nhảy giữa nhiều màn hình và giúp thao tác sản phẩm nhất quán hơn, đặc biệt ở các bước tìm kiếm, chỉnh sửa và đồng bộ.",
     },
     {
-        slug: "ai-operator-workflow",
-        title: "AI Operator Workflow",
-        type: "Development workflow",
-        category: "workflow",
-        importance: "high",
-        year: "2026",
-        image: "/assets/signal-case-ai-workflow.webp",
-        tech: ["Codex/Claude", "MCP", "CLI Tools", "Browser Automation"],
-        summary:
-            "Bộ workflow dùng AI assistant, MCP và browser audit để đọc code, sửa lỗi và kiểm tra sản phẩm nhanh hơn.",
+        slug: "ace-ra-tem",
+        name: "ACE Ra tem",
+        cardTitle: "ACE — Web-app ra tem rèm",
+        category: "excel",
+        tag: "Thay Excel",
+        tone: "apricot",
+        before: "File Excel macro chậm, dễ sai công thức",
+        after: "khách tự điền số đo, xưởng bổ sung, hệ thống tính và in tem PDF.",
+        cardMetrics: [
+            { value: "47/47", label: "ca công thức khớp thực tế" },
+            { value: "18", label: "tem / trang A4" },
+        ],
+        line: "Web-app tính rèm và in tem thay file macro",
+        modules: ["Form khách", "Công thức", "Tem PDF", "18 tem/A4"],
+        metric: { value: "47/47", label: "ca công thức khớp thực tế" },
+        subtitle: "Thay file Excel macro bằng web-app tính rèm và in tem cho xưởng.",
+        facts: [
+            { k: "Vai trò", v: "Phân tích, thiết kế, build" },
+            { k: "Thời gian", v: "2026, đang chạy" },
+            { k: "Cách làm", v: "Đối chiếu từng công thức với tem thật" },
+            { k: "Nền tảng", v: "Web-app, xuất PDF" },
+        ],
+        metrics: [
+            { value: "47/47", label: "ca công thức khớp sản xuất thật" },
+            { value: "18", label: "tem mỗi trang A4, có đường cắt" },
+            { value: "1", label: "luồng từ khách điền tới in tem" },
+        ],
         problem:
-            "Khi làm nhiều dự án song song với AI, context kỹ thuật, checklist kiểm thử và luồng debug dễ bị phân tán, dẫn đến output thiếu kiểm chứng.",
-        role:
-            "Thiết kế quy trình làm việc chuẩn hóa, viết automation scripts và thiết lập kiến trúc context-memory cho AI.",
-        outcome:
-            "Vòng lặp debug rõ hơn, review UI/UX có checkpoint cụ thể và context kỹ thuật được giữ lại qua nhiều phiên làm việc.",
-        status: "Living system",
-        timeline: "Active personal workflow",
-        privateReason:
-            "Publicly explainable, but exact session logs and client context stay private.",
-        team: "Personal workflow system",
-        evidenceNote:
-            "Process can be described publicly; raw session logs and client context stay private.",
-        nextProof:
-            "Publish a cleaned walkthrough of plan, diff, build, browser QA, and check-in handoff.",
-        proofMedia: {
-            image: "/assets/case-proof-ai-workflow.webp",
-            alt: "Redacted proof frame của AI Operator Workflow",
-            caption:
-                "Proof frame đã redacted: plan, patch, build, browser QA và handoff checklist trong một delivery loop.",
+            "Xưởng ra tem rèm bằng file Excel macro: chậm, dễ sai công thức, mỗi máy một phiên bản. Số đo khách gửi qua tin nhắn rồi nhập lại bằng tay.",
+        approach:
+            "Lấy tem đã sản xuất thật làm chuẩn, viết lại từng công thức và kiểm từng ca cho tới khi khớp. Khách tự điền số đo, xưởng bổ sung thông số, hệ thống tính và in tem.",
+        modulesDetail: [
+            { title: "Form khách", desc: "Khách tự điền số đo, không phải gõ lại" },
+            { title: "Thông số xưởng", desc: "Xưởng bổ sung loại vải, kiểu may" },
+            { title: "Công thức", desc: "Tính đúng quy tắc của xưởng, có test" },
+            { title: "Tem PDF", desc: "18 tem mỗi trang A4, có đường cắt" },
+        ],
+        result:
+            "47/47 ca kiểm thử công thức khớp với tem sản xuất thật. Xưởng không còn phụ thuộc vào file macro trên từng máy.",
+        proof: {
+            app: "ace · ra tem",
+            side: ["Đơn mới", "Số đo", "Thông số", "In tem", "Lịch sử"],
+            active: 3,
+            kpis: ["Đơn hôm nay", "Chờ bổ sung", "Đã tính", "Đã in"],
+            cols: ["Mã đơn", "Khách", "Kiểu rèm", "Trạng thái", "Cập nhật"],
+            statuses: [["Đã in", "ocean"], ["Chờ bổ sung", "apricot"], ["Đã tính", "iris"], ["Đã in", "ocean"], ["Đã tính", "iris"]],
         },
-        flowProof: {
-            label: "Flow đã redacted",
-            title: "Plan -> patch -> build -> QA -> handoff",
-            description:
-                "Một capture theo kiểu operator log, đủ thấy vòng lặp làm việc nhưng không lộ session hay context riêng.",
-            steps: [
-                {
-                    label: "01",
-                    title: "Read plan",
-                    note: "Bối cảnh và mục tiêu được chốt trước khi chạm code.",
-                },
-                {
-                    label: "02",
-                    title: "Patch focused",
-                    note: "Chỉ sửa slice cần thiết, không kéo scope ra ngoài.",
-                },
-                {
-                    label: "03",
-                    title: "Build + QA",
-                    note: "Build log và browser pass được ghi lại cùng lúc.",
-                },
-                {
-                    label: "04",
-                    title: "Handoff",
-                    note: "Chốt bằng check-in để phiên sau đọc tiếp được ngay.",
-                },
-            ],
-            redactions: [
-                "Session log hidden",
-                "Client context hidden",
-                "Private diffs truncated",
-            ],
+    },
+    {
+        slug: "reminder-hub",
+        name: "Reminder Hub",
+        cardTitle: "Reminder Hub",
+        category: "bot",
+        tag: "Bot",
+        tone: "ocean",
+        before: "Việc giao trong nhóm chat bị trôi",
+        after: "AI nhận ra việc + hạn chót, tự nhắc và báo quá hạn.",
+        cardMetrics: [
+            { value: "2", label: "nền tảng chat" },
+            { value: "130+", label: "test" },
+        ],
+        line: "Nhắc việc trên Zalo & WhatsApp",
+        modules: ["Zalo", "WhatsApp", "AI đọc việc", "Báo quá hạn"],
+        metric: { value: "2", label: "nền tảng chat, chạy từ 09/2026" },
+        subtitle: "Bot đọc nhóm chat, nhận ra việc được giao và tự nhắc tới hạn.",
+        facts: [
+            { k: "Vai trò", v: "Thiết kế, build, vận hành" },
+            { k: "Thời gian", v: "Chạy thật từ 09/2026" },
+            { k: "Cách làm", v: "AI đọc hội thoại, người duyệt quy tắc" },
+            { k: "Nền tảng", v: "Bot + dashboard quản trị" },
+        ],
+        metrics: [
+            { value: "2", label: "nền tảng chat: Zalo & WhatsApp" },
+            { value: "130+", label: "test tự động" },
+            { value: "09/2026", label: "chạy thật từ" },
+        ],
+        problem:
+            "Việc giao trong nhóm chat bị trôi theo tin nhắn mới. Không ai theo dõi hạn, tới lúc hỏi lại thì đã trễ.",
+        approach:
+            "Bot đọc hội thoại, AI nhận diện câu giao việc, người nhận và hạn chót, rồi nhắc đúng người. Dashboard cho quản lý thấy việc nào sắp quá hạn.",
+        modulesDetail: [
+            { title: "Đọc hội thoại", desc: "Theo dõi nhóm Zalo và WhatsApp" },
+            { title: "AI nhận việc", desc: "Tách người làm, việc, hạn chót" },
+            { title: "Nhắc tự động", desc: "Nhắc trước hạn, báo khi quá hạn" },
+            { title: "Dashboard", desc: "Thấy toàn cảnh việc đang mở" },
+        ],
+        result: "Việc giao trong chat có người nhận, có hạn và được nhắc — chạy thật từ 09/2026 trên cả Zalo và WhatsApp.",
+        proof: {
+            app: "reminder · việc đang mở",
+            side: ["Tổng quan", "Nhóm chat", "Việc", "Quá hạn", "Cài đặt"],
+            active: 2,
+            kpis: ["Việc mở", "Sắp tới hạn", "Quá hạn", "Đã xong"],
+            cols: ["Việc", "Người nhận", "Nhóm", "Trạng thái", "Hạn"],
+            statuses: [["Đang mở", "iris"], ["Sắp tới hạn", "apricot"], ["Đã xong", "ocean"], ["Đang mở", "iris"], ["Đã xong", "ocean"]],
         },
-        proofSignals: [
-            {
-                label: "Delivery loop",
-                text: "Plan, patch, build, QA và handoff thành một vòng lặp nhìn được.",
-            },
-            {
-                label: "Context safe",
-                text: "Session logs và client context được giữ kín trong proof public.",
-            },
-            {
-                label: "Check-in ready",
-                text: "Mỗi slice có đầu ra để phiên sau đọc tiếp mà không bị mất nhịp.",
-            },
+    },
+    {
+        slug: "tca",
+        name: "TCA v4",
+        cardTitle: "TCA v4",
+        category: "ai",
+        tag: "Dữ liệu & AI",
+        tone: "apricot",
+        before: null,
+        after: "Phân tích thị trường Binance Futures: thu thập dữ liệu, chấm xác suất, theo dõi kết quả thật.",
+        cardMetrics: [
+            { value: "Live", label: "tca.bonstu.site" },
+            { value: "500+", label: "commit · 4 phiên bản" },
         ],
-        decisionLedger: [
-            {
-                label: "Constraint",
-                text: "AI sessions lose context quickly when planning, diffs, QA and handoff notes live separately.",
-            },
-            {
-                label: "Decision",
-                text: "Treat the workflow as a state machine: plan, patch, build, browser QA, then check-in.",
-            },
-            {
-                label: "Trade-off",
-                text: "Accept a small documentation overhead to avoid debugging the same context again later.",
-            },
-            {
-                label: "Result",
-                text: "Each slice ends with verifiable output and a cleaner starting point for the next session.",
-            },
+        line: "Phân tích thị trường, đang chạy live",
+        modules: ["Thu thập", "Chấm điểm", "Tín hiệu", "Theo dõi"],
+        metric: { value: "4", label: "phiên bản · 500+ commit" },
+        subtitle: "Hệ phân tích thị trường: thu thập, chấm điểm, ra tín hiệu và theo dõi kết quả thật.",
+        facts: [
+            { k: "Vai trò", v: "Dự án cá nhân, làm từ đầu tới cuối" },
+            { k: "Thời gian", v: "Từ 02/2026, đang chạy" },
+            { k: "Cách làm", v: "Đo kết quả thật rồi mới sửa mô hình" },
+            { k: "Nền tảng", v: "Pipeline dữ liệu + web dashboard" },
         ],
-        liveUrl: "",
-        repoUrl: "",
-        constraints: [
-            "Giới hạn context window của LLM",
-            "Môi trường debug phân mảnh",
-            "Thiếu checkpoint verify tự động",
+        metrics: [
+            { value: "Live", label: "đang chạy tại tca.bonstu.site" },
+            { value: "500+", label: "commit từ 02/2026" },
+            { value: "4", label: "phiên bản đã qua" },
         ],
-        deliverables: [
-            "Reusable AI/CLI operating loop",
-            "Browser QA and layout-check scripts",
-            "Session memory and handoff documentation",
+        problem:
+            "Đọc thị trường crypto cần nhiều nguồn dữ liệu, tín hiệu nhiễu và khó kiểm chứng xem cái nào thật sự đúng.",
+        approach:
+            "Thu thập dữ liệu, tính đặc trưng, chấm xác suất, ra tín hiệu kèm kế hoạch và theo dõi kết quả thật. Mỗi phiên bản mới chỉ ra đời sau khi đo lại kết quả của bản trước.",
+        modulesDetail: [
+            { title: "Thu thập", desc: "Gom dữ liệu thị trường liên tục" },
+            { title: "Chấm điểm", desc: "Tính đặc trưng và xác suất" },
+            { title: "Tín hiệu", desc: "Kèm điểm vào, cắt lỗ, chốt lời" },
+            { title: "Theo dõi", desc: "Ghi lại kết quả thật từng tín hiệu" },
         ],
-        uiFocus: ["workflow clarity", "automation hooks", "runtime verification"],
-        systemRole: "Operator workflow system",
-        signals: ["automation", "verification", "speed"],
-        assets: {
-            cover: "/assets/signal-case-ai-workflow.webp",
+        result: "Đang chạy live, đã qua 4 phiên bản. Tài khoản, vị thế và lợi nhuận không công khai.",
+        proof: {
+            app: "tca · tín hiệu",
+            side: ["Thị trường", "Tín hiệu", "Theo dõi", "Mô hình", "Nhật ký"],
+            active: 1,
+            kpis: ["Đang theo dõi", "Tín hiệu mới", "Đã đóng", "Phiên bản"],
+            cols: ["Cặp", "Hướng", "Điểm", "Trạng thái", "Cập nhật"],
+            statuses: [["Đang theo dõi", "iris"], ["Chờ", "apricot"], ["Đã đóng", "ocean"], ["Đang theo dõi", "iris"], ["Đã đóng", "ocean"]],
         },
-        links: {},
-        architectureContext:
-            "Workflow tích hợp AI agent vào môi trường local Windows/WSL2 qua CLI, MCP và tài liệu check-in. Mục tiêu là vòng lặp khép kín: Plan -> Code -> Build -> Browser QA -> Handoff.",
-        coreChallenges:
-            "Context dễ xuống cấp sau nhiều lượt làm việc. Nếu không có plan, artifact và check-in, agent dễ sửa đúng cú pháp nhưng sai mục tiêu.",
-        technicalDecisions: [
-            {
-                title: "Markdown-based state machine",
-                desc:
-                    "Dùng các file markdown như plan, check-in và memory làm state layer để phiên sau có thể đọc lại bối cảnh thay vì bắt đầu từ trí nhớ tạm.",
-            },
-            {
-                title: "Artifacts & verification pipeline",
-                desc:
-                    "Tách planning artifact khỏi execution diff. Khi có lỗi, vòng lặp dừng ở build log hoặc browser QA thay vì đoán tiếp.",
-            },
+    },
+    {
+        slug: "ai-operator",
+        name: "AI Operator",
+        cardTitle: "AI Operator",
+        category: "ai",
+        tag: "Cách làm",
+        tone: "mint",
+        dark: true,
+        before: null,
+        after: "Vì sao một người làm được khối lượng ở trên: đội AI agent có bộ nhớ chung, kiểm tra chéo trước khi bàn giao.",
+        cardMetrics: [
+            { value: "4+", label: "agent phối hợp" },
+            { value: "3+", label: "tháng nhật ký liên tục" },
         ],
-        businessImpact:
-            "Giữ workflow AI thực dụng hơn: có điểm bắt đầu, có bằng chứng kết thúc và giảm rủi ro agent làm lệch mục tiêu ban đầu.",
+        line: "Làm việc cùng đội AI agent",
+        modules: ["Bộ nhớ chung", "Chia việc", "Kiểm chéo", "Quota"],
+        metric: { value: "4+", label: "agent phối hợp" },
+        subtitle: "Đội AI agent có bộ nhớ chung, chia việc và kiểm tra chéo trước khi bàn giao.",
+        facts: [
+            { k: "Vai trò", v: "Thiết kế quy trình, điều phối" },
+            { k: "Thời gian", v: "Từ 2026, dùng hằng ngày" },
+            { k: "Cách làm", v: "Agent làm, test kiểm, người duyệt" },
+            { k: "Công cụ", v: "Claude Code, Codex, Gemini, Pi" },
+        ],
+        metrics: [
+            { value: "4+", label: "AI agent phối hợp" },
+            { value: "3+", label: "tháng nhật ký làm việc liên tục" },
+            { value: "1", label: "người duyệt cuối cùng" },
+        ],
+        problem: "Dùng AI để code thì nhanh, nhưng dễ sai và mất ngữ cảnh giữa các phiên làm việc.",
+        approach:
+            "Mỗi agent có vai riêng, dùng chung một bộ nhớ. Kết quả phải qua test, build và kiểm tra trên trình duyệt rồi mới báo. Quyết định cuối cùng luôn là của con người.",
+        modulesDetail: [
+            { title: "Bộ nhớ chung", desc: "Nhật ký giữ ngữ cảnh giữa các phiên" },
+            { title: "Chia việc", desc: "Mỗi agent nhận đúng loại việc nó làm tốt" },
+            { title: "Kiểm chéo", desc: "Agent này review kết quả agent kia" },
+            { title: "Điều phối quota", desc: "Theo dõi hạn mức từng agent" },
+        ],
+        result: "Đây là lý do một người làm được khối lượng của các dự án ở trên mà vẫn giữ được chất lượng.",
+        proof: {
+            app: "hub · nhật ký agent",
+            side: ["Hôm nay", "Agent", "Bộ nhớ", "Quota", "Chờ duyệt"],
+            active: 0,
+            kpis: ["Đang chạy", "Chờ duyệt", "Đã bàn giao", "Quota còn"],
+            cols: ["Việc", "Agent", "Kiểm tra", "Trạng thái", "Thời gian"],
+            statuses: [["Đã bàn giao", "ocean"], ["Chờ duyệt", "apricot"], ["Đang chạy", "iris"], ["Đã bàn giao", "ocean"], ["Đã bàn giao", "ocean"]],
+        },
     },
 ];
 
-const caseProofDossiers = {
-    "tca-crypto-analyzer": {
-        measuredImpact: [
-            {
-                label: "Reading surface",
-                value: "1 board",
-                note: "Chart context, signal priority and risk state stay together.",
-            },
-            {
-                label: "Scan path",
-                value: "4 steps",
-                note: "Watchlist, priority scan, risk check and action record.",
-            },
-            {
-                label: "Proof depth",
-                value: "3 artifacts",
-                note: "Cover, redacted frame and share preview are all route-ready.",
-            },
-        ],
-        beforeAfter: {
-            before:
-                "Trader had to chase chart, signal, volatility and account context across separate views.",
-            after:
-                "Signal hierarchy, chart context and risk state read as one operator board.",
-        },
-        constraintsResolved: [
-            "Realtime data noise -> signal-first hierarchy with fewer competing metrics.",
-            "Private account data -> redacted proof that still shows the reading order.",
-            "Fast market movement -> stable first-screen priority before deeper drill-down.",
-        ],
-        qaEvidence: [
-            {
-                label: "Runtime path",
-                value: "Watchlist -> signal -> risk",
-                note: "Flow proof keeps action order visible without live account data.",
-            },
-            {
-                label: "Privacy check",
-                value: "Redacted preview",
-                note: "Account ids, live prices and labels stay masked.",
-            },
-            {
-                label: "Route proof",
-                value: "Case + Work",
-                note: "Same data drives listing, detail page and route metadata.",
-            },
-        ],
-    },
-    "bonario-product-hub": {
-        measuredImpact: [
-            {
-                label: "Operator flow",
-                value: "4 actions",
-                note: "Search, edit, sync and verify stay inside one hub.",
-            },
-            {
-                label: "State surface",
-                value: "1 queue view",
-                note: "Sync state, errors and batch feedback stay visible.",
-            },
-            {
-                label: "Proof depth",
-                value: "3 artifacts",
-                note: "Cover, redacted workflow and social frame document the build.",
-            },
-        ],
-        beforeAfter: {
-            before:
-                "Product handling was split across internal data, Odoo state and repeated manual checks.",
-            after:
-                "Operators get one workflow surface for search, edit, sync feedback and verification.",
-        },
-        constraintsResolved: [
-            "Odoo payload complexity -> Flask middleware normalizes state before UI rendering.",
-            "Batch update risk -> sync queue and rollback feedback stay visible.",
-            "Internal product data -> redacted artifact keeps workflow public-safe.",
-        ],
-        qaEvidence: [
-            {
-                label: "Runtime path",
-                value: "Search -> edit -> sync",
-                note: "Flow proof checks the operator loop, not only screen polish.",
-            },
-            {
-                label: "State check",
-                value: "Queue + error states",
-                note: "Sync feedback appears beside the working record.",
-            },
-            {
-                label: "Route proof",
-                value: "Case + Work",
-                note: "Same project dossier renders the case route and listing.",
-            },
-        ],
-    },
-    "ai-operator-workflow": {
-        measuredImpact: [
-            {
-                label: "Delivery loop",
-                value: "5 checkpoints",
-                note: "Plan, patch, build, browser QA and handoff close each slice.",
-            },
-            {
-                label: "Context layer",
-                value: "1 check-in",
-                note: "Session handoff keeps the next run from starting cold.",
-            },
-            {
-                label: "Proof depth",
-                value: "3 artifacts",
-                note: "Cover, operator proof frame and share preview document the workflow.",
-            },
-        ],
-        beforeAfter: {
-            before:
-                "AI-assisted work lost context when plan, diff, verification and handoff lived apart.",
-            after:
-                "Each slice moves through a visible state machine and ends with verifiable output.",
-        },
-        constraintsResolved: [
-            "LLM context drift -> markdown state and check-in files preserve intent.",
-            "Tooling spread -> CLI, MCP and browser QA sit in one delivery loop.",
-            "Private sessions -> public proof hides logs while keeping process readable.",
-        ],
-        qaEvidence: [
-            {
-                label: "Runtime path",
-                value: "Plan -> patch -> QA",
-                note: "Proof frame shows where the loop starts and stops.",
-            },
-            {
-                label: "Verification check",
-                value: "Build + browser QA",
-                note: "Output is not treated as done until runtime proof exists.",
-            },
-            {
-                label: "Route proof",
-                value: "Case + Workflow",
-                note: "Case detail links back to the broader process page.",
-            },
-        ],
-    },
+export const extras = [
+    { title: "Tuyển dụng", desc: "Đánh giá ứng viên 2 vòng cho 10 phòng ban" },
+    { title: "Bot kiểm kho RFID", desc: "Gửi file quét, nhận đối soát với Odoo" },
+    { title: "Meeting Recap", desc: "Ghi âm cuộc họp thành biên bản và việc cần làm" },
+    { title: "Ops Hub", desc: "Theo dõi sức khoẻ và bản quyền máy trạm" },
+];
+
+export const getProject = (slug) => projects.find((p) => p.slug === slug);
+export const getNextProject = (slug) => {
+    const i = projects.findIndex((p) => p.slug === slug);
+    return projects[(i + 1) % projects.length];
 };
 
-function buildArtifactGallery(project) {
-    const socialImage = project.assets?.cover?.replace(".webp", ".jpg");
-    const artifacts = [
-        {
-            label: "Case cover",
-            image: project.assets?.cover,
-            alt: `${project.title} interface cover`,
-            caption: "Route cover dùng trên Work list và Case detail hero.",
-        },
-    ];
-
-    if (project.proofMedia) {
-        artifacts.push({
-            label: "Redacted proof",
-            image: project.proofMedia.image,
-            alt: project.proofMedia.alt,
-            caption: project.proofMedia.caption,
-        });
-    }
-
-    if (socialImage) {
-        artifacts.push({
-            label: "Social preview",
-            image: socialImage,
-            alt: `${project.title} social preview`,
-            caption: "Preview dùng cho Open Graph, Twitter card và route metadata.",
-        });
-    }
-
-    return artifacts.filter((artifact) => Boolean(artifact.image));
-}
-
-function enrichProject(project) {
-    const dossier = caseProofDossiers[project.slug] ?? {};
-    const artifactGallery = buildArtifactGallery(project);
-    const socialImage =
-        artifactGallery.find((artifact) => artifact.label === "Social preview")
-            ?.image ?? project.proofMedia?.image ?? project.assets?.cover;
-
-    return {
-        ...project,
-        ...dossier,
-        artifactGallery,
-        socialImage,
-        seoKeywords: [
-            project.title,
-            project.type,
-            project.category,
-            project.systemRole,
-            ...project.tech,
-            ...project.signals,
-        ].filter(Boolean),
-    };
-}
-
-export const projects = rawProjects.map(enrichProject);
+// Thẻ bento ở chương 3: 5 case + Tuyển dụng (nền tảng nội bộ), EVOne là thẻ nổi bật.
+const recruiting = {
+    name: "Tuyển dụng",
+    tag: "Nền tảng nội bộ",
+    tone: "iris",
+    line: "Đánh giá ứng viên 2 vòng, chấm theo tiêu chí",
+    modules: ["Vòng 1", "Vòng 2", "Tiêu chí", "Tổng hợp"],
+    metric: { value: "10", label: "phòng ban dùng chung" },
+};
+export const bento = [
+    getProject("odoo-bonario"),
+    { ...getProject("evone"), feature: true },
+    getProject("ace-ra-tem"),
+    getProject("reminder-hub"),
+    recruiting,
+    getProject("tca"),
+];

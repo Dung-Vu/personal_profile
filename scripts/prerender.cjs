@@ -77,6 +77,8 @@ async function main() {
   fs.mkdirSync(userData, { recursive: true });
 
   const chromeCandidates = [
+    process.env.CHROME_PATH,
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "C:/Program Files/Google/Chrome/Application/chrome.exe",
     "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
@@ -84,7 +86,7 @@ async function main() {
     "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "/mnt/c/Program Files/Microsoft/Edge/Application/msedge.exe",
   ];
-  const chromeExe = chromeCandidates.find((candidate) => fs.existsSync(candidate));
+  const chromeExe = chromeCandidates.find((candidate) => candidate && fs.existsSync(candidate));
   if (!chromeExe) {
     console.error("Chrome/Edge executable not found.");
     server.close();

@@ -1,24 +1,15 @@
 {
-  "name": "Vũ Đình Dũng Portfolio",
-  "short_name": "VD Portfolio",
-  "description": "Web developer portfolio for websites, dashboards, internal tools, and AI workflows.",
+  "name": "Vũ Đình Dũng — Operations Systems Builder",
+  "short_name": "Vũ Đình Dũng",
+  "description": "Odoo, internal tools, AI agents: biến cách doanh nghiệp đang vận hành thành hệ thống chạy được.",
+  "lang": "vi",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#edf1ee",
-  "theme_color": "#edf1ee",
+  "background_color": "#f3f2ee",
+  "theme_color": "#f3f2ee",
   "icons": [
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
   ]
 }

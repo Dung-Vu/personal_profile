@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dinhdung.dev/sitemap.xml
+Sitemap: https://profile.bonstu.site/sitemap.xml
