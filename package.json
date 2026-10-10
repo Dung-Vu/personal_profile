@@ -16,8 +16,10 @@
     "qa:shots": "node scripts/qa_shots.mjs"
   },
   "dependencies": {
+    "@remotion/player": "4.0.534",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "remotion": "4.0.534"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.1",

@@ -1,0 +1,131 @@
+/* ===== Phim cuộn (P2): 4 chương chồng lên nhau trong một khung dính ===== */
+.film {
+    position: relative;
+}
+.film-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+}
+.film-root {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    color: var(--ink);
+}
+.grid-dark {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+}
+
+/* Mỗi chương phủ kín khung; nền do .film-root lo (giấy → đêm). */
+.film-root .stage {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+    border-top: 0;
+    background: transparent;
+    pointer-events: none;
+}
+.film-root .stage[data-chapter="0"] {
+    z-index: 1;
+}
+.film-root .stage[data-chapter="1"] {
+    z-index: 2;
+}
+.film-dots {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+.film-dots i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    will-change: transform;
+}
+.film-root .stage[data-chapter="2"] {
+    z-index: 4;
+}
+.film-root .stage[data-chapter="3"] {
+    z-index: 5;
+}
+.film-rail {
+    z-index: 6;
+}
+
+/* Thanh tiến trình chạy theo khung phim. */
+.film-rail div.on::before {
+    background: linear-gradient(90deg, var(--ink) var(--p, 0%), var(--line) var(--p, 0%));
+}
+.film-rail.is-dark div {
+    color: rgba(255, 255, 255, 0.4);
+}
+.film-rail.is-dark div::before {
+    background: rgba(255, 255, 255, 0.12);
+}
+.film-rail.is-dark div.done::before {
+    background: #fff;
+}
+.film-rail.is-dark div.on {
+    color: #fff;
+}
+.film-rail.is-dark div.on::before {
+    background: linear-gradient(90deg, #fff var(--p, 0%), rgba(255, 255, 255, 0.12) var(--p, 0%));
+}
+
+/* Đường chấm nối các bước tự kéo dài theo khung. */
+.film-root .step:not(:last-child) .core-wrap::after {
+    transform: scaleX(var(--cx, 1));
+    transform-origin: left center;
+}
+.film-root .hub {
+    transform: translate(-50%, -50%) scale(var(--hs, 1));
+}
+.film-root .stage-chaos .frag,
+.film-root .card,
+.film-root .film-dots i {
+    backface-visibility: hidden;
+}
+
+@media (max-width: 1180px) {
+    .film-root .stage-build,
+    .film-root .stage-ai {
+        min-height: 0;
+    }
+}
+@media (max-width: 900px) {
+    .film-root .stage-read {
+        min-height: 0;
+    }
+    .film-root .step:not(:last-child) .core-wrap::after {
+        transform: scaleY(var(--cx, 1));
+        transform-origin: center top;
+    }
+    .film-root .hub {
+        transform: scale(var(--hs, 1));
+    }
+}
+@media (max-width: 600px) {
+    .film-root .stage,
+    .film-root .stage-chaos {
+        height: auto;
+        min-height: 0;
+    }
+}
+
+/* Màn thấp: chương 3 bỏ dòng mô tả thẻ (đã có chip module) để 2 hàng thẻ nằm gọn trong khung. */
+@media (min-width: 1181px) {
+    .film-root .stage-build {
+        padding-top: calc(var(--nav-h) + 28px);
+        padding-bottom: 84px;
+    }
+}
+@media (min-width: 1181px) and (max-height: 960px) {
+    .film-root .card .line {
+        display: none;
+    }
+}

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { memo, useLayoutEffect, useRef, useState } from "react";
 import {
     agentLog,
     agents,
@@ -15,12 +15,14 @@ import {
 } from "../content/story.js";
 import { bento } from "../content/projects.js";
 import { Particles, rng, tones } from "../lib/particles.jsx";
+import { CH, ease, fade, mix, mixRgba, motion, offsetBox } from "../lib/motion.js";
 
-// Bản tĩnh 4 chương. P2 sẽ phủ phim cuộn lên trên; bản này giữ lại cho mobile yếu và người bật giảm chuyển động.
+// 4 chương câu chuyện. Không truyền F → bản tĩnh (prerender, giảm chuyển động, màn thấp).
+// Truyền F (khung hình của phim) → cùng giao diện đó nhưng chuyển động theo khung; phim cuộn ở src/film/.
 
-function Caption({ chapter, className = "", children, headingId }) {
+function Caption({ chapter, className = "", children, headingId, style }) {
     return (
-        <div className={`caption ${className}`}>
+        <div className={`caption ${className}`} style={style}>
             <span className="label">
                 <b>{chapter.no}</b>&nbsp; / &nbsp;{chapter.name}
             </span>
@@ -45,25 +47,26 @@ function Rail({ active }) {
     );
 }
 
-function Stage({ index, dark, className = "", children }) {
+function Stage({ index, dark, className = "", m, children }) {
     const chapter = chapters[index];
     return (
         <section
-            id={chapter.id}
+            id={m.film ? undefined : chapter.id}
             className={`stage ${className}`}
             data-theme={dark ? "dark" : undefined}
+            data-chapter={index}
             aria-labelledby={`${chapter.id}-title`}
         >
-            <div className="grid-bg" aria-hidden="true" />
+            {!m.film && <div className="grid-bg" aria-hidden="true" />}
             {children(chapter)}
-            <Rail active={index} />
+            {!m.film && <Rail active={index} />}
         </section>
     );
 }
 
 /* ---------- Chương 1: hỗn loạn ---------- */
 
-function Fragment({ item }) {
+const Fragment = memo(function Fragment({ item }) {
     if (item.kind === "chat") {
         return (
             <>
@@ -130,25 +133,32 @@ function Fragment({ item }) {
             ))}
         </>
     );
-}
+});
 
-function FragmentSet({ layout, className }) {
+function FragmentSet({ layout, className, m }) {
     return (
         <div className={`frags ${className}`} aria-hidden="true">
             {layout.map(([key, x, y, w, rot, d], i) => {
                 const item = fragments[key];
                 const s = 0.72 + d * 0.28;
+                // Phim: trôi lên theo chiều sâu, rồi co lại và tan thành hạt (khung 95 → 140).
+                const q = m.out(95 + i * 2.5, 128 + i * 2.5, ease.inOut);
+                const drift = m.film ? -Math.min(m.L, 130) * 0.32 * d : 0;
+                const blur = d < 0.95 ? (1 - d) * 3.2 : 0;
                 return (
                     <div
                         key={i}
                         className={`frag ${item.kind}`}
+                        data-m="frag"
                         style={{
                             left: `${x}%`,
                             top: `${y}%`,
                             width: w,
-                            transform: `rotate(${rot}deg) scale(${s.toFixed(3)})`,
-                            filter: d < 0.95 ? `blur(${((1 - d) * 3.2).toFixed(1)}px)` : undefined,
-                            opacity: (0.45 + d * 0.55).toFixed(2),
+                            transform: m.film
+                                ? `translateY(${drift.toFixed(1)}px) rotate(${rot}deg) scale(${(s * (1 - 0.5 * q)).toFixed(3)})`
+                                : `rotate(${rot}deg) scale(${s.toFixed(3)})`,
+                            filter: blur + q * 4 > 0.05 ? `blur(${(blur + q * 4).toFixed(1)}px)` : undefined,
+                            opacity: ((0.45 + d * 0.55) * (1 - q)).toFixed(2),
                             zIndex: Math.round(d * 10),
                         }}
                     >
@@ -169,19 +179,24 @@ const chaosDots = (() => {
     });
 })();
 
-function ChapterChaos() {
+function ChapterChaos({ m }) {
+    const total = Number(chaosCount.value);
+    const count = m.film ? Math.round(mix(total - 6, total, m.in(0, 90, ease.lin))) : total;
+    const out = m.out(98, 124);
     return (
-        <Stage index={0} className="stage-chaos">
+        <Stage index={0} className="stage-chaos" m={m}>
             {(c) => (
                 <>
-                    <FragmentSet layout={fragmentLayout.desktop} className="only-desk" />
-                    <FragmentSet layout={fragmentLayout.mobile} className="only-mob" />
-                    <Particles list={chaosDots} />
-                    <div className="count label" aria-hidden="true">
-                        <b>{chaosCount.value}</b>
+                    <FragmentSet layout={fragmentLayout.desktop} className="only-desk" m={m} />
+                    <FragmentSet layout={fragmentLayout.mobile} className="only-mob" m={m} />
+                    <div className="chaos-dots" style={m.film ? { opacity: 1 - m.out(92, 128) } : undefined}>
+                        <Particles list={chaosDots} />
+                    </div>
+                    <div className="count label" aria-hidden="true" style={fade(m, 1, m.out(90, 116), 12)}>
+                        <b>{count}</b>
                         {chaosCount.label}
                     </div>
-                    <Caption chapter={c} className="cap-panel" headingId={`${c.id}-title`} />
+                    <Caption chapter={c} className="cap-panel" headingId={`${c.id}-title`} style={fade(m, 1, out)} />
                 </>
             )}
         </Stage>
@@ -200,13 +215,34 @@ function ring(seed, tone, count) {
 }
 const rings = steps.map((s, i) => ring(11 + i, s.tone, 46));
 
-function ChapterRead() {
+const StaticRing = memo(function StaticRing({ list }) {
     return (
-        <Stage index={1} className="stage-read">
+        <div className="ring" aria-hidden="true">
+            {list.map((p, k) => (
+                <i
+                    key={k}
+                    style={{
+                        left: `calc(50% + ${p.cx.toFixed(3)} * var(--ring))`,
+                        top: `calc(50% + ${p.cy.toFixed(3)} * var(--ring))`,
+                        width: p.s.toFixed(1) + "px",
+                        height: p.s.toFixed(1) + "px",
+                        background: p.c,
+                        opacity: p.o.toFixed(2),
+                    }}
+                />
+            ))}
+        </div>
+    );
+});
+
+function ChapterRead({ m }) {
+    const out = m.out(104, 128);
+    return (
+        <Stage index={1} className="stage-read" m={m}>
             {(c) => (
                 <>
-                    <Caption chapter={c} className="cap-top" headingId={`${c.id}-title`} />
-                    <aside className="out" aria-label={readNotes.label}>
+                    <Caption chapter={c} className="cap-top" headingId={`${c.id}-title`} style={fade(m, m.in(-14, 16), out)} />
+                    <aside className="out" aria-label={readNotes.label} style={fade(m, m.in(12, 38), out, 16)}>
                         <span className="label">{readNotes.label}</span>
                         {readNotes.rows.map(([k, v]) => (
                             <div className="row" key={k}>
@@ -216,33 +252,42 @@ function ChapterRead() {
                         ))}
                     </aside>
                     <ol className="steps">
-                        {steps.map((s, i) => (
-                            <li key={s.no} className={`step tone-${s.tone}`}>
-                                <span className="q label">{s.hint}</span>
-                                <div className="core-wrap">
-                                    <div className="ring" aria-hidden="true">
-                                        {rings[i].map((p, k) => (
-                                            <i
-                                                key={k}
-                                                style={{
-                                                    left: `calc(50% + ${p.cx.toFixed(3)} * var(--ring))`,
-                                                    top: `calc(50% + ${p.cy.toFixed(3)} * var(--ring))`,
-                                                    width: p.s.toFixed(1) + "px",
-                                                    height: p.s.toFixed(1) + "px",
-                                                    background: p.c,
-                                                    opacity: p.o.toFixed(2),
-                                                }}
-                                            />
-                                        ))}
+                        {steps.map((s, i) => {
+                            const core = m.in(14 + i * 6, 34 + i * 6, ease.back);
+                            const coreOut = m.out(112 + i * 2, 132 + i * 2);
+                            const txt = m.in(24 + i * 6, 48 + i * 6);
+                            return (
+                                <li
+                                    key={s.no}
+                                    className={`step tone-${s.tone}`}
+                                    style={m.film ? { "--cx": m.in(36 + i * 6, 62 + i * 6) * (1 - out) } : undefined}
+                                >
+                                    <span className="q label" style={fade(m, txt, out, 10)}>
+                                        {s.hint}
+                                    </span>
+                                    <div className="core-wrap" data-m="ring">
+                                        {!m.film && <StaticRing list={rings[i]} />}
+                                        <span
+                                            className="core"
+                                            style={
+                                                m.film
+                                                    ? {
+                                                          opacity: Math.min(1, core * 1.4) * (1 - coreOut),
+                                                          transform: `translate(-50%, -50%) scale(${(0.4 + 0.6 * core).toFixed(3)})`,
+                                                      }
+                                                    : undefined
+                                            }
+                                        >
+                                            {s.no}
+                                        </span>
                                     </div>
-                                    <span className="core">{s.no}</span>
-                                </div>
-                                <div className="txt">
-                                    <h3>{s.title}</h3>
-                                    <p>{s.desc}</p>
-                                </div>
-                            </li>
-                        ))}
+                                    <div className="txt" style={fade(m, txt, out, 14)}>
+                                        <h3>{s.title}</h3>
+                                        <p>{s.desc}</p>
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ol>
                 </>
             )}
@@ -252,9 +297,9 @@ function ChapterRead() {
 
 /* ---------- Chương 3: dựng lại ---------- */
 
-function BentoCard({ item }) {
+const CardBody = memo(function CardBody({ item }) {
     return (
-        <article className={`card${item.feature ? " feature" : ""}`}>
+        <>
             <div className="top">
                 <span className={`pill t-${item.tone}`}>{item.tag}</span>
                 <span className="live">đang chạy</span>
@@ -262,24 +307,67 @@ function BentoCard({ item }) {
             <h3>{item.name}</h3>
             <p className="line">{item.line}</p>
             <div className="mods">
-                {item.modules.map((m) => (
-                    <span key={m}>{m}</span>
+                {item.modules.map((x) => (
+                    <span key={x}>{x}</span>
                 ))}
             </div>
             <div className="metric">
                 <b>{item.metric.value}</b>
                 <span>{item.metric.label}</span>
             </div>
+        </>
+    );
+});
+
+const CARD_BG = [251, 250, 248, 1];
+const FEATURE_BG = [15, 17, 21, 1];
+const NODE_BG = [255, 255, 255, 0.035];
+
+// Phim: thẻ hiện ra khi hạt bay tới, rồi co về đúng ô hệ thống ở chương 4 (morph = độ lệch đã đo).
+function BentoCard({ item, j, m, morph }) {
+    let style;
+    let inner;
+    if (m.film) {
+        const a = m.in(8 + j * 5, 32 + j * 5);
+        const p = morph ? m.out(98 + j * 2, 130 + j * 2, ease.inOut) : 0;
+        const gone = m.out(140 + j * 2, 152 + j * 2, ease.lin);
+        style = {
+            opacity: a * (1 - gone),
+            transform:
+                p > 0
+                    ? `translate(${(morph.dx * p).toFixed(1)}px, ${(morph.dy * p).toFixed(1)}px) scale(${mix(1, morph.sx, p).toFixed(4)}, ${mix(1, morph.sy, p).toFixed(4)})`
+                    : `translateY(${((1 - a) * 16).toFixed(1)}px) scale(${mix(0.94, 1, a).toFixed(4)})`,
+            transformOrigin: p > 0 ? "0 0" : undefined,
+        };
+        if (p > 0) {
+            // Thẻ đổi sang dạng khung tối sớm hơn đường bay, để giữa chừng không còn khối trắng lớn.
+            const pc = ease.out(Math.min(1, p * 2.2));
+            style.background = mixRgba(item.feature ? FEATURE_BG : CARD_BG, NODE_BG, pc);
+            style.borderColor = mixRgba([15, 17, 21, 0.1], [123, 232, 200, 0.4], pc);
+            style.boxShadow = "none";
+        }
+        inner = { opacity: 1 - m.out(94 + j, 106 + j) };
+    }
+    return (
+        <article className={`card${item.feature ? " feature" : ""}`} data-m="card" style={style}>
+            <div className="card-in" style={inner}>
+                <CardBody item={item} />
+            </div>
         </article>
     );
 }
 
-function ChapterBuild() {
+function ChapterBuild({ m, morph }) {
     return (
-        <Stage index={2} className="stage-build">
+        <Stage index={2} className="stage-build" m={m}>
             {(c) => (
                 <>
-                    <Caption chapter={c} className="cap-side" headingId={`${c.id}-title`}>
+                    <Caption
+                        chapter={c}
+                        className="cap-side"
+                        headingId={`${c.id}-title`}
+                        style={fade(m, m.in(-12, 18), m.out(92, 114))}
+                    >
                         <div className="legend">
                             {buildLegend.map((l) => (
                                 <span key={l.tone}>
@@ -290,8 +378,8 @@ function ChapterBuild() {
                         </div>
                     </Caption>
                     <div className="bento">
-                        {bento.map((item) => (
-                            <BentoCard key={item.name} item={item} />
+                        {bento.map((item, j) => (
+                            <BentoCard key={item.name} item={item} j={j} m={m} morph={morph?.[j]} />
                         ))}
                     </div>
                 </>
@@ -310,31 +398,33 @@ const agentColors = {
 };
 
 // Dây nối agent → hub → hệ thống, tính theo vị trí thật của các ô (đo lại khi đổi kích thước).
+// Đo theo offset nên không bị lệch khi các ô đang chạy hiệu ứng.
 function useWires(mapRef) {
     const [paths, setPaths] = useState([]);
     useLayoutEffect(() => {
         const map = mapRef.current;
         if (!map) return;
         const draw = () => {
-            const M = map.getBoundingClientRect();
-            const hub = map.querySelector(".hub")?.getBoundingClientRect();
-            if (!hub || M.width < 10) return;
-            const rel = (r) => ({ x: r.left - M.left + r.width / 2, top: r.top - M.top, bottom: r.bottom - M.top });
-            const hx = hub.left - M.left + hub.width / 2;
-            const ht = hub.top - M.top;
-            const hb = hub.bottom - M.top;
+            const hubEl = map.querySelector(".hub");
+            if (!hubEl || map.offsetWidth < 10) return;
+            const hub = offsetBox(hubEl, map);
+            // .hub được canh giữa bằng translate(-50%, -50%) nên offset là góc đã dời.
+            const centered = getComputedStyle(hubEl).position === "absolute";
+            const hx = centered ? hub.x : hub.x + hub.w / 2;
+            const ht = centered ? hub.y - hub.h / 2 : hub.y;
+            const hb = ht + hub.h;
             const out = [];
             const wire = (x0, y0, x1, y1, hot) => {
                 const my = (y0 + y1) / 2;
                 out.push({ d: `M${x0.toFixed(1)},${y0.toFixed(1)} C${x0.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`, hot });
             };
             map.querySelectorAll(".agent").forEach((el, i) => {
-                const a = rel(el.getBoundingClientRect());
-                wire(a.x, a.bottom, hx + (i - 1.5) * 40, ht, [30, 0, 62, 0][i]);
+                const a = offsetBox(el, map);
+                wire(a.x + a.w / 2, a.y + a.h, hx + (i - 1.5) * 40, ht, [30, 0, 62, 0][i]);
             });
             map.querySelectorAll(".sys").forEach((el, i) => {
-                const s = rel(el.getBoundingClientRect());
-                wire(hx + (i - 2.5) * 30, hb, s.x, s.top, [0, 48, 0, 0, 70, 0][i]);
+                const s = offsetBox(el, map);
+                wire(hx + (i - 2.5) * 30, hb, s.x + s.w / 2, s.y, [0, 48, 0, 0, 70, 0][i]);
             });
             setPaths(out);
         };
@@ -346,23 +436,25 @@ function useWires(mapRef) {
     return paths;
 }
 
-function ChapterAI() {
+function ChapterAI({ m }) {
     const mapRef = useRef(null);
     const paths = useWires(mapRef);
+    const dark = !m.film || m.L >= -15;
+    const pulseOn = m.in(58, 72);
     return (
-        <Stage index={3} dark className="stage-ai">
+        <Stage index={3} dark={dark} className="stage-ai" m={m}>
             {(c) => (
                 <>
-                    <div className="glow" aria-hidden="true" />
+                    <div className="glow" aria-hidden="true" style={m.film ? { opacity: m.in(-20, 30) } : undefined} />
                     <div className="ai-left">
-                        <Caption chapter={c} className="cap-side" headingId={`${c.id}-title`} />
-                        <div className="log" aria-label="Nhật ký làm việc của các agent (minh hoạ)">
+                        <Caption chapter={c} className="cap-side" headingId={`${c.id}-title`} style={fade(m, m.in(0, 24))} />
+                        <div className="log" aria-label="Nhật ký làm việc của các agent (minh hoạ)" style={fade(m, m.in(30, 46), 0, 14)}>
                             <span className="h">
                                 <span>nhật ký hôm nay</span>
                                 <span>● đang chạy</span>
                             </span>
-                            {agentLog.map((row) => (
-                                <div key={row.t}>
+                            {agentLog.map((row, i) => (
+                                <div key={row.t} style={fade(m, m.in(34 + i * 9, 46 + i * 9), 0, 6)}>
                                     <span>{row.t}</span>
                                     <span className="who">{row.who}</span>
                                     <span>{row.what}</span>
@@ -373,16 +465,35 @@ function ChapterAI() {
                     </div>
                     <div className="map" ref={mapRef}>
                         <svg className="wires" aria-hidden="true">
-                            {paths.map((p, i) => (
-                                <g key={i}>
-                                    <path d={p.d} className="wire" />
-                                    {p.hot > 0 && <path d={p.d} className="pulse" pathLength="100" style={{ strokeDashoffset: -p.hot }} />}
-                                </g>
-                            ))}
+                            {paths.map((p, i) => {
+                                const draw = m.in(28 + i * 2, 58 + i * 2, ease.inOut);
+                                return (
+                                    <g key={i}>
+                                        <path
+                                            d={p.d}
+                                            className="wire"
+                                            pathLength="100"
+                                            style={m.film ? { strokeDasharray: 100, strokeDashoffset: 100 * (1 - draw) } : undefined}
+                                        />
+                                        {p.hot > 0 && (
+                                            <path
+                                                d={p.d}
+                                                className="pulse"
+                                                pathLength="100"
+                                                style={
+                                                    m.film
+                                                        ? { animation: "none", opacity: pulseOn, strokeDashoffset: -((p.hot + m.L * 0.9) % 100) }
+                                                        : { strokeDashoffset: -p.hot }
+                                                }
+                                            />
+                                        )}
+                                    </g>
+                                );
+                            })}
                         </svg>
                         <ul className="row agents" aria-label="Các AI agent">
-                            {agents.map((a) => (
-                                <li key={a.code} className="agent">
+                            {agents.map((a, i) => (
+                                <li key={a.code} className="agent" style={fade(m, m.in(8 + i * 5, 30 + i * 5), 0, -18)}>
                                     <span className="ic" style={{ background: agentColors[a.tone][0], color: agentColors[a.tone][1] }} aria-hidden="true">
                                         {a.code}
                                     </span>
@@ -393,7 +504,7 @@ function ChapterAI() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="hub">
+                        <div className="hub" style={m.film ? { opacity: m.in(18, 40), "--hs": mix(0.9, 1, m.in(18, 44, ease.back)) } : undefined}>
                             <span className="label">Điều phối</span>
                             <b>Bộ nhớ chung</b>
                             <div className="hub-steps">
@@ -403,14 +514,14 @@ function ChapterAI() {
                             </div>
                         </div>
                         <ul className="row systems" aria-label="Các hệ thống đang chạy">
-                            {aiSystems.map(([name, kind]) => (
-                                <li key={name} className="sys">
+                            {aiSystems.map(([name, kind], i) => (
+                                <li key={name} className="sys" data-m="sys" style={m.film ? { opacity: m.in(-18 + i * 2, -6 + i * 2, ease.lin) } : undefined}>
                                     {name}
                                     <small>{kind}</small>
                                 </li>
                             ))}
                         </ul>
-                        <div className="human">
+                        <div className="human" style={fade(m, m.in(96, 116), 0, 10)}>
                             <i aria-hidden="true">D</i>Duyệt cuối cùng: con người
                         </div>
                     </div>
@@ -420,13 +531,22 @@ function ChapterAI() {
     );
 }
 
-export function Story() {
+// Cả 4 chương. F = khung hình của phim (null = tĩnh); morph = độ lệch thẻ → ô hệ thống, do phim đo.
+export function Chapters({ F = null, morph }) {
+    return (
+        <>
+            <ChapterChaos m={motion(F, 0)} />
+            <ChapterRead m={motion(F, CH)} />
+            <ChapterBuild m={motion(F, CH * 2)} morph={morph} />
+            <ChapterAI m={motion(F, CH * 3)} />
+        </>
+    );
+}
+
+export function StaticStory() {
     return (
         <div id="cau-chuyen" className="story" aria-label={storyIntro.label}>
-            <ChapterChaos />
-            <ChapterRead />
-            <ChapterBuild />
-            <ChapterAI />
+            <Chapters />
         </div>
     );
 }

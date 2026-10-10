@@ -30,7 +30,9 @@
     <meta name="twitter:image" content="https://profile.bonstu.site/assets/og-cover.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <!-- Font tải không chặn render: hiện chữ hệ thống trước, đổi sang Be Vietnam Pro khi về. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
     <link rel="preload" as="image" href="/assets/avatar-720.webp" type="image/webp" fetchpriority="high" />
     <script id="route-structured-data" type="application/ld+json">
       {"@context":"https://schema.org","@type":"Person","name":"Vũ Đình Dũng","url":"https://profile.bonstu.site/","email":"dinhdung521@gmail.com","sameAs":["https://github.com/Dung-Vu"],"jobTitle":"Operations Systems Builder"}

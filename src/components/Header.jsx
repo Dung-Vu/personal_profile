@@ -30,7 +30,7 @@ export function Header() {
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", onScroll);
         const mo = new MutationObserver(onScroll);
-        mo.observe(document.getElementById("root"), { childList: true, subtree: true });
+        mo.observe(document.getElementById("root"), { childList: true, subtree: true, attributes: true, attributeFilter: ["data-theme"] });
         return () => {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onScroll);

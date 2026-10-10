@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@remotion/player':
+        specifier: 4.0.534
+        version: 4.0.534(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react:
         specifier: ^19.2.3
         version: 19.2.5
       react-dom:
         specifier: ^19.2.3
         version: 19.2.5(react@19.2.5)
+      remotion:
+        specifier: 4.0.534
+        version: 4.0.534(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
     devDependencies:
       '@vitejs/plugin-react':
         specifier: ^5.1.1
@@ -289,6 +295,12 @@ packages:
     resolution: {integrity: sha512-46BZJYJjc/WwmKjsvDFykHtXrtomsCIrwYQPOP7VfMJoZY2bsDF9oROBABR3paDjDcmkUye1Pb1BqdcdiipaWA==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@remotion/player@4.0.534':
+    resolution: {integrity: sha512-uXkg9qsuYP85eykXTayr8jjSzFJYwtPzYprMfjxnAx9u5C/H726wTE800wGUcDPCDn1SPf6TAg71pmo882Z+jA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   '@rolldown/pluginutils@1.0.0-rc.3':
     resolution: {integrity: sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==}
@@ -779,6 +791,12 @@ packages:
     resolution: {integrity: sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA==}
     engines: {node: '>=0.10.0'}
 
+  remotion@4.0.534:
+    resolution: {integrity: sha512-gSfMreFJgncWEHGsIWksicmEGsTrGMIAgZ87WS4e+bIB+nVsAN67UXWbQ88xGwUONm3xzwu9Ty786kFDcgZoaQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -1170,6 +1188,12 @@ snapshots:
       - bare-buffer
       - react-native-b4a
       - supports-color
+
+  '@remotion/player@4.0.534(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+      remotion: 4.0.534(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
@@ -1612,6 +1636,11 @@ snapshots:
   react-refresh@0.18.0: {}
 
   react@19.2.5: {}
+
+  remotion@4.0.534(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+    dependencies:
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
 
   require-directory@2.1.1: {}
 

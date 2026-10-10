@@ -1,5 +1,5 @@
 import { Hero } from "../sections/Hero.jsx";
-import { Story } from "../sections/Story.jsx";
+import { StorySection } from "../sections/StorySection.jsx";
 import { CaseCard } from "../components/CaseCard.jsx";
 import { ContactBlock } from "../components/ContactBlock.jsx";
 import { projects } from "../content/projects.js";
@@ -12,7 +12,7 @@ export default function Home() {
         <>
             <main id="main">
             <Hero />
-            <Story />
+            <StorySection />
             <section className="featured" aria-labelledby="featured-title">
                 <div className="wrap">
                     <div className="sec-head">

@@ -129,6 +129,10 @@ async function main() {
   });
 
   const page = await browser.newPage();
+  // Bản prerender luôn chụp câu chuyện tĩnh; phim cuộn chỉ gắn vào khi chạy trên trình duyệt thật.
+  await page.evaluateOnNewDocument(() => {
+    window.__PRERENDER__ = true;
+  });
   let success = 0;
 
   console.log(`\nPrerendering ${prerenderRoutes.length} routes...`);
@@ -153,6 +157,11 @@ async function main() {
       ).catch(() => {});
 
       await new Promise((r) => setTimeout(r, 500));
+
+      // Stylesheet tải không chặn render (media="print" + onload) đã bị onload đổi sang "all" trong lúc chụp; trả lại như nguồn.
+      await page.evaluate(() => {
+        document.querySelectorAll('link[rel="stylesheet"][onload]').forEach((l) => l.setAttribute("media", "print"));
+      });
 
       const html = await page.content();
       const title = await page.title();
