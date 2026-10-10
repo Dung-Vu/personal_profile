@@ -2,7 +2,7 @@ import { Link } from "../lib/router.jsx";
 import { ProofWindow } from "./ProofWindow.jsx";
 
 // Thẻ dự án dùng ở /work và trang chủ. size: "feature" (kèm ảnh minh hoạ) | "wide" | "small".
-export function CaseCard({ project, index, size = "small", showShot = false }) {
+export function CaseCard({ project, index, size = "small", showShot = false, as: Heading = "h3" }) {
     const no = String(index + 1).padStart(2, "0");
     const pillClass = project.tone === "mint" ? "pill t-mint" : `pill t-${project.tone}`;
     return (
@@ -11,11 +11,11 @@ export function CaseCard({ project, index, size = "small", showShot = false }) {
                 <span className={pillClass}>{project.tag}</span>
                 <span className="label">Case {no}</span>
             </div>
-            <h3>
+            <Heading>
                 <Link href={`/work/${project.slug}`} className="case-link">
                     {project.cardTitle}
                 </Link>
-            </h3>
+            </Heading>
             <p className="ba">
                 {project.before && (
                     <>

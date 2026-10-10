@@ -67,7 +67,7 @@ export function Header() {
                 Bỏ qua, tới nội dung chính
             </a>
             <div className="wrap nav-row">
-                <Link href="/" className="brand" aria-label={`${site.name} — trang chủ`}>
+                <Link href="/" className="brand">
                     <span className="brand-mark" aria-hidden="true">
                         {site.initials}
                     </span>

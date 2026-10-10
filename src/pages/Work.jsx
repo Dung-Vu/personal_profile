@@ -43,7 +43,7 @@ export default function Work() {
                         {list.map((p) => {
                             const index = projects.indexOf(p);
                             const size = cat === "all" ? sizes[p.slug] ?? "small" : "wide";
-                            return <CaseCard key={p.slug} project={p} index={index} size={size} showShot={cat === "all" && p.slug === "evone"} />;
+                            return <CaseCard key={p.slug} project={p} index={index} size={size} showShot={cat === "all" && p.slug === "evone"} as="h2" />;
                         })}
                     </div>
                     <div className="more">

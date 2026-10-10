@@ -3,6 +3,7 @@ import { brief, briefMailto, site } from "../content/site.js";
 // Khối liên hệ tối: dùng làm trang /contact (h1) và làm phần kết ở các trang khác (h2).
 export function ContactBlock({ as = "h2", id = "lien-he" }) {
     const Heading = as;
+    const SubHeading = as === "h1" ? "h2" : "h3";
     return (
         <section className="contact" data-theme="dark" aria-labelledby={`${id}-title`}>
             <div className="wrap contact-grid">
@@ -34,7 +35,7 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                 </div>
                 <aside className="brief" aria-label={brief.checklistLabel}>
                     <span className="label">{brief.checklistLabel}</span>
-                    <h3>{brief.checklistTitle}</h3>
+                    <SubHeading>{brief.checklistTitle}</SubHeading>
                     <ol>
                         {brief.checklist.map((item) => (
                             <li key={item.title}>

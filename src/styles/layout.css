@@ -254,7 +254,7 @@
     justify-content: space-between;
     align-items: center;
 }
-.case h3 {
+.case :is(h2, h3) {
     margin-top: 22px;
     font-size: 30px;
     font-weight: 800;
@@ -646,7 +646,7 @@
     display: block;
     margin-bottom: 18px;
 }
-.brief h3 {
+.brief :is(h2, h3) {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -776,7 +776,7 @@
         padding: 22px;
         border-radius: 22px;
     }
-    .case h3 {
+    .case :is(h2, h3) {
         font-size: 25px;
         margin-top: 16px;
     }
