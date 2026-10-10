@@ -1,5 +1,6 @@
 import { getNextProject, getProject } from "../content/projects.js";
-import { ProofWindow } from "../components/ProofWindow.jsx";
+import { CaseClip } from "../components/CaseClip.jsx";
+import { baLabels, clips } from "../content/clips.js";
 import { ContactBlock } from "../components/ContactBlock.jsx";
 import { Link } from "../lib/router.jsx";
 import NotFound from "./NotFound.jsx";
@@ -9,7 +10,8 @@ export default function CaseDetail({ slug }) {
     const p = getProject(slug);
     if (!p) return <NotFound />;
     const next = getNextProject(slug);
-    const seed = slug.length * 7;
+    const before = p.caseBefore ?? p.before;
+    const after = p.caseAfter ?? p.after;
     return (
         <>
             <main id="main" className="page page-case">
@@ -48,10 +50,23 @@ export default function CaseDetail({ slug }) {
                             </div>
                         ))}
                     </dl>
-                    <figure className={`proof proof-${p.tone}`}>
-                        <ProofWindow proof={p.proof} seed={seed} />
-                        <figcaption className="redact">Ảnh minh hoạ · dữ liệu đã che</figcaption>
-                    </figure>
+                    <CaseClip clip={clips[p.slug]} tone={p.tone} dark={p.dark} />
+
+                    {before && (
+                        <section className="ba" aria-label={baLabels.title}>
+                            <div className="ba-before">
+                                <span className="label">{baLabels.before}</span>
+                                <p>{before}</p>
+                            </div>
+                            <span className="ba-arrow" aria-hidden="true">
+                                →
+                            </span>
+                            <div className={`ba-after ba-${p.tone}`}>
+                                <span className="label">{baLabels.after}</span>
+                                <p>{after.charAt(0).toUpperCase() + after.slice(1)}</p>
+                            </div>
+                        </section>
+                    )}
 
                     <section className="story-row">
                         <h2>Bài toán</h2>

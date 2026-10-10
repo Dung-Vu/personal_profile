@@ -99,6 +99,8 @@ async function runAxe(page) {
   const axeSource = require("axe-core").source;
   await page.addScriptTag({ content: axeSource });
   return page.evaluate(async () => {
+    // Clip bằng chứng chạy animation khi cuộn tới: tua hết về cảnh cuối rồi mới chấm (giữa chừng chữ còn mờ dở).
+    document.querySelectorAll(".clip").forEach((el) => el.getAnimations({ subtree: true }).forEach((a) => a.finish()));
     // Mảnh chat/Excel trôi ở chương 1 là hình trang trí (aria-hidden, cố ý mờ theo chiều sâu):
     // chữ trong đó thuộc diện "incidental" của WCAG 1.4.3 nên không chấm tương phản.
     const results = await window.axe.run({ exclude: [[".frags"]] }, {

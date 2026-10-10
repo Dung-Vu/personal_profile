@@ -218,6 +218,8 @@ export const projects = [
         tag: "Dữ liệu & AI",
         tone: "apricot",
         before: null,
+        // chỉ hiện ở khối Trước → Sau của trang chi tiết (thẻ /work giữ câu "after" đứng một mình)
+        caseBefore: "Đọc nhiều nguồn dữ liệu rời rạc, tín hiệu nhiễu, khó biết cái nào đúng",
         after: "Phân tích thị trường Binance Futures: thu thập dữ liệu, chấm xác suất, theo dõi kết quả thật.",
         cardMetrics: [
             { value: "Live", label: "tca.bonstu.site" },
@@ -267,6 +269,8 @@ export const projects = [
         tone: "mint",
         dark: true,
         before: null,
+        caseBefore: "AI code nhanh nhưng dễ sai, mất ngữ cảnh giữa các phiên",
+        caseAfter: "đội agent có bộ nhớ chung, chia việc, kiểm tra chéo bằng test và trình duyệt; người duyệt cuối.",
         after: "Vì sao một người làm được khối lượng ở trên: đội AI agent có bộ nhớ chung, kiểm tra chéo trước khi bàn giao.",
         cardMetrics: [
             { value: "4+", label: "agent phối hợp" },
