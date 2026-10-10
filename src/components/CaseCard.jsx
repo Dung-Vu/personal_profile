@@ -1,4 +1,5 @@
 import { Link } from "../lib/router.jsx";
+import { proofNote } from "../content/clips.js";
 import { ProofWindow } from "./ProofWindow.jsx";
 
 // Thẻ dự án dùng ở /work và trang chủ. size: "feature" (kèm ảnh minh hoạ) | "wide" | "small".
@@ -36,7 +37,7 @@ export function CaseCard({ project, index, size = "small", showShot = false, as:
             {showShot ? (
                 <div className="shot">
                     <ProofWindow proof={project.proof} seed={index + 3} compact />
-                    <span className="redact">dữ liệu đã che</span>
+                    <span className="redact">{proofNote}</span>
                 </div>
             ) : (
                 <span className="go" aria-hidden="true">

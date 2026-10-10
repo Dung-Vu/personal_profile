@@ -227,8 +227,7 @@ h3 {
 .btn-line {
     border: 1px solid rgba(255, 255, 255, 0.18);
     color: #fff;
-    font-family: var(--mono);
-    font-weight: 500;
+    font-weight: 600;
 }
 .btn-line:hover {
     border-color: rgba(255, 255, 255, 0.4);

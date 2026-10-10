@@ -2,6 +2,8 @@
 // Toàn bộ là dữ liệu minh hoạ — tên, mã, số tiền đã thay hoặc che bằng "•••". Không dùng số liệu khách thật.
 export const clipNote = "Minh hoạ luồng thật · dữ liệu đã thay/che";
 export const replayLabel = "Xem lại";
+// Nhãn ảnh minh hoạ giao diện ở thẻ dự án.
+export const proofNote = "dữ liệu minh hoạ";
 export const baLabels = { title: "Trước và sau", before: "Trước", after: "Sau" };
 
 export const clips = {
@@ -73,28 +75,29 @@ export const clips = {
     },
     tca: {
         kind: "signal",
-        title: "Một tín hiệu, từ dữ liệu tới kết quả",
-        app: "tca · tín hiệu",
-        pipe: ["Thu thập", "Đặc trưng", "Chấm xác suất", "Tín hiệu", "Theo dõi"],
-        pair: "•••USDT",
-        side: "Long",
+        title: "Một cảnh báo, từ dữ liệu tới kết quả",
+        app: "tca · cảnh báo",
+        pipe: ["Thu thập", "Đặc trưng", "Chấm điểm", "Cảnh báo", "Đối chiếu"],
+        pair: "Nguồn •••",
+        side: "Cảnh báo",
+        scoreLabel: "Độ tin cậy",
         plan: [
-            ["Vào", "•••"],
-            ["Cắt lỗ", "•••"],
-            ["Chốt lời", "•••"],
+            ["Dữ liệu", "5 luồng"],
+            ["Gửi tới", "Telegram · web"],
+            ["Đối chiếu", "tự động"],
         ],
-        result: "Kết quả thật được ghi lại · số liệu không công khai",
+        result: "Kết quả thật của cảnh báo được ghi lại để chấm bản sau",
     },
     "ai-operator": {
         kind: "agents",
-        title: "Một việc đi qua đội agent",
+        title: "Một việc đi qua đội trợ lý AI",
         app: "hub · nhật ký",
         lines: [
-            ["Người", "Giao việc: sửa form đăng ký, kèm tiêu chí xong", "human"],
+            ["Người", "Giao việc: sửa biểu mẫu đăng ký, kèm tiêu chí xong", "human"],
             ["Claude Code", "Đọc bộ nhớ chung, lên kế hoạch, sửa code", "agent"],
-            ["Test", "Chạy test tự động · đạt", "ok"],
-            ["Codex", "Review chéo · 1 góp ý", "warn"],
-            ["Claude Code", "Sửa theo góp ý, chạy lại test", "agent"],
+            ["Kiểm thử", "Chạy kiểm thử tự động · đạt", "ok"],
+            ["Codex", "Soát chéo · 1 góp ý", "warn"],
+            ["Claude Code", "Sửa theo góp ý, chạy lại kiểm thử", "agent"],
             ["Trình duyệt", "Kiểm tra giao diện thật · đạt", "ok"],
             ["Bộ nhớ", "Ghi nhật ký cho phiên sau", "agent"],
             ["Người", "Duyệt và bàn giao", "human"],

@@ -21,7 +21,8 @@ function useClipPlay(ref) {
                     io.disconnect();
                 }
             },
-            { threshold: 0.35 },
+            // Chạy ngay khi mép trên clip vào tới ~88% chiều cao màn hình: người xem không phải nhìn khung trống.
+            { threshold: 0, rootMargin: "0px 0px -12% 0px" },
         );
         io.observe(el);
         return () => io.disconnect();
@@ -267,7 +268,7 @@ function Signal({ c }) {
                         <b>{c.pair}</b>
                         <em className="pill t-ocean">{c.side}</em>
                     </div>
-                    <span className="cl-lbl">Xác suất</span>
+                    <span className="cl-lbl">{c.scoreLabel}</span>
                     <div className="cl-bar">
                         <i className="k" style={k(3.4, "k-fill", 0.9)} />
                     </div>

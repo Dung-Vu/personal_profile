@@ -1,0 +1,268 @@
+/* ===== Trang /contact: phần sáng dưới khối liên hệ ===== */
+.page-contact .contact {
+    min-height: 0;
+}
+.trust {
+    padding-top: 40px;
+    padding-bottom: 130px;
+}
+.trust-sec {
+    padding-top: 110px;
+    scroll-margin-top: calc(var(--nav-h) + 8px);
+}
+.trust-head {
+    max-width: 760px;
+    margin-bottom: 36px;
+}
+.trust-head .h2 {
+    margin-top: 18px;
+    text-wrap: balance;
+}
+.trust-head .lead {
+    margin-top: 16px;
+    font-size: 18px;
+}
+
+/* Soạn yêu cầu */
+.bform {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 28px;
+}
+.bform-who,
+.bform-actions,
+.bform-status {
+    grid-column: 1 / -1;
+}
+.bform-field {
+    display: grid;
+    gap: 8px;
+}
+.bform-field span {
+    font-size: 15px;
+    font-weight: 600;
+}
+.bform-field small {
+    font-weight: 400;
+    color: var(--muted);
+}
+.bform-field i {
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ocean);
+    margin-right: 4px;
+}
+.bform input,
+.bform textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+.bform textarea::placeholder,
+.bform input::placeholder {
+    color: #8a8e94;
+}
+.bform input:focus-visible,
+.bform textarea:focus-visible {
+    outline: 2px solid var(--ocean);
+    outline-offset: 1px;
+}
+.bform-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+.bform-actions .btn[disabled],
+.bform-actions .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.bform-status {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Cách hợp tác */
+.steps5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+.steps5 li,
+.forms3 > div,
+.safety li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 22px;
+}
+.steps5 .no {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ocean);
+}
+.steps5 h3,
+.forms3 h3,
+.safety h3 {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.steps5 h3 {
+    margin-top: 22px;
+}
+.steps5 p,
+.forms3 p,
+.safety p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+}
+.steps5 small {
+    display: block;
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-2);
+}
+.forms3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 14px;
+}
+.forms3 > div {
+    background: transparent;
+}
+.price-note {
+    margin-top: 22px;
+    max-width: 820px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+}
+
+/* An toàn dữ liệu */
+.safety {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+.safety li:first-child {
+    background: var(--ocean-soft);
+    border-color: transparent;
+}
+.safety li:first-child p {
+    color: var(--ink-2);
+}
+
+/* Nhận xét */
+.quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+}
+.quotes figure {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 26px;
+}
+.quotes blockquote {
+    font-size: 19px;
+    line-height: 1.5;
+}
+.quotes figcaption {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Hỏi thẳng */
+.faq {
+    max-width: 880px;
+    border-top: 1px solid var(--line);
+}
+.faq details {
+    border-bottom: 1px solid var(--line);
+}
+.faq summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+.faq summary::after {
+    content: "+";
+    font-family: var(--mono);
+    font-weight: 400;
+    color: var(--ocean);
+}
+.faq details[open] summary::after {
+    content: "−";
+}
+.faq details p {
+    padding-bottom: 22px;
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 760px;
+}
+
+@media (max-width: 1100px) {
+    .steps5 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .safety {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .trust {
+        padding-top: 8px;
+        padding-bottom: 90px;
+    }
+    .trust-sec {
+        padding-top: 72px;
+    }
+    .trust-head .h2 {
+        font-size: 34px;
+    }
+    .bform {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+    .bform-actions .btn {
+        width: 100%;
+    }
+    .steps5,
+    .forms3,
+    .safety {
+        grid-template-columns: 1fr;
+    }
+    .faq summary {
+        font-size: 17px;
+    }
+}

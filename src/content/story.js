@@ -24,14 +24,14 @@ export const chapters = [
         no: "03",
         name: "Dựng lại",
         title: "Thành những hệ thống chạy được mỗi ngày.",
-        lead: "Odoo cho vận hành, ERP riêng theo ngành, web-app thay Excel, bot nhắc việc — mỗi cái giải đúng một chỗ đau.",
+        lead: "Odoo cho vận hành, ERP riêng theo ngành, phần mềm web thay Excel, bot nhắc việc — mỗi cái giải đúng một chỗ đau.",
     },
     {
         id: "ai-van-hanh",
         no: "04",
         name: "AI vận hành",
         title: "Rồi để AI gánh phần lặp lại.",
-        lead: "Nhiều agent nhận việc, làm, kiểm tra chéo bằng test và trình duyệt rồi mới báo kết quả. Con người giữ quyết định.",
+        lead: "Nhiều trợ lý AI nhận việc, làm, kiểm tra chéo bằng test và trình duyệt rồi mới báo kết quả. Con người giữ quyết định.",
     },
 ];
 
@@ -88,15 +88,15 @@ export const aiSystems = [
 ];
 
 export const steps = [
-    { no: "01", title: "Đọc hệ thống", desc: "Ngồi cùng người làm, vẽ lại quy trình", hint: "ai · làm gì · ở đâu", tone: "ocean" },
-    { no: "02", title: "Dựng giao diện", desc: "Màn hình theo đúng thao tác thật", hint: "bấm ít · nhìn là hiểu", tone: "iris" },
-    { no: "03", title: "Build", desc: "Có test, dữ liệu thật, chạy được ngay", hint: "test · log · rollback", tone: "apricot" },
+    { no: "01", title: "Đọc quy trình", desc: "Ngồi cùng người làm, vẽ lại quy trình", hint: "ai · làm gì · ở đâu", tone: "ocean" },
+    { no: "02", title: "Thiết kế luồng", desc: "Phác màn hình theo đúng thao tác thật", hint: "bấm ít · nhìn là hiểu", tone: "iris" },
+    { no: "03", title: "Xây dựng", desc: "Có kiểm thử, dữ liệu thật, chạy được ngay", hint: "kiểm thử · nhật ký · khôi phục", tone: "apricot" },
     { no: "04", title: "Kiểm chứng", desc: "Đo lại bằng số trước khi bàn giao", hint: "trước → sau", tone: "ink" },
 ];
 
 export const agents = [
-    { code: "CC", name: "Claude Code", role: "lên plan · review", tone: "apricot" },
-    { code: "CX", name: "Codex", role: "viết code · test", tone: "mint" },
+    { code: "CC", name: "Claude Code", role: "lên kế hoạch · soát lại", tone: "apricot" },
+    { code: "CX", name: "Codex", role: "viết code · kiểm thử", tone: "mint" },
     { code: "GM", name: "Gemini", role: "dựng giao diện", tone: "iris" },
     { code: "PI", name: "Pi", role: "việc lặt vặt", tone: "mono" },
 ];
@@ -104,8 +104,8 @@ export const agents = [
 export const hubSteps = ["chia việc", "kiểm chéo", "bàn giao"];
 
 export const agentLog = [
-    { t: "09:12", who: "codex", what: "build + test", res: "✓ pass", ok: true },
-    { t: "09:15", who: "claude", what: "review thay đổi", res: "2 góp ý" },
+    { t: "09:12", who: "codex", what: "đóng gói + kiểm thử", res: "✓ pass", ok: true },
+    { t: "09:15", who: "claude", what: "soát lại thay đổi", res: "2 góp ý" },
     { t: "09:21", who: "gemini", what: "kiểm tra trên trình duyệt", res: "✓ 0 lỗi", ok: true },
     { t: "09:23", who: "hub", what: "ghi nhật ký · chờ duyệt", res: "✓", ok: true },
 ];

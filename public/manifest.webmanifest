@@ -1,7 +1,7 @@
 {
-  "name": "Vũ Đình Dũng — Operations Systems Builder",
+  "name": "Vũ Đình Dũng — Dựng hệ thống vận hành",
   "short_name": "Vũ Đình Dũng",
-  "description": "Odoo, internal tools, AI agents: biến cách doanh nghiệp đang vận hành thành hệ thống chạy được.",
+  "description": "Odoo, phần mềm nội bộ, tự động hoá bằng AI: biến cách doanh nghiệp đang vận hành thành hệ thống chạy được.",
   "lang": "vi",
   "start_url": "/",
   "scope": "/",

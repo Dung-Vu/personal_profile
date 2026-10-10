@@ -1,4 +1,4 @@
-import { briefMailto, heroChips, site, stats } from "../content/site.js";
+import { cta, heroChips, site, stats } from "../content/site.js";
 import { Link } from "../lib/router.jsx";
 import { Particles, rng, tones } from "../lib/particles.jsx";
 
@@ -42,9 +42,9 @@ export function Hero() {
                         ))}
                     </div>
                     <div className="ctas">
-                        <a className="btn btn-ink" href={briefMailto}>
-                            Gửi brief cho mình <span aria-hidden="true">→</span>
-                        </a>
+                        <Link className="btn btn-ink" href="/contact">
+                            {cta.long} <span aria-hidden="true">→</span>
+                        </Link>
                         <Link className="btn btn-ghost" href="/#cau-chuyen">
                             Xem câu chuyện <span aria-hidden="true">↓</span>
                         </Link>

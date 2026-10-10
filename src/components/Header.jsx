@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { nav, site } from "../content/site.js";
+import { cta, nav, site } from "../content/site.js";
 import { Link, usePath } from "../lib/router.jsx";
 
 // Header dính trên cùng: trong suốt ở đầu trang, mờ nền khi cuộn, tự đổi sang bản tối khi đi qua vùng data-theme="dark".
@@ -81,7 +81,7 @@ export function Header() {
                     ))}
                 </nav>
                 <Link href="/contact" className="btn btn-ink nav-cta">
-                    Gửi brief <span aria-hidden="true">→</span>
+                    {cta.short} <span aria-hidden="true">→</span>
                 </Link>
                 <button
                     ref={burgerRef}
@@ -104,10 +104,10 @@ export function Header() {
                         </Link>
                     ))}
                     <Link href="/contact" className="btn btn-mint sheet-cta">
-                        Gửi brief cho mình <span aria-hidden="true">→</span>
+                        {cta.long} <span aria-hidden="true">→</span>
                     </Link>
-                    <a className="sheet-mail" href={`mailto:${site.email}`}>
-                        {site.email}
+                    <a className="sheet-mail" href={site.zalo} target="_blank" rel="noreferrer">
+                        Zalo · {site.phone}
                     </a>
                 </nav>
             </div>

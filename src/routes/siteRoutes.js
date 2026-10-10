@@ -50,13 +50,13 @@ function route(path, meta, extra = {}) {
 }
 
 const homeDesc =
-    "Vũ Đình Dũng — Operations Systems Builder. Biến cách doanh nghiệp đang vận hành thành hệ thống chạy được: Odoo, ERP theo ngành, web-app thay Excel, bot và đội AI agent.";
+    "Vũ Đình Dũng — dựng hệ thống vận hành cho doanh nghiệp: Odoo, ERP theo ngành, phần mềm web thay Excel, bot nhắc việc và tự động hoá bằng AI.";
 
 export const siteRoutes = [
     route(
         "/",
         {
-            title: `${site.name} — Odoo, internal tools, AI agents`,
+            title: `${site.name} — Odoo, phần mềm nội bộ, tự động hoá bằng AI`,
             desc: homeDesc,
             ogType: "profile",
             schema: [
@@ -68,7 +68,7 @@ export const siteRoutes = [
     ),
     route("/work", {
         title: `Dự án — ${site.name}`,
-        desc: "Những hệ thống đang chạy thật mỗi ngày: Odoo, ERP cho chuỗi showroom xe điện, web-app ra tem, bot nhắc việc, phân tích dữ liệu và đội AI agent.",
+        desc: "Những hệ thống đang chạy thật mỗi ngày: Odoo, ERP cho chuỗi showroom xe điện, phần mềm ra tem, bot nhắc việc Zalo, hệ dữ liệu thời gian thực và đội trợ lý AI.",
     }, { sitemapPriority: "0.9" }),
     ...projects.map((p) =>
         route(`/work/${p.slug}`, {
@@ -85,7 +85,7 @@ export const siteRoutes = [
     }),
     route("/contact", {
         title: `Liên hệ — ${site.name}`,
-        desc: "Có một quy trình đang làm bằng tay? Gửi brief 4 ý, mình sẽ nói thật nên dựng gì, mất bao lâu và phần nào AI gánh được.",
+        desc: "Có một quy trình đang làm bằng tay? Nhắn Zalo hoặc gửi yêu cầu 4 ý, trả lời trong 1 ngày làm việc, khảo sát 30–60 phút miễn phí. Cách hợp tác và cách giữ an toàn dữ liệu.",
     }),
     route("/404", {
         title: `Không tìm thấy trang — ${site.name}`,

@@ -71,9 +71,13 @@
 }
 
 /* --- cơ chế chạy: mặc định là cảnh cuối; armed = đứng ở khung đầu, playing = chạy --- */
+/* --speed nén cả độ trễ lẫn thời lượng theo cùng tỉ lệ, nên các cảnh vẫn khớp nhau (clip ~5s còn ~3,5s). */
+.clip {
+    --speed: 0.7;
+}
 .clip.is-armed .k,
 .clip.is-playing .k {
-    animation: var(--k, k-up) var(--t, 0.6s) var(--ease) var(--d, 0s) both;
+    animation: var(--k, k-up) calc(var(--t, 0.6s) * var(--speed)) var(--ease) calc(var(--d, 0s) * var(--speed)) both;
 }
 .clip.is-armed .k {
     animation-play-state: paused;

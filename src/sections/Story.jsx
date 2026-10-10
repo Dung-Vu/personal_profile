@@ -491,7 +491,7 @@ function ChapterAI({ m }) {
                                 );
                             })}
                         </svg>
-                        <ul className="row agents" aria-label="Các AI agent">
+                        <ul className="row agents" aria-label="Các trợ lý AI">
                             {agents.map((a, i) => (
                                 <li key={a.code} className="agent" style={fade(m, m.in(8 + i * 5, 30 + i * 5), 0, -18)}>
                                     <span className="ic" style={{ background: agentColors[a.tone][0], color: agentColors[a.tone][1] }} aria-hidden="true">
