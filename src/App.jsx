@@ -1,7 +1,9 @@
 import { Component, Suspense, lazy, useEffect, useRef, useState } from "react";
 import { Header } from "./components/Header.jsx";
 import { Footer } from "./components/Footer.jsx";
-import { getProject } from "./content/projects.js";
+import { PrintSummary } from "./components/PrintSummary.jsx";
+import { getProjectsContent, getSiteContent } from "./content/index.js";
+import { localizePath, stripLocale, useLocale } from "./lib/i18n.js";
 import { applyRouteMeta } from "./lib/meta.js";
 import { Link, scrollToHash, usePath } from "./lib/router.jsx";
 import { getRoute } from "./routes/siteRoutes.js";
@@ -12,6 +14,23 @@ const CaseDetail = lazy(() => import("./pages/CaseDetail.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
+
+const FALLBACK_ERROR_UI = {
+    vi: {
+        label: "Đã xảy ra lỗi",
+        title: "Không tải được trang này.",
+        lead: "Có thể kết nối vừa bị gián đoạn hoặc bản mới vừa được cập nhật. Thử tải lại trang hoặc quay về trang chủ.",
+        reloadBtn: "Tải lại trang",
+        homeBtn: "Về trang chủ",
+    },
+    en: {
+        label: "Something went wrong",
+        title: "Could not load this page.",
+        lead: "Your connection may have dropped or a new version was just deployed. Try reloading or return home.",
+        reloadBtn: "Reload page",
+        homeBtn: "Back to home",
+    },
+};
 
 class ErrorBoundary extends Component {
     state = { hasError: false };
@@ -27,32 +46,32 @@ class ErrorBoundary extends Component {
     }
 
     componentDidCatch(error) {
-        console.error("Lỗi hiển thị trang:", error);
+        console.error("Page render error:", error);
     }
 
     render() {
         if (!this.state.hasError) return this.props.children;
+        const locale = this.props.locale === "en" ? "en" : "vi";
+        const eb = getSiteContent(locale)?.ui?.errorBoundary ?? FALLBACK_ERROR_UI[locale];
         return (
             <main id="main" tabIndex={-1} className="page page-404">
                 <div className="wrap">
                     <span className="label">
                         <span className="dot" />
-                        Đã xảy ra lỗi
+                        {eb.label}
                     </span>
-                    <h1 className="display nf-title">Không tải được trang này.</h1>
-                    <p className="lead">
-                        Có thể kết nối vừa bị gián đoạn hoặc bản mới vừa được cập nhật. Thử tải lại trang hoặc quay về trang chủ.
-                    </p>
+                    <h1 className="display nf-title">{eb.title}</h1>
+                    <p className="lead">{eb.lead}</p>
                     <div className="ctas">
                         <button type="button" className="btn btn-ink" onClick={() => window.location.reload()}>
-                            Tải lại trang
+                            {eb.reloadBtn}
                         </button>
                         <Link
                             className="btn btn-ghost"
-                            href="/"
+                            href={localizePath("/", locale)}
                             onClick={() => this.setState({ hasError: false })}
                         >
-                            Về trang chủ <span aria-hidden="true">→</span>
+                            {eb.homeBtn} <span aria-hidden="true">→</span>
                         </Link>
                     </div>
                 </div>
@@ -61,26 +80,31 @@ class ErrorBoundary extends Component {
     }
 }
 
-function resolve(path) {
-    if (path === "/") return <Home />;
-    if (path === "/work") return <Work />;
-    const m = path.match(/^\/work\/([a-z0-9-]+)$/);
-    if (m && getProject(m[1])) return <CaseDetail key={m[1]} slug={m[1]} />;
-    if (path === "/about") return <About />;
-    if (path === "/contact") return <Contact />;
+function resolve(path, locale) {
+    const base = stripLocale(path);
+    if (base === "/") return <Home />;
+    if (base === "/work") return <Work />;
+    const m = base.match(/^\/work\/([a-z0-9-]+)$/);
+    if (m && getProjectsContent(locale).getProject(m[1])) {
+        return <CaseDetail key={m[1]} slug={m[1]} />;
+    }
+    if (base === "/about") return <About />;
+    if (base === "/contact") return <Contact />;
     return <NotFound />;
 }
 
 export default function App() {
     const path = usePath();
+    const locale = useLocale();
     const prevPathRef = useRef(path);
     const [announcement, setAnnouncement] = useState("");
 
     useEffect(() => {
         const route = getRoute(path);
         applyRouteMeta(path);
+        const baseRoute = stripLocale(route.path);
         document.documentElement.dataset.route =
-            route.path === "/" ? "home" : route.path === "/404" ? "404" : route.path.split("/")[1] || "home";
+            baseRoute === "/" ? "home" : baseRoute === "/404" ? "404" : baseRoute.split("/")[1] || "home";
 
         if (prevPathRef.current === path) return;
         prevPathRef.current = path;
@@ -110,10 +134,11 @@ export default function App() {
             <div className="sr-only" aria-live="polite" aria-atomic="true">
                 {announcement}
             </div>
-            <ErrorBoundary resetKey={path}>
-                <Suspense fallback={<div className="page-loading" aria-busy="true" />}>{resolve(path)}</Suspense>
+            <ErrorBoundary resetKey={path} locale={locale}>
+                <Suspense fallback={<div className="page-loading" aria-busy="true" />}>{resolve(path, locale)}</Suspense>
             </ErrorBoundary>
             <Footer />
+            <PrintSummary locale={locale} />
         </>
     );
 }

@@ -29,6 +29,8 @@ const MIME = {
   ".ico": "image/x-icon",
   ".woff2": "font/woff2",
   ".woff": "font/woff",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
   ".json": "application/json",
   ".xml": "application/xml",
   ".txt": "text/plain; charset=utf-8",
@@ -56,7 +58,8 @@ function startServer() {
         return;
       }
 
-      const rawPath = pathname === "/" ? "/index.html" : pathname;
+      const normalized = pathname.replace(/\/+$/, "") || "/";
+      const rawPath = normalized === "/" ? "/index.html" : normalized;
       const resolved = path.resolve(DIST, "." + rawPath);
       if (!resolved.startsWith(DIST_PREFIX)) {
         res.writeHead(403, { "Content-Type": "text/plain; charset=utf-8" });
@@ -66,8 +69,8 @@ function startServer() {
 
       let filePath = resolved;
       let statusCode = 200;
-      // Giống Cloudflare Pages: /work/evone → work/evone.html; đường dẫn lạ → 404.html (HTTP 404).
-      if (pathname !== "/" && fs.existsSync(`${filePath}.html`) && fs.statSync(`${filePath}.html`).isFile()) {
+      // Giống Cloudflare Pages: /en → en.html, /en/work/evone → en/work/evone.html, /work/evone → work/evone.html; đường dẫn lạ → 404.html (HTTP 404).
+      if (normalized !== "/" && fs.existsSync(`${filePath}.html`) && fs.statSync(`${filePath}.html`).isFile()) {
         filePath = `${filePath}.html`;
         if (filePath === NOT_FOUND_HTML) statusCode = 404;
       } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
@@ -155,6 +158,8 @@ async function main() {
 
   let browser;
   let failed = false;
+  let passed = 0;
+  const total = routes.length * VIEWPORTS.length;
   try {
     await waitForCdp();
     const puppeteer = require("puppeteer-core");
@@ -163,7 +168,7 @@ async function main() {
       defaultViewport: { width: 390, height: 844 },
     });
 
-    console.log(`Perf QA routes: ${routes.length}`);
+    console.log(`Perf QA routes: ${routes.length} (${total} checks across mobile + desktop)`);
 
     for (const viewport of VIEWPORTS) {
       const page = await browser.newPage();
@@ -221,7 +226,9 @@ async function main() {
           const clsOk = result.cls <= 0.1;
           const h1Ok = Boolean(result.h1.trim());
           const longTaskWarn = result.maxLongTask > 50;
-          const status = lcpOk && clsOk && h1Ok ? "PASS" : "FAIL";
+          const ok = lcpOk && clsOk && h1Ok;
+          const status = ok ? "PASS" : "FAIL";
+          if (ok) passed++;
           const longTaskText = longTaskWarn ? ` longtask=${result.maxLongTask}ms` : "";
           console.log(
             `${status} ${viewport.label} ${viewport.width}x${viewport.height} ${route} lcp=${result.lcp}ms cls=${result.cls}${longTaskText}`,
@@ -229,7 +236,7 @@ async function main() {
           if (!h1Ok) {
             console.log(`  missing h1 on ${viewport.label} ${route}`);
           }
-          if (!lcpOk || !clsOk || !h1Ok) {
+          if (!ok) {
             failed = true;
           }
         }
@@ -237,6 +244,7 @@ async function main() {
         await page.close().catch(() => {});
       }
     }
+    console.log(`Perf QA summary: ${passed}/${total} passed`);
   } catch (error) {
     failed = true;
     console.error(error);

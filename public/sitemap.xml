@@ -1,43 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://profile.bonstu.site/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/" />
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work" />
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/evone</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/evone" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/evone" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/evone" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/odoo-bonario</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/odoo-bonario" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/odoo-bonario" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/odoo-bonario" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/ace-ra-tem</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/ace-ra-tem" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/ace-ra-tem" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/ace-ra-tem" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/reminder-hub</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/reminder-hub" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/reminder-hub" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/reminder-hub" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/tca</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/tca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/tca" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/tca" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/work/ai-operator</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/ai-operator" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/ai-operator" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/ai-operator" />
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/about</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/about" />
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://profile.bonstu.site/contact</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/contact" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/" />
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work" />
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/evone</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/evone" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/evone" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/evone" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/odoo-bonario</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/odoo-bonario" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/odoo-bonario" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/odoo-bonario" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/ace-ra-tem</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/ace-ra-tem" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/ace-ra-tem" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/ace-ra-tem" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/reminder-hub</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/reminder-hub" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/reminder-hub" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/reminder-hub" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/tca</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/tca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/tca" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/tca" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/work/ai-operator</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/work/ai-operator" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/work/ai-operator" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/work/ai-operator" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/about" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://profile.bonstu.site/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://profile.bonstu.site/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://profile.bonstu.site/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://profile.bonstu.site/contact" />
     <priority>0.7</priority>
   </url>
 </urlset>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { clipNote, replayLabel } from "../content/clips.js";
+import { getClipsContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
 import { rng } from "../lib/particles.jsx";
 import "../styles/clip.css";
 
@@ -126,12 +127,17 @@ function FakeQR({ seed = 7 }) {
     );
 }
 
-function Vehicle({ c }) {
+function Vehicle({ c, isEn }) {
+    const vinLabel = c.vinLabel || (isEn ? "VIN" : "Số khung");
+    const planStatus = c.planStatus || (isEn ? `${c.planPaid}/${c.planTotal} installments paid` : `${c.planPaid}/${c.planTotal} kỳ đã thu`);
+    const offlineLabel = c.offlineLabel || (isEn ? "Offline · 3 queued to sync" : "Mất mạng · 3 chờ đồng bộ");
+    const syncedLabel = c.syncedLabel || (isEn ? "✓ Synced" : "✓ Đã đồng bộ");
+
     return (
         <div className="cl-vehicle">
             <div className="cl-stack">
                 <div className="cl-vin k" style={k(0.1)}>
-                    <span className="cl-lbl">Số khung</span>
+                    <span className="cl-lbl">{vinLabel}</span>
                     <b>{c.vin}</b>
                     <small>{c.model}</small>
                 </div>
@@ -153,9 +159,7 @@ function Vehicle({ c }) {
                             <i key={i} className={i < c.planPaid ? "paid k" : undefined} style={i < c.planPaid ? k(2.3 + i * 0.2, "k-pop") : undefined} />
                         ))}
                     </div>
-                    <small>
-                        {c.planPaid}/{c.planTotal} kỳ đã thu
-                    </small>
+                    <small>{planStatus}</small>
                 </div>
                 <div className="cl-box cl-qr k" style={k(2)}>
                     <FakeQR />
@@ -166,10 +170,10 @@ function Vehicle({ c }) {
                 </div>
                 <div className="cl-sync">
                     <span aria-hidden="true" className="cl-ghost cl-off k" style={k(3, "k-blip", 1.6)}>
-                        Mất mạng · 3 chờ đồng bộ
+                        {offlineLabel}
                     </span>
                     <span className="cl-on k" style={k(4.6)}>
-                        ✓ Đã đồng bộ
+                        {syncedLabel}
                     </span>
                 </div>
             </div>
@@ -268,7 +272,10 @@ function Labels({ c }) {
     );
 }
 
-function Chat({ c }) {
+function Chat({ c, isEn }) {
+    const botLabel = c.botLabel || (isEn ? "Reminder Bot" : "Bot nhắc việc");
+    const scheduledLabel = c.scheduledLabel || (isEn ? "Reminder scheduled" : "Đã lên lịch nhắc");
+
     return (
         <div className="cl-chat">
             <div className="cl-thread">
@@ -279,7 +286,7 @@ function Chat({ c }) {
                     </div>
                 ))}
                 <div className="cl-msg bot k" style={k(3.7)}>
-                    <span>Bot nhắc việc</span>
+                    <span>{botLabel}</span>
                     <p>{c.remind}</p>
                 </div>
                 <div className="cl-done k" style={k(4.9)}>
@@ -295,7 +302,7 @@ function Chat({ c }) {
                     </div>
                 ))}
                 <em className="pill t-ocean k" style={k(3.1, "k-pop")}>
-                    Đã lên lịch nhắc
+                    {scheduledLabel}
                 </em>
             </div>
         </div>
@@ -376,6 +383,9 @@ function Agents({ c }) {
 const scenes = { vehicle: Vehicle, helpdesk: Helpdesk, labels: Labels, chat: Chat, signal: Signal, agents: Agents };
 
 export function CaseClip({ clip, tone, dark }) {
+    const locale = useLocale();
+    const isEn = locale === "en";
+    const { clipNote, replayLabel } = getClipsContent(locale);
     const ref = useRef(null);
     const Scene = clip ? scenes[clip.kind] : null;
     const [state, forcePlay] = useClipPlay(ref, Boolean(Scene));
@@ -386,6 +396,9 @@ export function CaseClip({ clip, tone, dark }) {
         if (forcePlay()) setRun((n) => n + 1);
     };
 
+    const replayStatus =
+        run > 0 ? (isEn ? `Replaying visual walkthrough: ${clip.title}.` : `Đang phát lại minh hoạ ${clip.title}.`) : "";
+
     return (
         <figure ref={ref} className={`proof proof-${tone} clip clip-${clip.kind}${dark ? " clip-dark" : ""} is-${state}`}>
             <div className="clip-win">
@@ -395,16 +408,16 @@ export function CaseClip({ clip, tone, dark }) {
                     <i />
                     <span>{clip.app}</span>
                     {state !== "still" && (
-                        <button type="button" className="clip-replay" onClick={handleReplay}>
+                        <button type="button" className="clip-replay" onClick={handleReplay} aria-label={`${replayLabel}: ${clip.title}`}>
                             <span aria-hidden="true">↻</span> {replayLabel}
                         </button>
                     )}
                 </div>
                 <span className="sr-only" aria-live="polite">
-                    {run > 0 ? `Đang phát lại minh hoạ ${clip.title}.` : ""}
+                    {replayStatus}
                 </span>
                 <div className="clip-body" key={run}>
-                    <Scene c={clip} />
+                    <Scene c={clip} isEn={isEn} />
                 </div>
             </div>
             <figcaption>

@@ -2,13 +2,24 @@ import "../styles/home.css";
 import { Hero } from "../sections/Hero.jsx";
 import { StorySection } from "../sections/StorySection.jsx";
 import { CaseCard } from "../components/CaseCard.jsx";
+import { Testimonials } from "../components/Testimonials.jsx";
 import { ContactBlock } from "../components/ContactBlock.jsx";
-import { projects } from "../content/projects.js";
+import { getProjectsContent, getSiteContent } from "../content/index.js";
+import { localizePath, useLocale } from "../lib/i18n.js";
 import { Link } from "../lib/router.jsx";
 
-const featured = projects.slice(0, 3);
-
 export default function Home() {
+    const locale = useLocale();
+    const isEn = locale === "en";
+    const { ui = {} } = getSiteContent(locale);
+    const { projects } = getProjectsContent(locale);
+    const featured = projects.slice(0, 3);
+    const homeUi = ui.home || {};
+
+    const resultsLabel = homeUi.featuredLabel || (isEn ? "Selected results" : "Kết quả");
+    const resultsTitle = homeUi.featuredTitle || (isEn ? "Three production systems, told in numbers." : "Ba hệ thống tiêu biểu, kể bằng số.");
+    const allWorkLabel = homeUi.featuredAllBtn || (isEn ? `View all ${projects.length} case studies` : `Xem cả ${projects.length} dự án`);
+
     return (
         <main id="main" tabIndex={-1}>
             <Hero />
@@ -19,14 +30,14 @@ export default function Home() {
                         <div>
                             <span className="label">
                                 <span className="dot" />
-                                Kết quả
+                                {resultsLabel}
                             </span>
                             <h2 id="featured-title" className="h2">
-                                Ba hệ thống tiêu biểu, kể bằng số.
+                                {resultsTitle}
                             </h2>
                         </div>
-                        <Link className="btn btn-ghost" href="/work">
-                            Xem cả 6 dự án <span aria-hidden="true">→</span>
+                        <Link className="btn btn-ghost" href={localizePath("/work", locale)}>
+                            {allWorkLabel} <span aria-hidden="true">→</span>
                         </Link>
                     </div>
                     <div className="case-grid case-grid-home">
@@ -36,6 +47,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+            <Testimonials locale={locale} />
             <ContactBlock />
         </main>
     );

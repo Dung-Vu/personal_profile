@@ -1,0 +1,239 @@
+/* ===== Executive 1-Page Print Summary (Screen Hidden · A4 Print Only) ===== */
+@media screen {
+    .print-sheet {
+        display: none !important;
+    }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    html,
+    body {
+        background: #ffffff !important;
+        color: #0f1115 !important;
+        font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+        font-size: 9.5pt !important;
+        line-height: 1.42 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    header,
+    footer,
+    main,
+    .nav,
+    .sheet,
+    .skip,
+    .sr-only {
+        display: none !important;
+    }
+
+    .print-sheet {
+        display: block !important;
+        color: #0f1115 !important;
+        background: #ffffff !important;
+        max-width: 100%;
+    }
+
+    .ps-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0f1115;
+    }
+
+    .ps-eyebrow {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 7.5pt;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #1b6265;
+        font-weight: 600;
+    }
+
+    .ps-name {
+        font-size: 20pt;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-top: 2px;
+        color: #0f1115;
+    }
+
+    .ps-role {
+        margin-top: 3px;
+        font-size: 9.5pt;
+        font-weight: 600;
+        color: #33373f;
+    }
+
+    .ps-contact {
+        text-align: right;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 8.2pt;
+        line-height: 1.5;
+        color: #1f242c;
+        flex: none;
+    }
+
+    .ps-pitch {
+        margin-top: 10px;
+        font-size: 10.5pt;
+        font-weight: 600;
+        color: #0f1115;
+    }
+
+    .ps-block {
+        margin-top: 12px;
+        break-inside: avoid;
+    }
+
+    .ps-heading {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 8pt;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #1b6265;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #d5d8de;
+        margin-bottom: 8px;
+    }
+
+    .ps-heading-sub {
+        margin-top: 10px;
+    }
+
+    .ps-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .ps-stat {
+        border: 1px solid #cfd3da;
+        border-radius: 6px;
+        padding: 7px 9px;
+        break-inside: avoid;
+    }
+
+    .ps-stat strong {
+        display: block;
+        font-size: 14pt;
+        font-weight: 800;
+        line-height: 1.1;
+        color: #0f1115;
+    }
+
+    .ps-stat span {
+        display: block;
+        margin-top: 3px;
+        font-size: 7.8pt;
+        line-height: 1.3;
+        color: #33373f;
+    }
+
+    .ps-projects {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .ps-project {
+        border: 1px solid #d5d8de;
+        border-radius: 6px;
+        padding: 8px 10px;
+        break-inside: avoid;
+    }
+
+    .ps-project-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .ps-project-head strong {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: #0f1115;
+    }
+
+    .ps-project-head span {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 7.2pt;
+        color: #4a505a;
+        white-space: nowrap;
+    }
+
+    .ps-project-line {
+        margin-top: 3px;
+        font-size: 8.4pt;
+        color: #2c313a;
+        line-height: 1.35;
+    }
+
+    .ps-project-metric {
+        margin-top: 4px;
+        font-size: 8.2pt;
+        color: #1b6265;
+    }
+
+    .ps-project-metric b {
+        font-weight: 700;
+    }
+
+    .ps-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 10px;
+    }
+
+    .ps-cols .ps-block {
+        margin-top: 0;
+    }
+
+    .ps-list {
+        display: grid;
+        gap: 5px;
+        font-size: 8.4pt;
+        color: #252a32;
+    }
+
+    .ps-list-tight {
+        gap: 4px;
+    }
+
+    .ps-list strong {
+        color: #0f1115;
+        font-weight: 700;
+    }
+
+    .ps-toolbox {
+        display: grid;
+        gap: 4px;
+        font-size: 8.4pt;
+        color: #252a32;
+    }
+
+    .ps-tool-row strong {
+        color: #0f1115;
+    }
+
+    .ps-foot {
+        margin-top: 14px;
+        padding-top: 6px;
+        border-top: 1px solid #d5d8de;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 7.5pt;
+        color: #4a505a;
+        text-align: center;
+    }
+}

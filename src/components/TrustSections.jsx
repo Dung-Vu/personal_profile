@@ -1,22 +1,60 @@
-import { collab, faq, safety, testimonials } from "../content/trust.js";
+import { useCallback, useRef, useState } from "react";
+import { getSiteContent, getTrustContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
 import { BriefForm } from "./BriefForm.jsx";
+import { OpsDiagnostic } from "./OpsDiagnostic.jsx";
+import { Testimonials } from "./Testimonials.jsx";
 
-// Phần sáng dưới khối liên hệ ở /contact: soạn yêu cầu, cách hợp tác, an toàn dữ liệu, hỏi đáp.
+// Phần sáng dưới khối liên hệ ở /contact: khảo sát 60s, soạn yêu cầu, cách hợp tác, an toàn dữ liệu, nhận xét, hỏi đáp.
 export function TrustSections() {
+    const locale = useLocale();
+    const isEn = locale === "en";
+    const { ui = {} } = getSiteContent(locale);
+    const { collab, faq, safety } = getTrustContent(locale);
+
+    const [prefill, setPrefill] = useState(null);
+    const nonceRef = useRef(0);
+
+    const handlePrefill = useCallback((data) => {
+        nonceRef.current += 1;
+        setPrefill({ ...data, nonce: nonceRef.current });
+        const target = document.getElementById("gui-yeu-cau");
+        if (target) {
+            const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            target.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+        }
+    }, []);
+
+    const cUi = ui.contact || {};
+    const formLabel = cUi.formLabel || (isEn ? "Project Brief" : "Soạn yêu cầu");
+    const formTitle = cUi.formTitle || (isEn ? "Fill 4 points — send directly or via Zalo / email." : "Điền 4 ý, gửi trực tiếp hoặc qua Zalo / email.");
+    const formLead =
+        cUi.formLead ||
+        (isEn
+            ? "Bullet points are enough. Leave anything blank if unsure — we will clarify it on the discovery call."
+            : "Gạch đầu dòng là đủ. Chưa rõ ý nào thì bỏ trống, buổi khảo sát sẽ hỏi tiếp.");
+    const costPrefix = cUi.costPrefix || (isEn ? "Your time:" : "Anh/chị bỏ ra:");
+    const priceLabel = cUi.priceLabel || (isEn ? "Pricing." : "Chi phí.");
+    const faqTitle = cUi.faqTitle || faq.title || (isEn ? "Questions clients ask upfront." : "Mấy câu khách hay hỏi.");
+
     return (
         <div className="trust wrap">
+            <div className="trust-sec trust-diag">
+                <OpsDiagnostic locale={locale} onPrefill={handlePrefill} />
+            </div>
+
             <section id="gui-yeu-cau" className="trust-sec trust-form" aria-labelledby="gui-yeu-cau-title">
                 <div className="trust-head">
                     <span className="label">
                         <span className="dot" />
-                        Soạn yêu cầu
+                        {formLabel}
                     </span>
                     <h2 id="gui-yeu-cau-title" className="h2">
-                        Điền 4 ý, gửi bằng Zalo hoặc email.
+                        {formTitle}
                     </h2>
-                    <p className="lead">Gạch đầu dòng là đủ. Chưa rõ ý nào thì bỏ trống, buổi khảo sát sẽ hỏi tiếp.</p>
+                    <p className="lead">{formLead}</p>
                 </div>
-                <BriefForm />
+                <BriefForm prefill={prefill} />
             </section>
 
             <section id="cach-hop-tac" className="trust-sec" aria-labelledby="cach-hop-tac-title">
@@ -35,7 +73,11 @@ export function TrustSections() {
                             <span className="no">{String(i + 1).padStart(2, "0")}</span>
                             <h3>{s.title}</h3>
                             <p>{s.desc}</p>
-                            {s.cost !== "—" && <small>Anh/chị bỏ ra: {s.cost}</small>}
+                            {s.cost && s.cost !== "—" && (
+                                <small>
+                                    {costPrefix} {s.cost}
+                                </small>
+                            )}
                         </li>
                     ))}
                 </ol>
@@ -48,7 +90,7 @@ export function TrustSections() {
                     ))}
                 </div>
                 <p className="price-note">
-                    <b>Chi phí.</b> {collab.price}
+                    <b>{priceLabel}</b> {collab.price}
                 </p>
             </section>
 
@@ -73,29 +115,7 @@ export function TrustSections() {
                 </ul>
             </section>
 
-            {testimonials.length > 0 && (
-                <section className="trust-sec" aria-labelledby="nhan-xet-title">
-                    <div className="trust-head">
-                        <span className="label">
-                            <span className="dot" />
-                            Người dùng nói
-                        </span>
-                        <h2 id="nhan-xet-title" className="h2">
-                            Từ những người đang dùng hằng ngày.
-                        </h2>
-                    </div>
-                    <div className="quotes">
-                        {testimonials.map((t) => (
-                            <figure key={t.quote}>
-                                <blockquote>“{t.quote}”</blockquote>
-                                <figcaption>
-                                    <b>{t.who}</b> · {t.org}
-                                </figcaption>
-                            </figure>
-                        ))}
-                    </div>
-                </section>
-            )}
+            <Testimonials locale={locale} />
 
             <section className="trust-sec" aria-labelledby="hoi-thang-title">
                 <div className="trust-head">
@@ -104,7 +124,7 @@ export function TrustSections() {
                         {faq.label}
                     </span>
                     <h2 id="hoi-thang-title" className="h2">
-                        Mấy câu khách hay hỏi.
+                        {faqTitle}
                     </h2>
                 </div>
                 <div className="faq">

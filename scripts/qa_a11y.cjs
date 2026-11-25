@@ -29,6 +29,8 @@ const MIME = {
   ".ico": "image/x-icon",
   ".woff2": "font/woff2",
   ".woff": "font/woff",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
   ".json": "application/json",
   ".xml": "application/xml",
   ".txt": "text/plain; charset=utf-8",
@@ -56,7 +58,8 @@ function startServer() {
         return;
       }
 
-      const rawPath = pathname === "/" ? "/index.html" : pathname;
+      const normalized = pathname.replace(/\/+$/, "") || "/";
+      const rawPath = normalized === "/" ? "/index.html" : normalized;
       const resolved = path.resolve(DIST, "." + rawPath);
       if (!resolved.startsWith(DIST_PREFIX)) {
         res.writeHead(403, { "Content-Type": "text/plain; charset=utf-8" });
@@ -66,8 +69,8 @@ function startServer() {
 
       let filePath = resolved;
       let statusCode = 200;
-      // Giống Cloudflare Pages: /work/evone → work/evone.html; đường dẫn lạ → 404.html (HTTP 404).
-      if (pathname !== "/" && fs.existsSync(`${filePath}.html`) && fs.statSync(`${filePath}.html`).isFile()) {
+      // Giống Cloudflare Pages: /en → en.html, /en/work/evone → en/work/evone.html, /work/evone → work/evone.html; đường dẫn lạ → 404.html (HTTP 404).
+      if (normalized !== "/" && fs.existsSync(`${filePath}.html`) && fs.statSync(`${filePath}.html`).isFile()) {
         filePath = `${filePath}.html`;
         if (filePath === NOT_FOUND_HTML) statusCode = 404;
       } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
@@ -182,6 +185,8 @@ async function main() {
 
   let browser;
   let failed = false;
+  let passed = 0;
+  const total = routes.length * VIEWPORTS.length;
   try {
     await waitForCdp();
     const puppeteer = require("puppeteer-core");
@@ -190,7 +195,7 @@ async function main() {
       defaultViewport: { width: 390, height: 844 },
     });
 
-    console.log(`A11y QA routes: ${routes.length}`);
+    console.log(`A11y QA routes: ${routes.length} (${total} checks across mobile + desktop)`);
 
     for (const viewport of VIEWPORTS) {
       const page = await browser.newPage();
@@ -203,11 +208,13 @@ async function main() {
 
         for (const route of routes) {
           const url = `http://127.0.0.1:${PORT}${route}`;
+          const expectedLang = route === "/en" || route.startsWith("/en/") ? "en" : "vi";
           await page.goto(url, { waitUntil: "networkidle0", timeout: 20000 });
           await page.waitForSelector("h1", { timeout: 8000 }).catch(() => {});
 
           const result = await page.evaluate(() => ({
             path: location.pathname,
+            lang: document.documentElement.lang,
             h1Count: document.querySelectorAll("h1").length,
             mainCount: document.querySelectorAll("main").length,
             headerCount: document.querySelectorAll("header").length,
@@ -219,17 +226,23 @@ async function main() {
 
           const violations = axe.violations;
           const h1Ok = result.h1Count === 1;
+          const langOk = result.lang === expectedLang;
           const landmarksOk =
             result.mainCount >= 1 && result.headerCount >= 1 && result.navCount >= 1;
           const skipOk = result.skipLink;
-          const status = violations.length === 0 && h1Ok && landmarksOk && skipOk ? "PASS" : "FAIL";
+          const ok = violations.length === 0 && h1Ok && langOk && landmarksOk && skipOk;
+          const status = ok ? "PASS" : "FAIL";
+          if (ok) passed++;
 
           console.log(
-            `${status} ${viewport.label} ${viewport.width}x${viewport.height} ${route} h1=${result.h1Count} landmarks=${result.mainCount}/${result.headerCount}/${result.navCount} skip=${skipOk ? "ok" : "missing"} violations=${violations.length}`,
+            `${status} ${viewport.label} ${viewport.width}x${viewport.height} ${route} lang=${result.lang} h1=${result.h1Count} landmarks=${result.mainCount}/${result.headerCount}/${result.navCount} skip=${skipOk ? "ok" : "missing"} violations=${violations.length}`,
           );
 
-          if (!h1Ok || !landmarksOk || !skipOk || violations.length) {
+          if (!ok) {
             failed = true;
+            if (!langOk) {
+              console.log(`  - expected lang="${expectedLang}" but got "${result.lang}" on ${viewport.label} ${route}`);
+            }
             if (!skipOk) {
               console.log(`  - missing .skip link on ${viewport.label} ${route}`);
             }
@@ -249,6 +262,7 @@ async function main() {
         await page.close().catch(() => {});
       }
     }
+    console.log(`A11y QA summary: ${passed}/${total} passed`);
   } catch (error) {
     failed = true;
     console.error(error);

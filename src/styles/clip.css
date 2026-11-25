@@ -49,9 +49,14 @@
     font-family: var(--mono);
     font-size: 11.5px;
     color: var(--muted);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .clip-replay {
     margin-left: auto;
+    flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -61,6 +66,7 @@
     color: var(--ink-2);
     padding: 6px 10px;
     border-radius: 8px;
+    white-space: nowrap;
 }
 .clip-replay:hover {
     background: var(--paper);
@@ -552,7 +558,7 @@
 /* --- TCA: pipeline → tín hiệu --- */
 .cl-pipe {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 8px;
 }
 .cl-pipe li {
@@ -683,7 +689,7 @@
 }
 .cl-agents li {
     display: grid;
-    grid-template-columns: 34px 130px 1fr 24px;
+    grid-template-columns: 34px minmax(120px, 144px) 1fr 24px;
     align-items: center;
     gap: 12px;
     padding: 10px 14px;
@@ -792,7 +798,7 @@
     }
     .cl-lane > .cl-lbl {
         flex: none;
-        width: 74px;
+        width: 86px;
         margin: 0;
     }
     .cl-slot {

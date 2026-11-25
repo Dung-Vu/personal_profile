@@ -25,6 +25,7 @@
 
 /* Soạn yêu cầu */
 .bform {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
@@ -33,10 +34,83 @@
     border-radius: var(--r);
     padding: 28px;
 }
-.bform-who,
-.bform-actions,
-.bform-status {
+.bform-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+.bform-diag-badge {
     grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--ocean-soft);
+    border: 1px solid rgba(27, 98, 101, 0.35);
+    color: var(--ink);
+}
+.bform-diag-badge .label {
+    color: var(--ocean);
+    display: block;
+    margin-bottom: 4px;
+}
+.bform-diag-badge p {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink);
+}
+.bform-diag-remove {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ocean);
+    border: 1px solid rgba(27, 98, 101, 0.35);
+    background: rgba(255, 255, 255, 0.72);
+    transition: background-color 0.2s;
+}
+.bform-diag-remove:hover {
+    background: #fff;
+}
+.bform-who,
+.bform-contact {
+    grid-column: span 1;
+}
+.bform-actions,
+.bform-status,
+.bform-success {
+    grid-column: 1 / -1;
+}
+.bform-success {
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #e3f4ee;
+    border: 1px solid var(--ocean);
+    color: #0d3638;
+}
+.bform-success strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #0b2f31;
+}
+.bform-success p {
+    margin-top: 6px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #134043;
 }
 .bform-field {
     display: grid;
@@ -278,6 +352,10 @@
     .bform {
         grid-template-columns: 1fr;
         padding: 18px;
+    }
+    .bform-who,
+    .bform-contact {
+        grid-column: 1 / -1;
     }
     .bform-actions .btn,
     .bform-fallback-actions .btn {

@@ -12,6 +12,17 @@
     margin-top: 24px;
     max-width: 640px;
 }
+.about-actions {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.about-pdf-btn {
+    height: 46px;
+    padding: 0 20px;
+    font-size: 14.5px;
+}
 .about-ava {
     border-radius: 26px;
     overflow: hidden;
@@ -146,6 +157,12 @@
         order: -1;
         width: 96px;
         border-radius: 22px;
+    }
+    .about-actions {
+        margin-top: 22px;
+    }
+    .about-pdf-btn {
+        width: 100%;
     }
     .page-about .page-title {
         font-size: 38px;

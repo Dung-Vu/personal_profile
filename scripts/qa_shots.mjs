@@ -1,5 +1,5 @@
 // Chụp màn hình các trang ở 360 / 768 / 1440 / 1920 để so với styleframe.
-// Dùng: node scripts/qa_shots.mjs [baseUrl] [outDir] [route...]
+// Dùng: node scripts/qa_shots.mjs [baseUrl] [outDir] [route...]  (ALL_ROUTES=1 để chụp đủ 21 route VI+EN)
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -7,9 +7,15 @@ import puppeteer from "puppeteer-core";
 import { prerenderRoutes } from "../src/routes/siteRoutes.js";
 import { findChrome } from "./find_chrome.cjs";
 
+const KEY_EN_ROUTES = new Set(["/en", "/en/work", "/en/contact"]);
+const defaultRoutes =
+    process.env.ALL_ROUTES === "1"
+        ? prerenderRoutes
+        : prerenderRoutes.filter((r) => !(r === "/en" || r.startsWith("/en/")) || KEY_EN_ROUTES.has(r));
+
 const base = process.argv[2] ?? "http://127.0.0.1:4173";
-const out = process.argv[3] ?? path.join(os.tmpdir(), "profile-v2-shots");
-const routes = process.argv.slice(4).length ? process.argv.slice(4) : prerenderRoutes;
+const out = process.argv[3] ?? path.join(os.tmpdir(), "profile-v3-shots");
+const routes = process.argv.slice(4).length ? process.argv.slice(4) : defaultRoutes;
 const widths = (process.env.WIDTHS ?? "360,768,1440,1920").split(",").map(Number);
 
 const executablePath = findChrome();
@@ -51,5 +57,5 @@ if (errors.length) {
     console.error(`\nLỖI:\n${[...new Set(errors)].join("\n")}`);
     process.exitCode = 1;
 } else {
-    console.log("\nKhông có lỗi console / tràn ngang.");
+    console.log(`\nKhông có lỗi console / tràn ngang (${routes.length * widths.length} ảnh).`);
 }

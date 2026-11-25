@@ -54,6 +54,31 @@ export const projects = [
         ],
         result:
             "Một hệ thống thay cho sổ sách và file rời rạc, đang dùng hằng ngày. Từng chiếc xe có hồ sơ từ lúc nhập kho tới bàn giao, công nợ trả góp có lịch thu rõ ràng, dữ liệu được sao lưu mã hoá mỗi ngày. Bản cập nhật có điểm quay lại nếu cần.",
+        tech: {
+            summary:
+                "Ứng dụng web offline-first dùng sổ cái định danh theo số khung (VIN), hàng đợi đồng bộ cục bộ khi mất mạng và sinh mã VietQR động cho từng kỳ trả góp.",
+            stack: [
+                "Web App (Offline-First)",
+                "Hàng đợi đồng bộ cục bộ",
+                "Sổ cái theo số khung (VIN)",
+                "VietQR động",
+                "Phân quyền theo vai trò (RBAC)",
+                "Sao lưu mã hoá khác máy",
+            ],
+            architecture: [
+                "Mỗi chiếc xe mang một hồ sơ định danh theo số khung/số máy xuyên suốt từ nhập kho, điều chuyển showroom, hợp đồng tới bàn giao.",
+                "Quầy bán ghi thao tác vào hàng đợi cục bộ khi mất mạng và tự đồng bộ theo thứ tự khi có kết nối lại, tránh mất phiếu hay trùng đơn.",
+                "Lịch trả góp sinh payload VietQR động theo đúng số tiền và mã kỳ để đối soát công nợ tự động.",
+            ],
+            testing: [
+                "8.000+ kiểm thử tự động chạy trước mỗi lần phát hành, phủ tồn kho, lịch trả góp, phân quyền và luồng đồng bộ offline.",
+                "Kiểm tra hồi quy tự động cho các ca biên: điều chuyển chéo showroom, huỷ hợp đồng và thanh toán lệch kỳ.",
+            ],
+            safety: [
+                "Sao lưu cơ sở dữ liệu có mã hoá mỗi ngày và lưu thêm bản dự phòng khác máy.",
+                "Phân quyền chặt theo vai trò (bán hàng, kho, kế toán, quản lý) kèm điểm quay lại trước mỗi lần cập nhật.",
+            ],
+        },
         proof: {
             app: "evone · kho xe",
             side: ["Tổng quan", "Bán hàng", "Kho xe", "Trả góp", "Thu tiền", "Báo cáo"],
@@ -115,6 +140,31 @@ export const projects = [
         ],
         result:
             "Hơn 200 yêu cầu vận hành của 2 công ty đã đi qua helpdesk, khoảng 9/10 xong trong hạn, một nửa xong trong chưa tới một ngày. Các bước lặp lại trong bán hàng và kho có luồng tự động hoặc tool hỗ trợ.",
+        tech: {
+            summary:
+                "Giữ luồng Odoo gốc làm trục chính, nối thêm 5 tool vệ tinh gọn nhẹ cho đồng bộ serial RFID, in nhãn nhập kho và bot đối soát tồn kho.",
+            stack: [
+                "Odoo (Bán hàng · Kho · Helpdesk)",
+                "5 tool vệ tinh",
+                "Đồng bộ Serial RFID",
+                "In label từ phiếu nhập",
+                "Bot đối soát tồn kho",
+                "Nhật ký SLA Helpdesk",
+            ],
+            architecture: [
+                "Dữ liệu bán hàng, kho và helpdesk nằm chuẩn trên Odoo; các thao tác lặp nặng được tách sang 5 tool vệ tinh gọn nhẹ nối trực tiếp vào Odoo.",
+                "Tool đọc file máy quét RFID đẩy serial thẳng vào phiếu nhập kho và in nhãn ngay tại thao tác nhập.",
+                "Bot kiểm kho nhận file quét, đối chiếu tự động với tồn sổ sách trên Odoo và trả báo cáo chênh lệch theo một mẫu thống nhất.",
+            ],
+            testing: [
+                "Mọi chỉnh sửa luồng Odoo và tool vệ tinh đều chạy thử trên bản sao dữ liệu trước khi đưa lên cho 7 phòng ban (~50 người dùng).",
+                "Đối chiếu serial nhập kho và số liệu báo cáo trên mẫu thật cùng người vận hành trước khi đóng phiếu.",
+            ],
+            safety: [
+                "Toàn bộ yêu cầu vận hành đi qua phiếu Helpdesk có người nhận, hạn SLA và dấu vết thay đổi (200+ phiếu từ 09/2025).",
+                "Sao lưu trước khi sửa dữ liệu thật và phân quyền vừa đủ theo đúng phạm vi từng phòng ban.",
+            ],
+        },
     },
     {
         slug: "ace-ra-tem",
@@ -157,6 +207,30 @@ export const projects = [
         ],
         result:
             "Trong lúc đọc file macro, tìm ra 3 lỗi công thức phải sửa, trong đó có lỗi sai kích thước cắt. Bản mới khớp 47/47 ca với tem sản xuất thật, khách tự điền số đo, xưởng không còn phụ thuộc file macro trên từng máy.",
+        tech: {
+            summary:
+                "Chuyển toàn bộ quy tắc tính rèm từ Excel macro sang bộ máy công thức thuần (pure formula engine) trên web kèm trình xuất PDF 18 tem/A4 có đường cắt.",
+            stack: [
+                "Phần mềm web",
+                "Pure Formula Engine",
+                "47 ca chuẩn sản xuất (Golden Fixtures)",
+                "Xuất PDF A4 (18 tem/trang)",
+                "Biểu mẫu khách hàng",
+            ],
+            architecture: [
+                "Tách 2 chặng: khách tự điền số đo qua biểu mẫu web, xưởng chỉ bổ sung mã vải và kiểu may thay vì gõ lại từ tin nhắn.",
+                "Bộ công thức tách độc lập khỏi giao diện, nhận thông số và tính nhất quán chia tấm, overlap, kích thước cắt vải và phụ kiện.",
+                "Trình tạo PDF dàn chuẩn 18 tem trên trang A4 ngang (lưới 6 × 3) kèm đường cắt sẵn cho xưởng in ngay.",
+            ],
+            testing: [
+                "Bộ kiểm thử đối chiếu tự động 47/47 ca thực tế với tem đã sản xuất thật làm chuẩn (golden fixtures).",
+                "Quá trình kiểm chứng đã phát hiện và sửa 3 lỗi công thức ẩn trong file macro cũ, gồm lỗi sai kích thước cắt.",
+            ],
+            safety: [
+                "Một phiên bản công thức thống nhất trên web thay cho nhiều file macro lệch nhau trên từng máy xưởng.",
+                "Mọi chỉnh sửa công thức về sau đều phải vượt qua trọn bộ 47 ca chuẩn trước khi áp dụng.",
+            ],
+        },
     },
     {
         slug: "reminder-hub",
@@ -198,6 +272,30 @@ export const projects = [
             { title: "Bảng theo dõi", desc: "Thấy toàn cảnh việc đang mở" },
         ],
         result: "Việc giao trong khoảng 40 nhóm Zalo có người nhận, có hạn và được nhắc — chạy thật từ 09/2026. Nhịp nhắc được chỉnh theo phản hồi thật để không thành spam.",
+        tech: {
+            summary:
+                "Bot thu nhận hội thoại từ ~40 nhóm Zalo (sẵn bản WhatsApp), dùng AI trích xuất người nhận/đầu việc/hạn chót và lập lịch nhắc gọn trong giờ hành chính.",
+            stack: [
+                "Bot Zalo (sẵn bản WhatsApp)",
+                "AI trích xuất việc & hạn chót",
+                "Bộ lập lịch giờ hành chính",
+                "Trang quản trị theo dõi",
+                "220+ kiểm thử tự động",
+            ],
+            architecture: [
+                "Luồng nhận tin nhắn theo dõi ~40 nhóm Zalo và lọc tin trao đổi thường khỏi câu giao việc có hành động.",
+                "Tầng AI bóc tách có cấu trúc người nhận, đầu việc và hạn chót theo bộ quy tắc do người vận hành duyệt.",
+                "Bộ lập lịch gửi nhắc trước hạn và cảnh báo quá hạn trong giờ hành chính T2–T6, đồng bộ lên bảng theo dõi trên web.",
+            ],
+            testing: [
+                "220+ kiểm thử tự động phủ bóc tách hạn chót, khung giờ hành chính, chống nhắc trùng và đóng việc.",
+                "Tinh chỉnh nhịp nhắc theo phản hồi thực tế từ các nhóm chạy thật từ 09/2026 để giữ hữu ích, không gây nhiễu.",
+            ],
+            safety: [
+                "Khóa cứng khung giờ hành chính ở tầng lập lịch — không gửi tin làm phiền buổi tối hoặc cuối tuần.",
+                "Ghi nhật ký gửi nhắc và cho phép bật/tắt nhanh từng nhóm ngay từ trang quản trị.",
+            ],
+        },
     },
     {
         slug: "tca",
@@ -241,6 +339,30 @@ export const projects = [
             { title: "Đối chiếu", desc: "Tự ghi kết quả thật của từng cảnh báo" },
         ],
         result: "Đang chạy thật, đã qua 4 phiên bản. Bài học dùng lại được cho doanh nghiệp: báo cáo, cảnh báo tồn kho hay doanh số đều cần cùng một khung — gom, chấm, báo, rồi tự kiểm lại.",
+        tech: {
+            summary:
+                "Đường ống dữ liệu thời gian thực gom 5 luồng liên tục, tính đặc trưng, chấm độ tin cậy, gửi cảnh báo qua Telegram/web và tự đối chiếu từng cảnh báo với kết quả thật.",
+            stack: [
+                "5 luồng dữ liệu liên tục",
+                "Tính đặc trưng & chấm điểm",
+                "Cảnh báo Telegram + Web",
+                "Tự động đối chiếu kết quả",
+                "Nghiệm thu chạy thử 72 giờ",
+            ],
+            architecture: [
+                "Tầng thu thập gom 5 luồng dữ liệu song song, tự phát hiện khoảng đứt và bù dữ liệu khi nguồn gián đoạn.",
+                "Tối ưu đường tính đặc trưng giúp một lượt tính nặng giảm gần 7 lần, từ 393 giây xuống còn 58 giây.",
+                "Mỗi cảnh báo phát tới Telegram và bảng theo dõi web đều được lưu định danh để vòng đối chiếu sau tự chấm kết quả thật.",
+            ],
+            testing: [
+                "Mỗi phiên bản mới phải vượt qua 72 giờ chạy thử liên tục (soak test) không lỗi mới được nghiệm thu.",
+                "Cả 4 phiên bản được nâng cấp dựa trên dữ liệu đối chiếu thực tế của phiên bản liền trước.",
+            ],
+            safety: [
+                "Tự bù dữ liệu khi đứt luồng và ghi log rõ từng chặng thu thập/chấm điểm để truy vết nhanh.",
+                "Tách biệt môi trường chạy thử 72 giờ khỏi kênh cảnh báo thật cho tới khi đạt ngưỡng ổn định.",
+            ],
+        },
     },
     {
         slug: "ai-operator",
@@ -284,6 +406,31 @@ export const projects = [
             { title: "Điều phối hạn mức", desc: "Theo dõi hạn mức dùng của từng trợ lý" },
         ],
         result: "Đây là lý do một người làm được khối lượng của các dự án khác trong trang Dự án mà vẫn giữ được chất lượng.",
+        tech: {
+            summary:
+                "Hệ điều phối 4+ trợ lý AI chuyên vai trên cùng một bộ nhớ dự án chung, kiểm tra chéo bằng test tự động và trình duyệt trước cổng duyệt cuối của con người.",
+            stack: [
+                "Claude Code · Codex · Gemini · Pi",
+                "Bộ nhớ ngữ cảnh chung",
+                "Chia việc theo vai trò",
+                "Kiểm thử & soát chéo",
+                "Kiểm tra trình duyệt",
+                "Cổng duyệt cuối: Con người",
+            ],
+            architecture: [
+                "Các trợ lý đọc và ghi vào cùng một bộ nhớ dự án (3+ tháng nhật ký liên tục) để giữ mạch ngữ cảnh qua nhiều phiên.",
+                "Phân vai rõ ràng: lập kế hoạch & soát chéo, viết code & kiểm thử, dựng giao diện và xử lý đầu việc phụ trợ.",
+                "Theo dõi hạn mức sử dụng từng trợ lý để điều phối nhịp chạy liên tục không bị đứt đoạn.",
+            ],
+            testing: [
+                "Đầu ra bắt buộc vượt qua kiểm thử tự động, đóng gói và một lượt soát chéo độc lập bởi trợ lý khác.",
+                "Mọi thay đổi giao diện được kiểm tra trực tiếp trên trình duyệt thật trước khi báo hoàn tất.",
+            ],
+            safety: [
+                "Mặc định trợ lý chỉ thao tác trên mã nguồn và dữ liệu giả, không tự ý chạm dữ liệu thật hay phát hành.",
+                "1 người duyệt cuối cùng kiểm tra diff, nhật ký và kết quả test trước mọi lần bàn giao.",
+            ],
+        },
     },
 ];
 

@@ -1,4 +1,4 @@
-// Prerender mọi route thành HTML tĩnh lúc build — không cần trình duyệt, nên chạy được trên Cloudflare Pages.
+// Prerender mọi route (21 route: 10 VI + 10 EN + /404) thành HTML tĩnh lúc build — không cần trình duyệt, chạy được trên Cloudflare Pages.
 // Cần chạy sau: vite build (client, có manifest) và vite build --ssr src/entry-server.jsx --outDir dist-ssr.
 import fs from "node:fs";
 import path from "node:path";
@@ -77,33 +77,56 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").repl
 const setAttr = (html, selector, value) =>
     html.replace(selector, (tag) => tag.replace(/content="[^"]*"/, () => `content="${esc(value)}"`));
 
+function routeKind(route) {
+    const base = route === "/en" ? "/" : route.startsWith("/en/") ? route.slice(3) : route;
+    if (base === "/") return "home";
+    if (base === "/404") return "404";
+    return base.split("/")[1] || "home";
+}
+
 function headFor(route) {
     const meta = getRouteMeta(route);
     const url = getCanonicalUrl(route);
+    const lang = meta.lang || "vi";
+    const ogLocale = meta.ogLocale || (lang === "en" ? "en_US" : "vi_VN");
     let h = template;
     h = h.replace(/<title>[^<]*<\/title>/, () => `<title>${esc(meta.title)}</title>`);
     h = setAttr(h, /<meta name="description"[^>]*>/, meta.desc);
     h = setAttr(h, /<meta name="robots"[^>]*>/, meta.robots);
     h = setAttr(h, /<meta property="og:type"[^>]*>/, meta.ogType);
     h = setAttr(h, /<meta property="og:url"[^>]*>/, url);
+    if (meta.siteName) h = setAttr(h, /<meta property="og:site_name"[^>]*>/, meta.siteName);
     h = setAttr(h, /<meta property="og:title"[^>]*>/, meta.title);
     h = setAttr(h, /<meta property="og:description"[^>]*>/, meta.desc);
     h = setAttr(h, /<meta property="og:image"[^>]*>/, meta.image);
     h = setAttr(h, /<meta property="og:image:alt"[^>]*>/, meta.imageAlt);
+    h = setAttr(h, /<meta property="og:locale"[^>]*>/, ogLocale);
     h = setAttr(h, /<meta name="twitter:title"[^>]*>/, meta.title);
     h = setAttr(h, /<meta name="twitter:description"[^>]*>/, meta.desc);
     h = setAttr(h, /<meta name="twitter:image"[^>]*>/, meta.image);
+    // Dọn hreflang sẵn có (nếu có) trước khi chèn mới.
+    h = h.replace(/\s*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>/g, () => "");
     if (route === "/404") {
         h = h.replace(/\s*<link rel="canonical"[^>]*>/, () => "");
     } else {
-        h = h.replace(/<link rel="canonical"[^>]*>/, () => `<link rel="canonical" href="${esc(url)}" />`);
+        const hreflangs = meta.alternates
+            ? [
+                  `<link rel="alternate" hreflang="vi" href="${esc(meta.alternates.vi)}" />`,
+                  `<link rel="alternate" hreflang="en" href="${esc(meta.alternates.en)}" />`,
+                  `<link rel="alternate" hreflang="x-default" href="${esc(meta.alternates.xDefault)}" />`,
+              ].join("\n    ")
+            : "";
+        const canonicalBlock = hreflangs
+            ? `<link rel="canonical" href="${esc(url)}" />\n    ${hreflangs}`
+            : `<link rel="canonical" href="${esc(url)}" />`;
+        h = h.replace(/<link rel="canonical"[^>]*>/, () => canonicalBlock);
     }
     h = h.replace(
         /(<script id="route-structured-data" type="application\/ld\+json">)[\s\S]*?(<\/script>)/,
         (_, a, b) => `${a}${JSON.stringify(meta.schema).replace(/</g, "\\u003c")}${b}`,
     );
-    // Ảnh chân dung chỉ là LCP ở trang chủ; trang khác bỏ preload để không tranh băng thông.
-    if (route !== "/") {
+    // Ảnh chân dung chỉ là LCP ở trang chủ (cả VI `/` và EN `/en`); trang khác bỏ preload để không tranh băng thông.
+    if (route !== "/" && route !== "/en") {
         h = h.replace(/\s*<link\b(?=[^>]*\brel="preload")(?=[^>]*\bas="image")[^>]*>/, () => "");
     }
     const { css, js } = assetsOf(ROUTE_MODULES[route]);
@@ -112,8 +135,8 @@ function headFor(route) {
         ...js.map((f) => `<link rel="modulepreload" crossorigin href="/${f}">`),
     ].join("\n    ");
     if (extra) h = h.replace("</head>", () => `    ${extra}\n  </head>`);
-    const kind = route === "/" ? "home" : route === "/404" ? "404" : route.split("/")[1];
-    return h.replace('<html lang="vi">', () => `<html lang="vi" data-route="${kind}">`);
+    const kind = routeKind(route);
+    return h.replace(/<html\s+lang="[^"]*"[^>]*>/, () => `<html lang="${esc(lang)}" data-route="${esc(kind)}">`);
 }
 
 // React 19 tự chèn <link rel="preload" as="image" .../> không có media query vào đầu #root khi gặp img fetchPriority="high".
@@ -124,10 +147,11 @@ let ok = 0;
 for (const route of prerenderRoutes) {
     const body = (await render(route)).replace(REACT_FLOAT_IMG_PRELOAD, () => "");
     const html = headFor(route).replace('<div id="root"></div>', () => `<div id="root" data-ssr="${route}">${body}</div>`);
+    // Cloudflare Pages phục vụ /en từ en.html, /en/work từ en/work.html, /work/evone từ work/evone.html, không chuyển hướng thêm "/".
     const outs =
         route === "/" ? ["index.html"]
         : route === "/404" ? ["404.html"]
-        : [`${route.slice(1)}.html`]; // Cloudflare Pages phục vụ /work/evone từ work/evone.html, không chuyển hướng thêm "/"
+        : [`${route.slice(1)}.html`];
     for (const o of outs) {
         const file = path.join(DIST, o);
         fs.mkdirSync(path.dirname(file), { recursive: true });

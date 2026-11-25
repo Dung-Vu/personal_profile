@@ -1,0 +1,10 @@
+# Local Cloudflare Pages Functions secrets for `wrangler pages dev dist`.
+# Copy this file to `.dev.vars` (git-ignored) for local testing.
+# For production, set these as Encrypted Environment Variables in Cloudflare Pages Dashboard
+# (Settings -> Environment variables -> Production & Preview).
+
+# Bot token created via @BotFather
+TELEGRAM_BOT_TOKEN=
+
+# Numeric user or group chat ID where briefs should be delivered
+TELEGRAM_CHAT_ID=

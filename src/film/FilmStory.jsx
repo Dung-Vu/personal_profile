@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { storyIntro } from "../content/story.js";
-import { FILM_FRAMES } from "../lib/motion.js";
+import { getStoryContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
+import { FILM_FRAMES, SUB } from "../lib/motion.js";
 import { FrameContext, StoryFilm } from "./StoryFilm.jsx";
 import "../styles/film.css";
 
@@ -9,6 +10,8 @@ import "../styles/film.css";
 const SCROLL_PER = 1.1;
 // Hằng số tắt dần theo thời gian thực (tương đương hệ số 0.18 ở 60Hz, đồng nhất giữa 30/60/120Hz).
 const DAMP_K = 12;
+// Mốc khung hình dòng thời gian (0..600) để mỗi chương hiển thị trọn vẹn, sạch và đúng trọng tâm khi nhảy nhanh.
+const CHAPTER_TARGET_F = [36, 228, 366, 568];
 
 function progressOf(el) {
     if (!el) return 0;
@@ -18,6 +21,8 @@ function progressOf(el) {
 }
 
 export default function FilmStory({ onUnfit }) {
+    const locale = useLocale();
+    const { storyIntro } = getStoryContent(locale);
     const sectionRef = useRef(null);
     const stickyRef = useRef(null);
     const [ready, setReady] = useState(false);
@@ -159,6 +164,21 @@ export default function FilmStory({ onUnfit }) {
         [onUnfit],
     );
 
+    const jumpToChapter = useCallback((index) => {
+        const section = sectionRef.current;
+        if (!section) return;
+        const clamped = Math.max(0, Math.min(CHAPTER_TARGET_F.length - 1, index));
+        const targetFrame = CHAPTER_TARGET_F[clamped] * SUB;
+        const targetProgress = targetFrame / (FILM_FRAMES - 1);
+        const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+        const total = Math.max(0, section.offsetHeight - window.innerHeight);
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({
+            top: Math.round(sectionTop + targetProgress * total),
+            behavior: reducedMotion ? "auto" : "smooth",
+        });
+    }, []);
+
     return (
         <section
             id="cau-chuyen"
@@ -170,7 +190,7 @@ export default function FilmStory({ onUnfit }) {
             <div className="film-sticky" ref={stickyRef}>
                 {ready && (
                     <FrameContext.Provider value={frame}>
-                        <StoryFilm onFit={onFit} />
+                        <StoryFilm onFit={onFit} onJump={jumpToChapter} />
                     </FrameContext.Provider>
                 )}
             </div>

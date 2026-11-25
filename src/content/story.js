@@ -3,6 +3,20 @@ export const storyIntro = {
     label: "Câu chuyện · 4 chương",
 };
 
+export const jumpLabel = "Chuyển nhanh chương";
+
+export const storyLabels = {
+    live: "đang chạy",
+    logAria: "Nhật ký làm việc của các agent (minh hoạ)",
+    logTitle: "nhật ký hôm nay",
+    logStatus: "● đang chạy",
+    agentsAria: "Các trợ lý AI",
+    hubLabel: "Điều phối",
+    hubTitle: "Bộ nhớ chung",
+    systemsAria: "Các hệ thống đang chạy",
+    humanGate: "Duyệt cuối cùng: con người",
+};
+
 export const chapters = [
     {
         id: "hon-loan",

@@ -1,9 +1,21 @@
-import { about } from "../content/about.js";
-import { site } from "../content/site.js";
+import { getAboutContent, getSiteContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
 import { ContactBlock } from "../components/ContactBlock.jsx";
 import "../styles/about.css";
 
 export default function About() {
+    const locale = useLocale();
+    const isEn = locale === "en";
+    const { site, ui = {} } = getSiteContent(locale);
+    const { about } = getAboutContent(locale);
+    const aboutUi = ui.about || {};
+
+    const principlesLabel = aboutUi.principles || (isEn ? "Principles" : "Nguyên tắc");
+    const timelineLabel = aboutUi.timeline || (isEn ? "Timeline" : "Chặng đường");
+    const toolboxLabel = aboutUi.toolbox || (isEn ? "Toolbox" : "Bộ công cụ");
+    const printPdfBtn = aboutUi.printPdfBtn || (isEn ? "Download 1-Page PDF" : "Tải hồ sơ tóm tắt (PDF)");
+    const avatarAlt = ui.avatarAlt || (isEn ? `Portrait of ${site.name}` : `Ảnh chân dung ${site.name}`);
+
     return (
         <main id="main" tabIndex={-1} className="page-about">
             <div className="page">
@@ -18,15 +30,20 @@ export default function About() {
                                 {about.title}
                             </h1>
                             <p className="lead">{about.lead}</p>
+                            <div className="about-actions">
+                                <button type="button" className="btn btn-ink about-pdf-btn" onClick={() => window.print()}>
+                                    <span aria-hidden="true">↓</span> {printPdfBtn}
+                                </button>
+                            </div>
                         </div>
                         <div className="about-ava">
-                            <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" fetchPriority="high" />
+                            <img src={site.avatar} alt={avatarAlt} width="720" height="926" fetchPriority="high" />
                         </div>
                     </div>
 
                     <section className="about-sec" aria-labelledby="principles-title">
                         <h2 id="principles-title" className="label">
-                            Nguyên tắc
+                            {principlesLabel}
                         </h2>
                         <div className="principles">
                             {about.principles.map((p) => (
@@ -41,7 +58,7 @@ export default function About() {
 
                     <section className="about-sec" aria-labelledby="timeline-title">
                         <h2 id="timeline-title" className="label">
-                            Chặng đường
+                            {timelineLabel}
                         </h2>
                         <ol className="timeline">
                             {about.timeline.map((t, i) => (
@@ -58,7 +75,7 @@ export default function About() {
 
                     <section className="about-sec" aria-labelledby="toolbox-title">
                         <h2 id="toolbox-title" className="label">
-                            Bộ công cụ
+                            {toolboxLabel}
                         </h2>
                         <div className="toolbox">
                             {about.toolbox.map((g) => (

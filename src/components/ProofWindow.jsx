@@ -1,4 +1,5 @@
-import { proofNote } from "../content/clips.js";
+import { getClipsContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
 import { rng } from "../lib/particles.jsx";
 
 // Ảnh minh hoạ giao diện: khung cửa sổ, sidebar, KPI và bảng.
@@ -21,12 +22,18 @@ const cellBarStyle = (width) => ({
 });
 
 export function ProofWindow({ proof, seed = 1, compact = false }) {
+    const locale = useLocale();
+    const { proofNote } = getClipsContent(locale);
     if (!proof) return null;
     const r = rng(seed);
     const w = () => `${Math.round(55 + r() * 35)}%`;
     const rows = proof.rows;
+    const ariaLabel =
+        locale === "en"
+            ? `Illustrative interface preview of ${proof.app}, ${proofNote}`
+            : `Ảnh minh hoạ giao diện ${proof.app}, ${proofNote}`;
     return (
-        <div className={`win${compact ? " win-compact" : ""}`} role="img" aria-label={`Ảnh minh hoạ giao diện ${proof.app}, ${proofNote}`}>
+        <div className={`win${compact ? " win-compact" : ""}`} role="img" aria-label={ariaLabel}>
             <div className="win-bar">
                 <i />
                 <i />

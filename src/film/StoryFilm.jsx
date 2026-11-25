@@ -1,5 +1,6 @@
 import { createContext, memo, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { chapters } from "../content/story.js";
+import { getStoryContent } from "../content/index.js";
+import { useLocale } from "../lib/i18n.js";
 import { Chapters } from "../sections/Story.jsx";
 import { CH, SUB, clamp01, ease, mix, offsetBox } from "../lib/motion.js";
 import { rng, tones } from "../lib/particles.jsx";
@@ -29,12 +30,21 @@ const RING_TONES = [tones.ocean, tones.iris, tones.apricot, tones.ink];
 
 // Đo vị trí các mốc (mảnh, vòng, thẻ, ô hệ thống) để hạt và thẻ biết bay về đâu; đồng thời kiểm cảnh có vừa khung không.
 // Chỉ mount đủ 4 chương trong đúng 1 khung đo đồng bộ trước paint; lúc cuộn bình thường chỉ giữ chương đang hoạt động.
-function useGeometry(rootRef, onFit) {
+function useGeometry(rootRef, onFit, locale) {
     const [geo, setGeo] = useState(null);
     const [measuring, setMeasuring] = useState(true);
     const [measureTick, setMeasureTick] = useState(0);
     const onFitRef = useRef(onFit);
     onFitRef.current = onFit;
+    const prevLocaleRef = useRef(locale);
+
+    useEffect(() => {
+        if (prevLocaleRef.current !== locale) {
+            prevLocaleRef.current = locale;
+            setMeasuring(true);
+            setMeasureTick((t) => t + 1);
+        }
+    }, [locale]);
 
     useLayoutEffect(() => {
         if (!measuring) return;
@@ -225,30 +235,42 @@ const Dots = memo(function Dots({ F, geo }) {
     return <canvas ref={canvasRef} className="dots-canvas" aria-hidden="true" />;
 });
 
-// Thanh tiến trình chạy hoàn toàn trên GPU (transform: scaleX), không repaint linear-gradient mỗi khung.
-const FilmRail = memo(function FilmRail({ F, dark }) {
+// Thanh tiến trình + nút nhảy 4 chương chạy trên GPU (transform: scaleX), hỗ trợ bàn phím và sáng/tối.
+const FilmRail = memo(function FilmRail({ F, dark, chapters, jumpLabel, onJump }) {
     const active = Math.min(3, Math.floor(F / CH));
     return (
-        <div className={`rail film-rail${dark ? " is-dark" : ""}`} aria-hidden="true">
+        <nav className={`rail film-rail film-jump${dark ? " is-dark" : ""}`} aria-label={jumpLabel}>
             {chapters.map((c, i) => {
                 const p = i < active ? 1 : i === active ? clamp01((F - i * CH) / CH) : 0;
+                const cls = ["film-jump-btn", i < active && "done", i === active && "on"].filter(Boolean).join(" ");
                 return (
-                    <div key={c.id} className={i < active ? "done" : i === active ? "on" : undefined}>
-                        <span className="rail-track">
+                    <button
+                        key={c.id}
+                        type="button"
+                        className={cls}
+                        aria-current={i === active ? "step" : undefined}
+                        onClick={() => onJump?.(i)}
+                    >
+                        <span className="rail-track" aria-hidden="true">
                             <span className="rail-fill" style={{ transform: `scaleX(${p.toFixed(4)})` }} />
                         </span>
-                        {c.name}
-                    </div>
+                        <span className="film-jump-label">
+                            <span className="film-jump-no">{c.no}</span>{" "}
+                            <span className="film-jump-name">{c.name}</span>
+                        </span>
+                    </button>
                 );
             })}
-        </div>
+        </nav>
     );
 });
 
-export const StoryFilm = memo(function StoryFilm({ onFit }) {
+export const StoryFilm = memo(function StoryFilm({ onFit, onJump }) {
+    const locale = useLocale();
+    const { chapters, jumpLabel } = getStoryContent(locale);
     const F = useCurrentFrame() / SUB;
     const rootRef = useRef(null);
-    const { geo, measuring } = useGeometry(rootRef, onFit);
+    const { geo, measuring } = useGeometry(rootRef, onFit, locale);
 
     const morph = useMemo(() => {
         if (!geo || geo.cards.length < 6 || geo.sys.length < 6) return undefined;
@@ -277,6 +299,8 @@ export const StoryFilm = memo(function StoryFilm({ onFit }) {
         [],
     );
 
+    const railAria = jumpLabel || (locale === "en" ? "Jump to story chapter" : "Chuyển nhanh giữa 4 chương");
+
     return (
         <AbsoluteFill>
             <div ref={rootRef} className="film-root" data-theme={isDark ? "dark" : undefined}>
@@ -285,7 +309,7 @@ export const StoryFilm = memo(function StoryFilm({ onFit }) {
                 <div className="grid-bg grid-dark" aria-hidden="true" style={{ opacity: dk }} />
                 <Chapters F={F} morph={morph} measureAll={measuring} />
                 <Dots F={F} geo={geo} />
-                <FilmRail F={F} dark={isDark} />
+                <FilmRail F={F} dark={isDark} chapters={chapters} jumpLabel={railAria} onJump={onJump} />
             </div>
         </AbsoluteFill>
     );

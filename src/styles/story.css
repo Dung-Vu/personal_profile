@@ -1,3 +1,50 @@
+/* ===== Thanh nhảy nhanh 4 chương (bản tĩnh) ===== */
+.story-jump {
+    border-top: 1px solid var(--line-2);
+    background: var(--paper);
+    padding: 14px 0;
+}
+.story-jump-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    flex-wrap: wrap;
+}
+.story-jump-lbl {
+    flex: none;
+}
+.story-jump-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.story-jump-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 17, 21, 0.24);
+    background: var(--card);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.story-jump-link:hover {
+    border-color: var(--ink);
+    background: #fff;
+}
+.story-jump-no {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ocean);
+}
+
 /* ===== Câu chuyện 4 chương (bản tĩnh) ===== */
 .stage {
     position: relative;
@@ -302,7 +349,7 @@
     right: var(--gutter);
     top: 52%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .step {
     position: relative;
@@ -461,6 +508,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    min-width: 0;
+}
+.card .top .pill {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .card .live {
     font-family: var(--mono);
@@ -736,7 +790,7 @@
     left: 50%;
     top: 49%;
     transform: translate(-50%, -50%);
-    width: 320px;
+    width: min(320px, 100%);
     padding: 22px 24px;
     border-radius: 22px;
     text-align: center;
@@ -757,6 +811,7 @@
 .hub-steps {
     margin-top: 12px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
 }
@@ -1016,6 +1071,26 @@
 
 /* ===== Mobile ===== */
 @media (max-width: 600px) {
+    .story-jump {
+        padding: 12px 0;
+    }
+    .story-jump-links {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+    .story-jump-link {
+        justify-content: flex-start;
+        padding: 6px 11px;
+        min-height: 40px;
+        font-size: 12.5px;
+        min-width: 0;
+    }
+    .story-jump-link span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     .stage {
         height: auto;
         min-height: 100svh;
@@ -1073,7 +1148,7 @@
         display: none;
     }
     .bento {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
     .card {
@@ -1081,10 +1156,16 @@
         padding: 14px 14px 13px;
         border-radius: 16px;
     }
+    .card .top {
+        gap: 5px;
+    }
     .card .pill {
+        display: block;
         height: 22px;
-        padding: 0 8px;
-        font-size: 10px;
+        line-height: 22px;
+        padding: 0 7px;
+        font-size: 9.5px;
+        letter-spacing: 0.01em;
     }
     .card .live {
         font-size: 0;

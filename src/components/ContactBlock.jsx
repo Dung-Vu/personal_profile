@@ -1,17 +1,28 @@
 import { useEffect } from "react";
-import { brief, briefMailto, site } from "../content/site.js";
-import { promise } from "../content/trust.js";
+import { getSiteContent, getTrustContent } from "../content/index.js";
+import { localizePath, useLocale } from "../lib/i18n.js";
 import { Link } from "../lib/router.jsx";
 
 // Khối liên hệ tối: dùng làm trang /contact (h1) và làm phần kết ở các trang khác (h2).
 export function ContactBlock({ as = "h2", id = "lien-he" }) {
+    const locale = useLocale();
+    const isEn = locale === "en";
+    const { brief, site, ui = {} } = getSiteContent(locale);
+    const { promise } = getTrustContent(locale);
+    const cUi = ui.contact || {};
+
     const Heading = as;
     const SubHeading = as === "h1" ? "h2" : "h3";
     const isPage = as === "h1";
+    const newTabSr = ui.newTabSr || (isEn ? " (opens in a new tab)" : " (mở tab mới)");
 
     useEffect(() => {
         window.dispatchEvent(new Event("story:theme"));
     }, []);
+
+    const contactPath = localizePath("/contact", locale);
+    const diagnosticPath = localizePath("/contact#khao-sat-60s", locale);
+    const safetyPath = localizePath("/contact#an-toan", locale);
 
     return (
         <section className="contact" data-theme="dark" aria-labelledby={`${id}-title`}>
@@ -19,7 +30,7 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                 <div>
                     <span className="label">
                         <span className="dot dot-mint" />
-                        Liên hệ
+                        {cUi.label || (isEn ? "Contact" : "Liên hệ")}
                     </span>
                     <Heading id={`${id}-title`} className="display contact-title">
                         {brief.title} <em>{brief.accent}</em>
@@ -27,17 +38,17 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                     <p className="lead">{brief.lead}</p>
                     <div className="ctas">
                         <a className="btn btn-mint" href={site.zalo} target="_blank" rel="noopener noreferrer">
-                            Nhắn Zalo {site.phone} <span aria-hidden="true">→</span>
-                            <span className="sr-only"> (mở tab mới)</span>
+                            {cUi.zaloCta || (isEn ? "Message on Zalo" : "Nhắn Zalo")} {site.phone} <span aria-hidden="true">→</span>
+                            <span className="sr-only">{newTabSr}</span>
                         </a>
                         {isPage ? (
                             <a className="btn btn-line" href="#gui-yeu-cau">
-                                Soạn yêu cầu 4 ý
+                                {cUi.composeBtn || (isEn ? "Write 4-point brief" : "Soạn yêu cầu 4 ý")}
                             </a>
                         ) : (
-                            <a className="btn btn-line" href={briefMailto}>
-                                Gửi yêu cầu qua email
-                            </a>
+                            <Link className="btn btn-line" href={diagnosticPath}>
+                                {cUi.diagnosticCta || (isEn ? "60s Ops Diagnostic" : "Khảo sát nhanh 60 giây")}
+                            </Link>
                         )}
                     </div>
                     <ul className="promise">
@@ -47,20 +58,30 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                     </ul>
                     <div className="contact-links">
                         <a href={`tel:${site.tel}`}>
-                            Gọi <b>{site.phone}</b>
+                            {cUi.callLabel || (isEn ? "Call" : "Gọi")} <b>{site.phone}</b>
                         </a>
                         <a href={`mailto:${site.email}`}>
-                            Email <b>{site.email}</b>
+                            {cUi.emailLabel || "Email"} <b>{site.email}</b>
                         </a>
                         {isPage ? (
-                            <a href={site.github} target="_blank" rel="noopener noreferrer">
-                                GitHub <b>{site.githubName}</b>
-                                <span className="sr-only"> (mở tab mới)</span>
-                            </a>
+                            <>
+                                <a href={site.github} target="_blank" rel="noopener noreferrer">
+                                    {cUi.githubLabel || "GitHub"} <b>{site.githubName}</b>
+                                    <span className="sr-only">{newTabSr}</span>
+                                </a>
+                                <a href="#khao-sat-60s">
+                                    <b>{cUi.diagnosticCta || (isEn ? "60s Ops Diagnostic" : "Khảo sát nhanh 60 giây")}</b> <span aria-hidden="true">↓</span>
+                                </a>
+                            </>
                         ) : (
-                            <Link href="/contact#cach-hop-tac">
-                                <b>Cách hợp tác & chi phí</b> <span aria-hidden="true">→</span>
-                            </Link>
+                            <>
+                                <Link href={contactPath}>
+                                    <b>{cUi.collabLink || (isEn ? "How we work & pricing" : "Cách hợp tác & chi phí")}</b> <span aria-hidden="true">→</span>
+                                </Link>
+                                <Link href={safetyPath}>
+                                    <b>{cUi.safetyLink || (isEn ? "Data safety" : "An toàn dữ liệu")}</b> <span aria-hidden="true">→</span>
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>

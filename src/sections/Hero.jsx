@@ -1,4 +1,5 @@
-import { cta, heroChips, site, stats } from "../content/site.js";
+import { getSiteContent } from "../content/index.js";
+import { localizePath, useLocale } from "../lib/i18n.js";
 import { Link } from "../lib/router.jsx";
 import { Particles, rng, tones } from "../lib/particles.jsx";
 
@@ -19,6 +20,14 @@ const fieldMob = makeField(7, 50, true);
 const pillTones = ["t-ocean", "t-iris", "t-apricot"];
 
 export function Hero() {
+    const locale = useLocale();
+    const { site, cta, stats, heroChips, ui } = getSiteContent(locale);
+    const isEn = locale === "en";
+
+    const workCta = ui?.home?.heroWorkBtn || (isEn ? "View work" : "Xem dự án");
+    const scrollHint = ui?.home?.scrollHint || (isEn ? "Scroll to explore the story" : "Cuộn để xem câu chuyện");
+    const avatarAlt = ui?.avatarAlt || (isEn ? `Portrait of ${site.name}` : `Ảnh chân dung ${site.name}`);
+
     return (
         <section className="hero" aria-labelledby="hero-title">
             <Particles list={fieldDesk} vw={1440} vh={900} className="particles only-desk" />
@@ -42,17 +51,17 @@ export function Hero() {
                         ))}
                     </div>
                     <div className="ctas">
-                        <Link className="btn btn-ink" href="/contact">
+                        <Link className="btn btn-ink" href={localizePath("/contact", locale)}>
                             {cta.long} <span aria-hidden="true">→</span>
                         </Link>
-                        <Link className="btn btn-ghost" href="/#cau-chuyen">
-                            Xem câu chuyện <span aria-hidden="true">↓</span>
+                        <Link className="btn btn-ghost" href={localizePath("/work", locale)}>
+                            {workCta} <span aria-hidden="true">→</span>
                         </Link>
                     </div>
                 </div>
                 <div className="ava">
                     <div className="ava-card">
-                        <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" fetchPriority="high" />
+                        <img src={site.avatar} alt={avatarAlt} width="720" height="926" fetchPriority="high" />
                     </div>
                     {heroChips.map((chip, i) => (
                         <div key={chip.title} className={`chip c${i + 1}`}>
@@ -76,7 +85,7 @@ export function Hero() {
                 </dl>
             </div>
             <div className="scroll-hint label" aria-hidden="true">
-                Cuộn để xem câu chuyện
+                {scrollHint}
                 <i />
             </div>
         </section>

@@ -10,6 +10,8 @@ const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : use
 const MIN_H_DESKTOP = 820;
 const MIN_H_TABLET = 1040;
 const MIN_H_MOBILE = 620;
+const STORY_HASHES = new Set(["#cau-chuyen", "#hon-loan", "#doc-he-thong", "#dung-lai", "#ai-van-hanh"]);
+const isStoryHash = () => STORY_HASHES.has(window.location.hash);
 
 function canFilm() {
     if (typeof window === "undefined" || window.__PRERENDER__) return false;
@@ -104,7 +106,7 @@ export function StorySection() {
 
         const triggerEvents = ["scroll", "wheel", "touchmove", "keydown"];
         let watchingSwap = false;
-        let scrolling = window.location.hash === "#cau-chuyen";
+        let scrolling = isStoryHash();
 
         const clearTimers = () => {
             if (settleTimer) {
@@ -186,7 +188,7 @@ export function StorySection() {
                 window.addEventListener("scroll", onSwapScroll, { passive: true });
             }
             if (scrolling) {
-                scheduleSettle(window.location.hash === "#cau-chuyen" ? 650 : 220);
+                scheduleSettle(isStoryHash() ? 650 : 220);
             }
         };
 
