@@ -10,8 +10,8 @@ export default function Work() {
     const [cat, setCat] = useState("all");
     const list = cat === "all" ? projects : projects.filter((p) => p.category === cat);
     return (
-        <>
-            <main id="main" className="page page-work">
+        <main id="main" tabIndex={-1} className="page-work">
+            <div className="page">
                 <div className="wrap">
                     <div className="head">
                         <div>
@@ -58,8 +58,8 @@ export default function Work() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
             <ContactBlock />
-        </>
+        </main>
     );
 }

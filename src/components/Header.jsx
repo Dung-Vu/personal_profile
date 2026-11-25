@@ -7,7 +7,8 @@ export function Header() {
     const path = usePath();
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [dark, setDark] = useState(false);
+    const [dark, setDark] = useState(() => path === "/contact");
+    const headerRef = useRef(null);
     const burgerRef = useRef(null);
     const panelRef = useRef(null);
 
@@ -16,25 +17,34 @@ export function Header() {
         const check = () => {
             raf = 0;
             setScrolled(window.scrollY > 8);
+            if (path === "/contact" && window.scrollY <= 8 && document.querySelector(".page-loading")) {
+                setDark(true);
+                return;
+            }
             const probe = 36;
+            const headerEl = headerRef.current;
             const hit = [...document.querySelectorAll('[data-theme="dark"]')].some((el) => {
+                if (el === headerEl || headerEl?.contains(el)) return false;
                 const r = el.getBoundingClientRect();
                 return r.top <= probe && r.bottom > probe;
             });
             setDark(hit);
         };
-        const onScroll = () => {
+        const schedule = () => {
             if (!raf) raf = requestAnimationFrame(check);
         };
         check();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", onScroll);
-        const mo = new MutationObserver(onScroll);
-        mo.observe(document.getElementById("root"), { childList: true, subtree: true, attributes: true, attributeFilter: ["data-theme"] });
+        const mountRaf = requestAnimationFrame(check);
+        const mountTimer = window.setTimeout(check, 150);
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule, { passive: true });
+        window.addEventListener("story:theme", schedule);
         return () => {
-            window.removeEventListener("scroll", onScroll);
-            window.removeEventListener("resize", onScroll);
-            mo.disconnect();
+            window.removeEventListener("scroll", schedule);
+            window.removeEventListener("resize", schedule);
+            window.removeEventListener("story:theme", schedule);
+            cancelAnimationFrame(mountRaf);
+            window.clearTimeout(mountTimer);
             if (raf) cancelAnimationFrame(raf);
         };
     }, [path]);
@@ -42,32 +52,75 @@ export function Header() {
     useEffect(() => setOpen(false), [path]);
 
     useEffect(() => {
+        const mq = window.matchMedia("(min-width: 861px)");
+        const onWide = (e) => {
+            if (e.matches) setOpen(false);
+        };
+        if (mq.matches) setOpen(false);
+        mq.addEventListener("change", onWide);
+        return () => mq.removeEventListener("change", onWide);
+    }, []);
+
+    useEffect(() => {
         if (!open) return;
         document.documentElement.classList.add("menu-open");
+        const behind = [...document.querySelectorAll("main, footer")];
+        const prevInert = behind.map((el) => el.inert);
+        behind.forEach((el) => {
+            el.inert = true;
+        });
         panelRef.current?.querySelector("a")?.focus();
+        const getFocusables = () => {
+            const root = headerRef.current;
+            if (!root) return [];
+            return [...root.querySelectorAll("a[href]:not(.skip), button:not([disabled])")].filter(
+                (el) => !el.closest("[hidden]") && el.getClientRects().length > 0,
+            );
+        };
         const onKey = (e) => {
             if (e.key === "Escape") {
                 setOpen(false);
                 burgerRef.current?.focus();
+                return;
+            }
+            if (e.key === "Tab") {
+                const list = getFocusables();
+                if (!list.length) return;
+                const first = list[0];
+                const last = list[list.length - 1];
+                const active = document.activeElement;
+                if (e.shiftKey) {
+                    if (active === first || !headerRef.current?.contains(active)) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else if (active === last || !headerRef.current?.contains(active)) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         };
         window.addEventListener("keydown", onKey);
         return () => {
             document.documentElement.classList.remove("menu-open");
+            behind.forEach((el, i) => {
+                el.inert = prevInert[i];
+            });
             window.removeEventListener("keydown", onKey);
         };
     }, [open]);
 
+    const close = () => setOpen(false);
     const isOn = (item) => (item.match === "/" ? path === "/" : path.startsWith(item.match));
     const cls = ["nav", scrolled && "is-scrolled", (dark || open) && "is-dark", open && "is-open"].filter(Boolean).join(" ");
 
     return (
-        <header className={cls}>
-            <a className="skip" href="#main">
+        <header ref={headerRef} className={cls} data-theme={dark || open ? "dark" : undefined}>
+            <a className="skip" href="#main" tabIndex={open ? -1 : undefined} aria-hidden={open || undefined}>
                 Bỏ qua, tới nội dung chính
             </a>
             <div className="wrap nav-row">
-                <Link href="/" className="brand">
+                <Link href="/" className="brand" onClick={close}>
                     <span className="brand-mark" aria-hidden="true">
                         {site.initials}
                     </span>
@@ -75,7 +128,12 @@ export function Header() {
                 </Link>
                 <nav className="menu" aria-label="Điều hướng chính">
                     {nav.map((item) => (
-                        <Link key={item.href} href={item.href} className={isOn(item) ? "on" : undefined} aria-current={isOn(item) ? "page" : undefined}>
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={isOn(item) ? "on" : undefined}
+                            aria-current={path === item.match ? "page" : undefined}
+                        >
                             {item.label}
                         </Link>
                     ))}
@@ -98,16 +156,23 @@ export function Header() {
             <div id="mobile-menu" ref={panelRef} className="sheet" hidden={!open}>
                 <nav className="wrap" aria-label="Menu di động">
                     {nav.map((item, i) => (
-                        <Link key={item.href} href={item.href} className={isOn(item) ? "on" : undefined} aria-current={isOn(item) ? "page" : undefined}>
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={isOn(item) ? "on" : undefined}
+                            aria-current={path === item.match ? "page" : undefined}
+                            onClick={close}
+                        >
                             <span className="sheet-no">0{i + 1}</span>
                             {item.label}
                         </Link>
                     ))}
-                    <Link href="/contact" className="btn btn-mint sheet-cta">
+                    <Link href="/contact" className="btn btn-mint sheet-cta" onClick={close}>
                         {cta.long} <span aria-hidden="true">→</span>
                     </Link>
-                    <a className="sheet-mail" href={site.zalo} target="_blank" rel="noreferrer">
+                    <a className="sheet-mail" href={site.zalo} target="_blank" rel="noopener noreferrer" onClick={close}>
                         Zalo · {site.phone}
+                        <span className="sr-only"> (mở tab mới)</span>
                     </a>
                 </nav>
             </div>

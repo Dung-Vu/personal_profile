@@ -1,5 +1,5 @@
 // 6 case chính + "Và còn nữa". Số liệu làm tròn, tổng hợp; dữ liệu khách đã che.
-// tone: màu nhóm (ocean | iris | apricot | mint). proof: cấu hình ảnh minh hoạ giao diện (rows/kpiValues là dữ liệu giả).
+// tone: màu nhóm (ocean | iris | apricot | mint). proof (EVOne): cấu hình ảnh minh hoạ giao diện (rows/kpiValues là dữ liệu giả).
 export const categories = [
     { id: "all", label: "Tất cả" },
     { id: "odoo", label: "Odoo" },
@@ -13,6 +13,7 @@ export const projects = [
     {
         slug: "evone",
         name: "EVOne",
+        year: "2026",
         cardTitle: "EVOne — ERP cho chuỗi showroom xe điện",
         category: "erp",
         tag: "ERP theo ngành",
@@ -74,6 +75,7 @@ export const projects = [
     {
         slug: "odoo-bonario",
         name: "Odoo Bonario",
+        year: "2025–2026",
         cardTitle: "Vận hành doanh nghiệp trên Odoo",
         category: "odoo",
         tag: "Odoo",
@@ -113,18 +115,11 @@ export const projects = [
         ],
         result:
             "Hơn 200 yêu cầu vận hành của 2 công ty đã đi qua helpdesk, khoảng 9/10 xong trong hạn, một nửa xong trong chưa tới một ngày. Các bước lặp lại trong bán hàng và kho có luồng tự động hoặc tool hỗ trợ.",
-        proof: {
-            app: "odoo · helpdesk",
-            side: ["Thảo luận", "Bán hàng", "Kho", "Helpdesk", "Báo cáo"],
-            active: 3,
-            kpis: ["Phiếu mới", "Đang xử lý", "Chờ phản hồi", "Đã xong"],
-            cols: ["Mã phiếu", "Chủ đề", "Người nhận", "Trạng thái", "Cập nhật"],
-            statuses: [["Mới", "apricot"], ["Đang xử lý", "iris"], ["Đã xong", "ocean"], ["Đang xử lý", "iris"], ["Đã xong", "ocean"]],
-        },
     },
     {
         slug: "ace-ra-tem",
         name: "ACE Ra tem",
+        year: "2026",
         cardTitle: "ACE — Phần mềm ra tem rèm",
         category: "excel",
         tag: "Thay Excel",
@@ -162,18 +157,11 @@ export const projects = [
         ],
         result:
             "Trong lúc đọc file macro, tìm ra 3 lỗi công thức phải sửa, trong đó có lỗi sai kích thước cắt. Bản mới khớp 47/47 ca với tem sản xuất thật, khách tự điền số đo, xưởng không còn phụ thuộc file macro trên từng máy.",
-        proof: {
-            app: "ace · ra tem",
-            side: ["Đơn mới", "Số đo", "Thông số", "In tem", "Lịch sử"],
-            active: 3,
-            kpis: ["Đơn hôm nay", "Chờ bổ sung", "Đã tính", "Đã in"],
-            cols: ["Mã đơn", "Khách", "Kiểu rèm", "Trạng thái", "Cập nhật"],
-            statuses: [["Đã in", "ocean"], ["Chờ bổ sung", "apricot"], ["Đã tính", "iris"], ["Đã in", "ocean"], ["Đã tính", "iris"]],
-        },
     },
     {
         slug: "reminder-hub",
         name: "Reminder Hub",
+        year: "2026",
         cardTitle: "Reminder Hub",
         category: "bot",
         tag: "Bot",
@@ -197,7 +185,7 @@ export const projects = [
         metrics: [
             { value: "~40", label: "nhóm Zalo đang theo dõi" },
             { value: "220+", label: "kiểm thử tự động" },
-            { value: "09/2026", label: "chạy thật từ" },
+            { value: "09/2026", label: "bắt đầu chạy thật" },
         ],
         problem:
             "Việc giao trong nhóm chat bị trôi theo tin nhắn mới. Không ai theo dõi hạn, tới lúc hỏi lại thì đã trễ.",
@@ -210,18 +198,11 @@ export const projects = [
             { title: "Bảng theo dõi", desc: "Thấy toàn cảnh việc đang mở" },
         ],
         result: "Việc giao trong khoảng 40 nhóm Zalo có người nhận, có hạn và được nhắc — chạy thật từ 09/2026. Nhịp nhắc được chỉnh theo phản hồi thật để không thành spam.",
-        proof: {
-            app: "reminder · việc đang mở",
-            side: ["Tổng quan", "Nhóm chat", "Việc", "Quá hạn", "Cài đặt"],
-            active: 2,
-            kpis: ["Việc mở", "Sắp tới hạn", "Quá hạn", "Đã xong"],
-            cols: ["Việc", "Người nhận", "Nhóm", "Trạng thái", "Hạn"],
-            statuses: [["Đang mở", "iris"], ["Sắp tới hạn", "apricot"], ["Đã xong", "ocean"], ["Đang mở", "iris"], ["Đã xong", "ocean"]],
-        },
     },
     {
         slug: "tca",
         name: "TCA v4",
+        year: "2026",
         cardTitle: "TCA — Hệ dữ liệu thời gian thực",
         category: "ai",
         tag: "AI & dữ liệu",
@@ -260,18 +241,11 @@ export const projects = [
             { title: "Đối chiếu", desc: "Tự ghi kết quả thật của từng cảnh báo" },
         ],
         result: "Đang chạy thật, đã qua 4 phiên bản. Bài học dùng lại được cho doanh nghiệp: báo cáo, cảnh báo tồn kho hay doanh số đều cần cùng một khung — gom, chấm, báo, rồi tự kiểm lại.",
-        proof: {
-            app: "tca · cảnh báo",
-            side: ["Tổng quan", "Cảnh báo", "Đối chiếu", "Mô hình", "Nhật ký"],
-            active: 1,
-            kpis: ["Luồng dữ liệu", "Cảnh báo mới", "Đã đối chiếu", "Phiên bản"],
-            cols: ["Nguồn", "Loại", "Điểm", "Trạng thái", "Cập nhật"],
-            statuses: [["Đang theo dõi", "iris"], ["Chờ", "apricot"], ["Đã đối chiếu", "ocean"], ["Đang theo dõi", "iris"], ["Đã đối chiếu", "ocean"]],
-        },
     },
     {
         slug: "ai-operator",
         name: "AI Operator",
+        year: "2026",
         cardTitle: "AI Operator",
         category: "ai",
         tag: "AI",
@@ -280,7 +254,7 @@ export const projects = [
         before: null,
         caseBefore: "AI code nhanh nhưng dễ sai, mất ngữ cảnh giữa các phiên",
         caseAfter: "đội trợ lý AI có bộ nhớ chung, chia việc, kiểm tra chéo bằng kiểm thử và trình duyệt; người duyệt cuối.",
-        after: "Vì sao một người làm được khối lượng ở trên: đội trợ lý AI có bộ nhớ chung, kiểm tra chéo trước khi bàn giao.",
+        after: "Vì sao một người làm được các hệ thống trong danh mục dự án: đội trợ lý AI có bộ nhớ chung, kiểm tra chéo trước khi bàn giao.",
         cardMetrics: [
             { value: "4+", label: "trợ lý AI phối hợp" },
             { value: "3+", label: "tháng nhật ký liên tục" },
@@ -309,15 +283,7 @@ export const projects = [
             { title: "Kiểm chéo", desc: "Trợ lý này soát lại kết quả của trợ lý kia" },
             { title: "Điều phối hạn mức", desc: "Theo dõi hạn mức dùng của từng trợ lý" },
         ],
-        result: "Đây là lý do một người làm được khối lượng của các dự án ở trên mà vẫn giữ được chất lượng.",
-        proof: {
-            app: "hub · nhật ký agent",
-            side: ["Hôm nay", "Trợ lý", "Bộ nhớ", "Hạn mức", "Chờ duyệt"],
-            active: 0,
-            kpis: ["Đang chạy", "Chờ duyệt", "Đã bàn giao", "Hạn mức còn"],
-            cols: ["Việc", "Trợ lý", "Kiểm tra", "Trạng thái", "Thời gian"],
-            statuses: [["Đã bàn giao", "ocean"], ["Chờ duyệt", "apricot"], ["Đang chạy", "iris"], ["Đã bàn giao", "ocean"], ["Đã bàn giao", "ocean"]],
-        },
+        result: "Đây là lý do một người làm được khối lượng của các dự án khác trong trang Dự án mà vẫn giữ được chất lượng.",
     },
 ];
 

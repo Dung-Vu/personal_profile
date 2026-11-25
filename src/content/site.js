@@ -28,8 +28,7 @@ export const nav = [
     { label: "Liên hệ", href: "/contact", match: "/contact" },
 ];
 
-// Dải số liệu ở trang chủ: số kết quả, làm tròn xuống, không lộ dữ liệu khách.
-// Nguồn (10/2026): helpdesk Odoo 206 phiếu đã giải quyết từ 09/2025, 188/211 đúng SLA; cấu hình bot 41 nhóm Zalo.
+// Dải số liệu ở trang chủ: số liệu tổng hợp, làm tròn xuống và ẩn danh để không lộ dữ liệu vận hành chi tiết của khách.
 export const stats = [
     { value: "6", label: "hệ thống đang chạy thật mỗi ngày" },
     { value: "200+", label: "yêu cầu vận hành Odoo đã xử lý từ 09/2025" },

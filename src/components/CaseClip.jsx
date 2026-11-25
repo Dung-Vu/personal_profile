@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { clipNote, replayLabel } from "../content/clips.js";
 import { rng } from "../lib/particles.jsx";
 import "../styles/clip.css";
@@ -8,37 +8,110 @@ import "../styles/clip.css";
 // Mỗi phần tử .k có --d (giây bắt đầu), --t (thời lượng) và --k (kiểu: k-up | k-pop | k-fill | k-draw | k-blip).
 const k = (d, kind, t) => ({ "--d": `${d}s`, ...(kind && { "--k": kind }), ...(t && { "--t": `${t}s` }) });
 
-function useClipPlay(ref) {
+function useClipPlay(ref, enabled) {
     const [state, setState] = useState("still");
+    const ioRef = useRef(null);
+    const visRef = useRef(null);
+
+    const stopWatchers = useCallback(() => {
+        if (ioRef.current) {
+            ioRef.current.disconnect();
+            ioRef.current = null;
+        }
+        if (visRef.current) {
+            document.removeEventListener("visibilitychange", visRef.current);
+            visRef.current = null;
+        }
+    }, []);
+
     useEffect(() => {
         const el = ref.current;
-        if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        setState("armed");
-        const io = new IntersectionObserver(
-            ([e]) => {
-                if (e.isIntersecting) {
-                    setState("playing");
-                    io.disconnect();
-                }
-            },
-            // Chạy ngay khi mép trên clip vào tới ~88% chiều cao màn hình: người xem không phải nhìn khung trống.
-            { threshold: 0, rootMargin: "0px 0px -12% 0px" },
-        );
-        io.observe(el);
-        return () => io.disconnect();
-    }, [ref]);
-    return state;
+        if (!enabled || !el) return;
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        let inView = false;
+        const startPlay = () => {
+            if (mq.matches || document.hidden) return;
+            stopWatchers();
+            setState("playing");
+        };
+
+        const arm = () => {
+            stopWatchers();
+            if (mq.matches) {
+                setState("still");
+                return;
+            }
+            setState("armed");
+            const onVis = () => {
+                if (inView && !document.hidden) startPlay();
+            };
+            visRef.current = onVis;
+            document.addEventListener("visibilitychange", onVis);
+
+            const io = new IntersectionObserver(
+                ([e]) => {
+                    inView = e.isIntersecting;
+                    if (inView && !document.hidden) startPlay();
+                },
+                // Chạy ngay khi mép trên clip vào tới ~88% chiều cao màn hình: người xem không phải nhìn khung trống.
+                { threshold: 0, rootMargin: "0px 0px -12% 0px" },
+            );
+            ioRef.current = io;
+            io.observe(el);
+        };
+
+        arm();
+
+        const onMotion = () => {
+            if (mq.matches) {
+                stopWatchers();
+                setState("still");
+            } else {
+                arm();
+            }
+        };
+        mq.addEventListener("change", onMotion);
+        return () => {
+            stopWatchers();
+            mq.removeEventListener("change", onMotion);
+        };
+    }, [ref, enabled, stopWatchers]);
+
+    const forcePlay = useCallback(() => {
+        if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setState("still");
+            return false;
+        }
+        stopWatchers();
+        setState("playing");
+        return true;
+    }, [stopWatchers]);
+
+    return [state, forcePlay];
 }
 
-// Mã QR giả (không quét được): lưới ngẫu nhiên có 3 ô định vị, chỉ để gợi hình.
+// Mã QR giả (không quét được): lưới ngẫu nhiên có 3 ô định vị, gộp toàn bộ ô dữ liệu thành 1 <path>.
 function FakeQR({ seed = 7 }) {
-    const cells = useMemo(() => {
+    const pathD = useMemo(() => {
         const r = rng(seed);
         const n = 21;
-        const out = [];
         const finder = (x, y) => [[0, 0], [n - 7, 0], [0, n - 7]].some(([fx, fy]) => x >= fx && x < fx + 7 && y >= fy && y < fy + 7);
-        for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!finder(x, y) && r() < 0.45) out.push([x, y]);
-        return out;
+        let d = "";
+        for (let y = 0; y < n; y++) {
+            let runStart = -1;
+            for (let x = 0; x <= n; x++) {
+                const on = x < n && !finder(x, y) && r() < 0.45;
+                if (on && runStart === -1) {
+                    runStart = x;
+                } else if (!on && runStart !== -1) {
+                    const len = x - runStart;
+                    d += `M${runStart} ${y}h${len}v1h-${len}z`;
+                    runStart = -1;
+                }
+            }
+        }
+        return d;
     }, [seed]);
     return (
         <svg viewBox="0 0 21 21" className="cl-qrsvg" aria-hidden="true" shapeRendering="crispEdges">
@@ -48,9 +121,7 @@ function FakeQR({ seed = 7 }) {
                     <rect x={x + 2} y={y + 2} width="3" height="3" fill="currentColor" />
                 </g>
             ))}
-            {cells.map(([x, y]) => (
-                <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="currentColor" />
-            ))}
+            <path d={pathD} fill="currentColor" />
         </svg>
     );
 }
@@ -306,9 +377,15 @@ const scenes = { vehicle: Vehicle, helpdesk: Helpdesk, labels: Labels, chat: Cha
 
 export function CaseClip({ clip, tone, dark }) {
     const ref = useRef(null);
-    const state = useClipPlay(ref);
+    const Scene = clip ? scenes[clip.kind] : null;
+    const [state, forcePlay] = useClipPlay(ref, Boolean(Scene));
     const [run, setRun] = useState(0);
-    const Scene = scenes[clip.kind];
+    if (!clip || !Scene) return null;
+
+    const handleReplay = () => {
+        if (forcePlay()) setRun((n) => n + 1);
+    };
+
     return (
         <figure ref={ref} className={`proof proof-${tone} clip clip-${clip.kind}${dark ? " clip-dark" : ""} is-${state}`}>
             <div className="clip-win">
@@ -318,11 +395,14 @@ export function CaseClip({ clip, tone, dark }) {
                     <i />
                     <span>{clip.app}</span>
                     {state !== "still" && (
-                        <button type="button" className="clip-replay" onClick={() => setRun((n) => n + 1)}>
-                            ↻ {replayLabel}
+                        <button type="button" className="clip-replay" onClick={handleReplay}>
+                            <span aria-hidden="true">↻</span> {replayLabel}
                         </button>
                     )}
                 </div>
+                <span className="sr-only" aria-live="polite">
+                    {run > 0 ? `Đang phát lại minh hoạ ${clip.title}.` : ""}
+                </span>
                 <div className="clip-body" key={run}>
                     <Scene c={clip} />
                 </div>

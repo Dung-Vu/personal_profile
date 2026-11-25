@@ -5,12 +5,23 @@ import { normalizePath } from "../routes/siteRoutes.js";
 const listeners = new Set();
 const emit = () => listeners.forEach((fn) => fn());
 
+function onPopState() {
+    emit();
+    if (window.location.hash) {
+        scrollToHash(window.location.hash);
+    }
+}
+
 function subscribe(fn) {
+    if (listeners.size === 0) {
+        window.addEventListener("popstate", onPopState);
+    }
     listeners.add(fn);
-    window.addEventListener("popstate", fn);
     return () => {
         listeners.delete(fn);
-        window.removeEventListener("popstate", fn);
+        if (listeners.size === 0) {
+            window.removeEventListener("popstate", onPopState);
+        }
     };
 }
 
@@ -29,7 +40,14 @@ export function usePath() {
 // Cuộn tới #hash; thử lại vài khung vì trang lazy có thể chưa render xong.
 export function scrollToHash(hash, tries = 30) {
     if (!hash) return;
-    const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+    let id;
+    try {
+        id = decodeURIComponent(hash.slice(1));
+    } catch {
+        return;
+    }
+    if (!id) return;
+    const el = document.getElementById(id);
     if (el) {
         el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
         return;
@@ -39,11 +57,10 @@ export function scrollToHash(hash, tries = 30) {
 
 export function navigate(href) {
     const url = new URL(href, window.location.href);
-    const samePage = normalizePath(url.pathname) === getPath();
     if (url.href !== window.location.href) window.history.pushState({}, "", url);
     if (url.hash) {
         scrollToHash(url.hash);
-    } else if (!samePage) {
+    } else {
         window.scrollTo(0, 0);
     }
     emit();
@@ -53,7 +70,15 @@ export function Link({ href, onClick, children, ...rest }) {
     const handle = (e) => {
         onClick?.(e);
         if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        if (rest.target === "_blank") return;
+        if (Boolean(rest.download) || rest.download === "" || (rest.target && rest.target !== "_self")) return;
+        if (!href) return;
+        let url;
+        try {
+            url = new URL(href, window.location.href);
+        } catch {
+            return;
+        }
+        if ((url.protocol !== "http:" && url.protocol !== "https:") || url.origin !== window.location.origin) return;
         e.preventDefault();
         navigate(href);
     };

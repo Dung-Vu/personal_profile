@@ -105,14 +105,6 @@
 .proof-mint {
     background: linear-gradient(160deg, #15201d, var(--night));
 }
-.proof .redact {
-    right: 64px;
-    top: 64px;
-    bottom: auto;
-    font-size: 10.5px;
-    padding: 5px 10px;
-    border-radius: 7px;
-}
 .ba {
     margin-top: 28px;
     display: grid;
@@ -262,9 +254,6 @@
     .proof {
         padding: 32px 32px 0;
     }
-    .proof .win-body {
-        grid-template-columns: 160px 1fr;
-    }
 }
 @media (max-width: 760px) {
     .page-case {
@@ -307,29 +296,6 @@
     .proof {
         padding: 24px 0 0 20px;
         border-radius: 22px;
-    }
-    .proof .win {
-        border-radius: 12px 0 0 0;
-    }
-    .proof .win-body {
-        grid-template-columns: 1fr;
-        height: 300px;
-    }
-    .proof .win-side {
-        display: none;
-    }
-    .proof .win-kp {
-        grid-template-columns: 1fr 1fr;
-    }
-    .proof .win-tbl > div {
-        grid-template-columns: 1.3fr 1fr 0.9fr;
-    }
-    .proof .win-tbl > div > :nth-child(n + 4) {
-        display: none;
-    }
-    .proof .redact {
-        right: 14px;
-        top: 34px;
     }
     .ba {
         grid-template-columns: 1fr;

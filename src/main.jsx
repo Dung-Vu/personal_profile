@@ -2,11 +2,9 @@ import { StrictMode, startTransition } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { setServerPath } from "./lib/router.jsx";
-import { normalizePath } from "./routes/siteRoutes.js";
+import { getRoute, normalizePath } from "./routes/siteRoutes.js";
 import "./styles/base.css";
 import "./styles/layout.css";
-import "./styles/home.css";
-import "./styles/story.css";
 
 const root = document.getElementById("root");
 const app = (
@@ -15,11 +13,11 @@ const app = (
     </StrictMode>
 );
 const path = normalizePath(window.location.pathname);
+const resolvedPath = getRoute(path).path;
 
-// HTML đã prerender đúng route này → hydrate (giữ nguyên DOM, không vẽ lại), chia nhỏ trong transition để không chặn luồng chính.
-// Trang khác (vd. 404.html cho URL lạ) → render mới.
-if (root.dataset.ssr === path) {
-    setServerPath(path);
+// HTML đã prerender khớp route chuẩn hoá (kể cả /404 cho URL lạ) → hydrate để giữ nguyên DOM, chia nhỏ trong transition để không chặn luồng chính.
+if (root.dataset.ssr === resolvedPath) {
+    setServerPath(resolvedPath);
     startTransition(() => {
         hydrateRoot(root, app);
     });

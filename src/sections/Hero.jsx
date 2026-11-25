@@ -21,8 +21,8 @@ const pillTones = ["t-ocean", "t-iris", "t-apricot"];
 export function Hero() {
     return (
         <section className="hero" aria-labelledby="hero-title">
-            <Particles list={fieldDesk} className="particles only-desk" />
-            <Particles list={fieldMob} className="particles only-mob" />
+            <Particles list={fieldDesk} vw={1440} vh={900} className="particles only-desk" />
+            <Particles list={fieldMob} vw={390} vh={844} className="particles only-mob" />
             <div className="wrap hero-grid">
                 <div className="hero-copy">
                     <span className="label">
@@ -36,7 +36,7 @@ export function Hero() {
                     <p className="lead hero-lead">{site.pitch}</p>
                     <div className="tags">
                         {site.focus.map((f, i) => (
-                            <span key={f} className={`pill ${pillTones[i]}`}>
+                            <span key={f} className={`pill ${pillTones[i % pillTones.length]}`}>
                                 {f}
                             </span>
                         ))}

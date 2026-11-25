@@ -1,5 +1,8 @@
 import { writeFileSync } from "node:fs";
-import { sitemapRoutes, siteOrigin } from "../src/routes/siteRoutes.js";
+import { getCanonicalUrl, sitemapRoutes } from "../src/routes/siteRoutes.js";
+
+const escXml = (s) =>
+    String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 
 const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -8,8 +11,8 @@ const lines = [
 
 for (const route of sitemapRoutes) {
     lines.push("  <url>");
-    lines.push(`    <loc>${siteOrigin}${route.path}</loc>`);
-    lines.push(`    <priority>${route.sitemapPriority ?? "0.7"}</priority>`);
+    lines.push(`    <loc>${escXml(getCanonicalUrl(route.path))}</loc>`);
+    lines.push(`    <priority>${escXml(route.sitemapPriority ?? "0.7")}</priority>`);
     lines.push("  </url>");
 }
 

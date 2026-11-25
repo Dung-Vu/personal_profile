@@ -5,8 +5,8 @@ import "../styles/about.css";
 
 export default function About() {
     return (
-        <>
-            <main id="main" className="page page-about">
+        <main id="main" tabIndex={-1} className="page-about">
+            <div className="page">
                 <div className="wrap">
                     <div className="about-head">
                         <div>
@@ -20,7 +20,7 @@ export default function About() {
                             <p className="lead">{about.lead}</p>
                         </div>
                         <div className="about-ava">
-                            <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" loading="lazy" />
+                            <img src={site.avatar} alt={`Ảnh chân dung ${site.name}`} width="720" height="926" fetchPriority="high" />
                         </div>
                     </div>
 
@@ -74,8 +74,8 @@ export default function About() {
                         </div>
                     </section>
                 </div>
-            </main>
+            </div>
             <ContactBlock />
-        </>
+        </main>
     );
 }

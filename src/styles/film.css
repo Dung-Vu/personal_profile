@@ -1,6 +1,7 @@
-/* ===== Phim cuộn (P2): 4 chương chồng lên nhau trong một khung dính ===== */
+/* ===== Phim cuộn: 4 chương chồng lên nhau trong một khung dính ===== */
 .film {
     position: relative;
+    border-top: 1px solid var(--line-2);
 }
 .film-sticky {
     position: sticky;
@@ -8,17 +9,29 @@
     height: 100svh;
     overflow: hidden;
 }
+.film-fill {
+    position: absolute;
+    inset: 0;
+}
 .film-root {
     position: absolute;
     inset: 0;
     overflow: hidden;
+    background: var(--paper);
     color: var(--ink);
+}
+/* Lớp phủ đêm chạy hoàn toàn trên GPU (opacity), không repaint nền .film-root mỗi khung. */
+.film-night {
+    position: absolute;
+    inset: 0;
+    background: var(--night);
+    pointer-events: none;
 }
 .grid-dark {
     background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
 }
 
-/* Mỗi chương phủ kín khung; nền do .film-root lo (giấy → đêm). */
+/* Mỗi chương phủ kín khung; nền do .film-root + .film-night lo (giấy → đêm). */
 .film-root .stage {
     position: absolute;
     inset: 0;
@@ -34,18 +47,13 @@
 .film-root .stage[data-chapter="1"] {
     z-index: 2;
 }
-.film-dots {
+.dots-canvas {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 3;
     pointer-events: none;
-}
-.film-dots i {
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    will-change: transform;
 }
 .film-root .stage[data-chapter="2"] {
     z-index: 4;
@@ -57,24 +65,36 @@
     z-index: 6;
 }
 
-/* Thanh tiến trình chạy theo khung phim. */
-.film-rail div.on::before {
-    background: linear-gradient(90deg, var(--ink) var(--p, 0%), var(--line) var(--p, 0%));
+/* Thanh tiến trình chạy trên GPU bằng transform: scaleX(...) thay vì repaint linear-gradient. */
+.film-rail div::before {
+    display: none;
+}
+.film-rail .rail-track {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    background: var(--line);
+    overflow: hidden;
+}
+.film-rail .rail-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--ink);
+    transform-origin: left center;
 }
 .film-rail.is-dark div {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.58);
 }
-.film-rail.is-dark div::before {
-    background: rgba(255, 255, 255, 0.12);
-}
-.film-rail.is-dark div.done::before {
-    background: #fff;
+.film-rail.is-dark .rail-track {
+    background: rgba(255, 255, 255, 0.14);
 }
 .film-rail.is-dark div.on {
     color: #fff;
 }
-.film-rail.is-dark div.on::before {
-    background: linear-gradient(90deg, #fff var(--p, 0%), rgba(255, 255, 255, 0.12) var(--p, 0%));
+.film-rail.is-dark .rail-fill {
+    background: #fff;
 }
 
 /* Đường chấm nối các bước tự kéo dài theo khung. */
@@ -84,11 +104,6 @@
 }
 .film-root .hub {
     transform: translate(-50%, -50%) scale(var(--hs, 1));
-}
-.film-root .stage-chaos .frag,
-.film-root .card,
-.film-root .film-dots i {
-    backface-visibility: hidden;
 }
 
 @media (max-width: 1180px) {
@@ -115,13 +130,77 @@
         height: auto;
         min-height: 0;
     }
+    .film-rail .rail-track {
+        margin-bottom: 0;
+    }
 }
 
-/* Màn thấp: chương 3 bỏ dòng mô tả thẻ (đã có chip module) để 2 hàng thẻ nằm gọn trong khung. */
+/* Màn thấp: nén nhẹ khoảng trống chương 2–4 để cả 4 chương nằm gọn trên 1366×768 / 760px. */
+@media (min-width: 901px) and (max-height: 820px) {
+    .film-root .cap-top {
+        top: calc(var(--nav-h) + 32px);
+    }
+    .film-root .out {
+        top: calc(var(--nav-h) + 40px);
+    }
+    .film-root .step .q {
+        margin-bottom: 34px;
+    }
+    .film-root .step .txt {
+        margin-top: 52px;
+    }
+    .film-root .stage-ai {
+        padding-top: calc(var(--nav-h) + 24px);
+        padding-bottom: 84px;
+    }
+}
 @media (min-width: 1181px) {
     .film-root .stage-build {
         padding-top: calc(var(--nav-h) + 28px);
         padding-bottom: 84px;
+    }
+}
+/* Màn desktop hẹp (1181–1380px): thu gọn cột chú thích & thẻ bento để 2 hàng thẻ vừa khít khung phim mà không rớt về bản tĩnh. */
+@media (min-width: 1181px) and (max-width: 1380px) {
+    .film-root .stage-build {
+        grid-template-columns: minmax(290px, 330px) 1fr;
+        gap: clamp(28px, 3vw, 44px);
+        padding-top: calc(var(--nav-h) + 20px);
+        padding-bottom: 76px;
+    }
+    .film-root .stage-build .cap-side .h2 {
+        font-size: 40px;
+    }
+    .film-root .bento {
+        gap: 12px;
+    }
+    .film-root .card {
+        padding: 16px 16px 14px;
+    }
+    .film-root .card h3 {
+        margin-top: 10px;
+        font-size: 19px;
+    }
+    .film-root .card .line {
+        display: none;
+    }
+    .film-root .card .mods {
+        margin: 10px 0 10px;
+        gap: 5px;
+    }
+    .film-root .card .mods span {
+        font-size: 11px;
+        padding: 2px 7px;
+    }
+    .film-root .card .metric {
+        padding-top: 10px;
+        gap: 8px;
+    }
+    .film-root .card .metric b {
+        font-size: 26px;
+    }
+    .film-root .card .metric span {
+        font-size: 12px;
     }
 }
 @media (min-width: 1181px) and (max-height: 960px) {

@@ -31,7 +31,7 @@ export const clips = {
         title: "Một yêu cầu đi qua helpdesk",
         app: "odoo · helpdesk",
         cols: ["Mới", "Đang xử lý", "Đã xong"],
-        ticket: { id: "HD-••42", t: "Nhập serial cho lô hàng mới", who: "Kho" },
+        ticket: { id: "HD-••42", t: "Nhập serial cho lô hàng mới" },
         log: [
             "Phiếu mới tự báo đúng nhóm kho",
             "Quét RFID · serial vào Odoo",
@@ -54,7 +54,7 @@ export const clips = {
         calc: ["Chia tấm", "Overlap", "Cắt vải", "Bi · ống"],
         sheetLabel: "A4 ngang · 18 tem · 6 × 3",
         filled: 14,
-        tem: ["Khách •••", "Phòng khách", "Bộ 1 · 2V", "Vtr", "Cắt vải 320"],
+        tem: ["Khách •••", "Phòng khách", "Bộ 1 · 2V", "Vải trơn", "Cắt vải 320"],
     },
     "reminder-hub": {
         kind: "chat",

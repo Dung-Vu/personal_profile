@@ -1,7 +1,6 @@
-// 4 chương "câu chuyện" ở trang chủ. P2 sẽ gắn phim cuộn Remotion lên đúng các chương này.
+// 4 chương "câu chuyện" ở trang chủ (dùng chung cho bản tĩnh và phim cuộn).
 export const storyIntro = {
     label: "Câu chuyện · 4 chương",
-    title: "Từ tin nhắn rời rạc tới hệ thống tự chạy.",
 };
 
 export const chapters = [
@@ -41,6 +40,7 @@ export const fragments = {
     c2: { kind: "chat", who: "K", color: "#25a35a", meta: "WhatsApp · Kho", text: "Mẫu này trong kho còn bao nhiêu?" },
     c3: { kind: "chat", who: "T", color: "#8a5cd1", meta: "Zalo · Nhóm vận hành", text: "Ai đang giữ file báo cáo tuần vậy?" },
     c4: { kind: "chat", who: "H", color: "#c47a38", meta: "Helpdesk · chưa phân công", text: "Phiếu hỗ trợ này ai nhận vậy?" },
+    c5: { kind: "chat", who: "M", color: "#0f766e", meta: "Zalo · Kế toán", text: "Khoản cọc hôm nay khớp đơn nào ạ?" },
     s1: {
         kind: "sheet",
         file: "Ra_tem_v1.2_FINAL.xlsm",
@@ -62,7 +62,7 @@ export const fragmentLayout = {
     desktop: [
         ["c1", 6, 15, 330, -4, 1], ["s1", 33, 11, 380, 3, 0.9], ["n1", 63, 14, 230, 6, 0.8], ["c2", 72, 40, 330, 2, 0.95],
         ["s2", 50, 46, 340, -3, 0.55], ["n2", 47, 71, 210, -6, 0.4], ["c3", 63, 72, 320, 3, 0.7], ["c4", 82, 62, 290, -2, 0.35],
-        ["p1", 86, 22, 200, -5, 0.3], ["c4", 4, 36, 300, 2, 0.3],
+        ["p1", 86, 22, 200, -5, 0.3], ["c5", 4, 36, 300, 2, 0.3],
     ],
     mobile: [
         ["c1", 6, 13, 270, -3, 1], ["s1", 34, 24, 300, 4, 0.8], ["n1", 4, 36, 170, -6, 0.9], ["c3", 22, 47, 280, 2, 0.55],

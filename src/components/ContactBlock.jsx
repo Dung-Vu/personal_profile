@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { brief, briefMailto, site } from "../content/site.js";
 import { promise } from "../content/trust.js";
 import { Link } from "../lib/router.jsx";
@@ -7,6 +8,11 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
     const Heading = as;
     const SubHeading = as === "h1" ? "h2" : "h3";
     const isPage = as === "h1";
+
+    useEffect(() => {
+        window.dispatchEvent(new Event("story:theme"));
+    }, []);
+
     return (
         <section className="contact" data-theme="dark" aria-labelledby={`${id}-title`}>
             <div className="wrap contact-grid">
@@ -20,8 +26,9 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                     </Heading>
                     <p className="lead">{brief.lead}</p>
                     <div className="ctas">
-                        <a className="btn btn-mint" href={site.zalo} target="_blank" rel="noreferrer">
+                        <a className="btn btn-mint" href={site.zalo} target="_blank" rel="noopener noreferrer">
                             Nhắn Zalo {site.phone} <span aria-hidden="true">→</span>
+                            <span className="sr-only"> (mở tab mới)</span>
                         </a>
                         {isPage ? (
                             <a className="btn btn-line" href="#gui-yeu-cau">
@@ -46,12 +53,13 @@ export function ContactBlock({ as = "h2", id = "lien-he" }) {
                             Email <b>{site.email}</b>
                         </a>
                         {isPage ? (
-                            <a href={site.github} target="_blank" rel="noreferrer">
+                            <a href={site.github} target="_blank" rel="noopener noreferrer">
                                 GitHub <b>{site.githubName}</b>
+                                <span className="sr-only"> (mở tab mới)</span>
                             </a>
                         ) : (
                             <Link href="/contact#cach-hop-tac">
-                                <b>Cách hợp tác & chi phí</b> →
+                                <b>Cách hợp tác & chi phí</b> <span aria-hidden="true">→</span>
                             </Link>
                         )}
                     </div>

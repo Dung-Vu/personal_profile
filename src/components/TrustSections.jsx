@@ -16,7 +16,7 @@ export function TrustSections() {
                     </h2>
                     <p className="lead">Gạch đầu dòng là đủ. Chưa rõ ý nào thì bỏ trống, buổi khảo sát sẽ hỏi tiếp.</p>
                 </div>
-                <BriefForm headingId="gui-yeu-cau-title" />
+                <BriefForm />
             </section>
 
             <section id="cach-hop-tac" className="trust-sec" aria-labelledby="cach-hop-tac-title">

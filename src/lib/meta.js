@@ -1,4 +1,4 @@
-import { getCanonicalUrl, getRouteMeta } from "../routes/siteRoutes.js";
+import { getCanonicalUrl, getRoute } from "../routes/siteRoutes.js";
 
 function setMeta(attr, key, content) {
     let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -12,8 +12,11 @@ function setMeta(attr, key, content) {
 
 // Đồng bộ title, description, canonical, og/twitter và JSON-LD theo route hiện tại.
 export function applyRouteMeta(pathname) {
-    const meta = getRouteMeta(pathname);
-    const url = getCanonicalUrl(pathname);
+    const route = getRoute(pathname);
+    const { meta } = route;
+    const isNotFound = route.path === "/404";
+    const url = getCanonicalUrl(route.path);
+
     document.title = meta.title;
     setMeta("name", "description", meta.desc);
     setMeta("name", "robots", meta.robots);
@@ -27,13 +30,17 @@ export function applyRouteMeta(pathname) {
     setMeta("name", "twitter:description", meta.desc);
     setMeta("name", "twitter:image", meta.image);
 
-    let canonical = document.head.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-        canonical = document.createElement("link");
-        canonical.rel = "canonical";
-        document.head.appendChild(canonical);
+    const canonical = document.head.querySelector('link[rel="canonical"]');
+    if (isNotFound) {
+        canonical?.remove();
+    } else if (canonical) {
+        canonical.href = url;
+    } else {
+        const link = document.createElement("link");
+        link.rel = "canonical";
+        link.href = url;
+        document.head.appendChild(link);
     }
-    canonical.href = url;
 
     let ld = document.getElementById("route-structured-data");
     if (!ld) {

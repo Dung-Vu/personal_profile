@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Player } from "@remotion/player";
 import { storyIntro } from "../content/story.js";
-import { FILM_FPS, FILM_FRAMES } from "../lib/motion.js";
-import { StoryFilm } from "./StoryFilm.jsx";
+import { FILM_FRAMES } from "../lib/motion.js";
+import { FrameContext, StoryFilm } from "./StoryFilm.jsx";
 import "../styles/film.css";
 
 // Đoạn cuộn kể chuyện: khung nhìn dính lại, cuộn tới đâu tua phim tới đó (cuộn ngược thì tua ngược).
 // Mỗi chương ăn SCROLL_PER × chiều cao màn hình.
 const SCROLL_PER = 1.1;
+// Hằng số tắt dần theo thời gian thực (tương đương hệ số 0.18 ở 60Hz, đồng nhất giữa 30/60/120Hz).
+const DAMP_K = 12;
 
 function progressOf(el) {
+    if (!el) return 0;
     const rect = el.getBoundingClientRect();
     const total = rect.height - window.innerHeight;
     return total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
@@ -18,56 +20,144 @@ function progressOf(el) {
 export default function FilmStory({ onUnfit }) {
     const sectionRef = useRef(null);
     const stickyRef = useRef(null);
-    const playerRef = useRef(null);
-    const [size, setSize] = useState(null);
-    const startFrame = useRef(0);
+    const [ready, setReady] = useState(false);
+    const [frame, setFrame] = useState(0);
+    const initialFrameRef = useRef(0);
 
+    // Kiểm kích thước khung dính (bỏ qua w <= 0 || h <= 0 để không bao giờ vỡ layout khi thu nhỏ/ẩn).
     useLayoutEffect(() => {
         const el = stickyRef.current;
+        if (!el) return;
+        let raf = 0;
+
         const read = () => {
             const w = Math.round(el.clientWidth);
             const h = Math.round(el.clientHeight);
-            setSize((s) => (s && s.w === w && s.h === h ? s : { w, h }));
+            if (w <= 0 || h <= 0) return;
+            setReady(true);
         };
-        startFrame.current = Math.round(progressOf(sectionRef.current) * (FILM_FRAMES - 1));
+
+        const initial = Math.round(progressOf(sectionRef.current) * (FILM_FRAMES - 1));
+        initialFrameRef.current = initial;
+        setFrame(initial);
         read();
-        const ro = new ResizeObserver(read);
+
+        const ro = new ResizeObserver(() => {
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                raf = 0;
+                read();
+            });
+        });
         ro.observe(el);
-        return () => ro.disconnect();
+        return () => {
+            if (raf) cancelAnimationFrame(raf);
+            ro.disconnect();
+        };
     }, []);
 
-    // Vòng tua: chỉ chạy khi đoạn phim đang trong tầm nhìn; đuổi theo vị trí cuộn cho mượt khi lăn chuột từng nấc.
+    // Vòng tua theo sự kiện: chỉ chạy rAF khi cuộn/đổi cỡ và tự dừng hoàn toàn khi đã tới đích (0Hz lúc nghỉ).
     useEffect(() => {
         const section = sectionRef.current;
+        if (!section) return;
+
         let raf = 0;
-        let current = startFrame.current;
-        let shown = -1;
-        const tick = () => {
-            const target = progressOf(section) * (FILM_FRAMES - 1);
-            current += (target - current) * 0.18;
-            if (Math.abs(target - current) < 0.3) current = target;
-            const f = Math.round(current);
-            if (f !== shown && playerRef.current) {
-                shown = f;
-                playerRef.current.seekTo(f);
-            }
-            raf = requestAnimationFrame(tick);
-        };
-        const io = new IntersectionObserver(([e]) => {
-            if (e.isIntersecting && !raf) raf = requestAnimationFrame(tick);
-            if (!e.isIntersecting && raf) {
+        let visible = false;
+        let lastTime = 0;
+        let current = initialFrameRef.current;
+        let shown = initialFrameRef.current;
+
+        const stop = () => {
+            if (raf) {
                 cancelAnimationFrame(raf);
                 raf = 0;
             }
+            lastTime = 0;
+        };
+
+        const commit = (nextFrame) => {
+            if (nextFrame !== shown) {
+                shown = nextFrame;
+                setFrame(nextFrame);
+            }
+        };
+
+        const snap = () => {
+            const target = progressOf(section) * (FILM_FRAMES - 1);
+            current = target;
+            commit(Math.round(current));
+        };
+
+        const tick = (now) => {
+            raf = 0;
+            if (!visible || document.hidden) {
+                lastTime = 0;
+                return;
+            }
+            const dt = lastTime ? Math.min(0.05, Math.max(0, (now - lastTime) / 1000)) : 1 / 60;
+            lastTime = now;
+
+            const target = progressOf(section) * (FILM_FRAMES - 1);
+            const alpha = 1 - Math.exp(-DAMP_K * dt);
+            current += (target - current) * alpha;
+            if (Math.abs(target - current) < 0.05) {
+                current = target;
+            }
+
+            commit(Math.round(current));
+
+            if (current !== target) {
+                raf = requestAnimationFrame(tick);
+            } else {
+                lastTime = 0;
+            }
+        };
+
+        const wake = () => {
+            if (!visible || document.hidden || raf) return;
+            raf = requestAnimationFrame(tick);
+        };
+
+        const onVis = () => {
+            if (document.hidden) {
+                stop();
+            } else if (visible) {
+                snap();
+            }
+        };
+
+        const io = new IntersectionObserver(([e]) => {
+            visible = e.isIntersecting;
+            if (visible) {
+                // Khớp tức thì vị trí biên/đích khi vào lại khung nhìn để cuộn nhanh không bị tua ngược từ khung cũ.
+                if (!document.hidden) snap();
+                wake();
+            } else {
+                stop();
+                snap();
+            }
         });
         io.observe(section);
+
+        window.addEventListener("scroll", wake, { passive: true });
+        window.addEventListener("resize", wake, { passive: true });
+        document.addEventListener("visibilitychange", onVis);
+
         return () => {
+            stop();
             io.disconnect();
-            if (raf) cancelAnimationFrame(raf);
+            window.removeEventListener("scroll", wake);
+            window.removeEventListener("resize", wake);
+            document.removeEventListener("visibilitychange", onVis);
         };
     }, []);
 
-    const onFit = useCallback((fits) => !fits && onUnfit?.(), [onUnfit]);
+    const onFit = useCallback(
+        (fits) => {
+            if (!fits) onUnfit?.();
+        },
+        [onUnfit],
+    );
 
     return (
         <section
@@ -78,24 +168,10 @@ export default function FilmStory({ onUnfit }) {
             style={{ height: `calc(100svh + ${(4 * SCROLL_PER * 100).toFixed(0)}svh)` }}
         >
             <div className="film-sticky" ref={stickyRef}>
-                {size && (
-                    <Player
-                        ref={playerRef}
-                        component={StoryFilm}
-                        inputProps={{ onFit }}
-                        durationInFrames={FILM_FRAMES}
-                        fps={FILM_FPS}
-                        compositionWidth={size.w}
-                        compositionHeight={size.h}
-                        initialFrame={startFrame.current}
-                        style={{ width: "100%", height: "100%" }}
-                        controls={false}
-                        clickToPlay={false}
-                        doubleClickToFullscreen={false}
-                        spaceKeyToPlayOrPause={false}
-                        moveToBeginningWhenEnded={false}
-                        acknowledgeRemotionLicense
-                    />
+                {ready && (
+                    <FrameContext.Provider value={frame}>
+                        <StoryFilm onFit={onFit} />
+                    </FrameContext.Provider>
                 )}
             </div>
         </section>

@@ -1,4 +1,4 @@
-import { memo, useLayoutEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import {
     agentLog,
     agents,
@@ -14,8 +14,9 @@ import {
     storyIntro,
 } from "../content/story.js";
 import { bento } from "../content/projects.js";
-import { Particles, rng, tones } from "../lib/particles.jsx";
+import { Particles, circlesPath, rng, tones } from "../lib/particles.jsx";
 import { CH, ease, fade, mix, mixRgba, motion, offsetBox } from "../lib/motion.js";
+import "../styles/story.css";
 
 // 4 chương câu chuyện. Không truyền F → bản tĩnh (prerender, giảm chuyển động, màn thấp).
 // Truyền F (khung hình của phim) → cùng giao diện đó nhưng chuyển động theo khung; phim cuộn ở src/film/.
@@ -47,7 +48,7 @@ function Rail({ active }) {
     );
 }
 
-function Stage({ index, dark, className = "", m, children }) {
+function Stage({ index, dark, hidden = false, className = "", m, children }) {
     const chapter = chapters[index];
     return (
         <section
@@ -56,6 +57,7 @@ function Stage({ index, dark, className = "", m, children }) {
             data-theme={dark ? "dark" : undefined}
             data-chapter={index}
             aria-labelledby={`${chapter.id}-title`}
+            style={hidden ? { visibility: "hidden" } : undefined}
         >
             {!m.film && <div className="grid-bg" aria-hidden="true" />}
             {children(chapter)}
@@ -140,11 +142,11 @@ function FragmentSet({ layout, className, m }) {
         <div className={`frags ${className}`} aria-hidden="true">
             {layout.map(([key, x, y, w, rot, d], i) => {
                 const item = fragments[key];
+                if (!item) return null;
                 const s = 0.72 + d * 0.28;
-                // Phim: trôi lên theo chiều sâu, rồi co lại và tan thành hạt (khung 95 → 140).
+                // Phim: trôi lên theo chiều sâu, rồi co lại và tan thành hạt (chỉ dùng opacity + transform).
                 const q = m.out(95 + i * 2.5, 128 + i * 2.5, ease.inOut);
                 const drift = m.film ? -Math.min(m.L, 130) * 0.32 * d : 0;
-                const blur = d < 0.95 ? (1 - d) * 3.2 : 0;
                 return (
                     <div
                         key={i}
@@ -155,9 +157,8 @@ function FragmentSet({ layout, className, m }) {
                             top: `${y}%`,
                             width: w,
                             transform: m.film
-                                ? `translateY(${drift.toFixed(1)}px) rotate(${rot}deg) scale(${(s * (1 - 0.5 * q)).toFixed(3)})`
+                                ? `translate3d(0, ${drift.toFixed(1)}px, 0) rotate(${rot}deg) scale(${(s * (1 - 0.5 * q)).toFixed(3)})`
                                 : `rotate(${rot}deg) scale(${s.toFixed(3)})`,
-                            filter: blur + q * 4 > 0.05 ? `blur(${(blur + q * 4).toFixed(1)}px)` : undefined,
                             opacity: ((0.45 + d * 0.55) * (1 - q)).toFixed(2),
                             zIndex: Math.round(d * 10),
                         }}
@@ -179,18 +180,18 @@ const chaosDots = (() => {
     });
 })();
 
-function ChapterChaos({ m }) {
+function ChapterChaos({ m, hidden }) {
     const total = Number(chaosCount.value);
     const count = m.film ? Math.round(mix(total - 6, total, m.in(0, 90, ease.lin))) : total;
     const out = m.out(98, 124);
     return (
-        <Stage index={0} className="stage-chaos" m={m}>
+        <Stage index={0} hidden={hidden} className="stage-chaos" m={m}>
             {(c) => (
                 <>
                     <FragmentSet layout={fragmentLayout.desktop} className="only-desk" m={m} />
                     <FragmentSet layout={fragmentLayout.mobile} className="only-mob" m={m} />
                     <div className="chaos-dots" style={m.film ? { opacity: 1 - m.out(92, 128) } : undefined}>
-                        <Particles list={chaosDots} />
+                        <Particles list={chaosDots} vw={1440} vh={900} />
                     </div>
                     <div className="count label" aria-hidden="true" style={fade(m, 1, m.out(90, 116), 12)}>
                         <b>{count}</b>
@@ -205,40 +206,33 @@ function ChapterChaos({ m }) {
 
 /* ---------- Chương 2: đọc hệ thống ---------- */
 
-function ring(seed, tone, count) {
+function buildRingPath(seed, tone, count) {
     const r = rng(seed);
-    return Array.from({ length: count }, () => {
+    let sumO = 0;
+    const items = Array.from({ length: count }, () => {
         const a = r() * Math.PI * 2;
         const k = 1 + (r() - 0.5) * 0.16;
-        return { cx: Math.cos(a) * k, cy: Math.sin(a) * k, s: 2 + r() * 3.2, o: 0.35 + r() * 0.6, c: tones[tone] };
+        const s = 2 + r() * 3.2;
+        const o = 0.35 + r() * 0.6;
+        sumO += o;
+        return { cx: Math.cos(a) * k * 64, cy: Math.sin(a) * k * 64, r: s * 0.5 };
     });
+    return { c: tones[tone], o: Number((sumO / count).toFixed(2)), d: circlesPath(items) };
 }
-const rings = steps.map((s, i) => ring(11 + i, s.tone, 46));
+const ringPaths = steps.map((s, i) => buildRingPath(11 + i, s.tone, 46));
 
-const StaticRing = memo(function StaticRing({ list }) {
+const StaticRing = memo(function StaticRing({ data }) {
     return (
-        <div className="ring" aria-hidden="true">
-            {list.map((p, k) => (
-                <i
-                    key={k}
-                    style={{
-                        left: `calc(50% + ${p.cx.toFixed(3)} * var(--ring))`,
-                        top: `calc(50% + ${p.cy.toFixed(3)} * var(--ring))`,
-                        width: p.s.toFixed(1) + "px",
-                        height: p.s.toFixed(1) + "px",
-                        background: p.c,
-                        opacity: p.o.toFixed(2),
-                    }}
-                />
-            ))}
-        </div>
+        <svg className="ring" viewBox="-80 -80 160 160" aria-hidden="true">
+            <path d={data.d} fill={data.c} fillOpacity={data.o} />
+        </svg>
     );
 });
 
-function ChapterRead({ m }) {
+function ChapterRead({ m, hidden }) {
     const out = m.out(104, 128);
     return (
-        <Stage index={1} className="stage-read" m={m}>
+        <Stage index={1} hidden={hidden} className="stage-read" m={m}>
             {(c) => (
                 <>
                     <Caption chapter={c} className="cap-top" headingId={`${c.id}-title`} style={fade(m, m.in(-14, 16), out)} />
@@ -266,7 +260,7 @@ function ChapterRead({ m }) {
                                         {s.hint}
                                     </span>
                                     <div className="core-wrap" data-m="ring">
-                                        {!m.film && <StaticRing list={rings[i]} />}
+                                        {!m.film && <StaticRing data={ringPaths[i]} />}
                                         <span
                                             className="core"
                                             style={
@@ -357,9 +351,9 @@ function BentoCard({ item, j, m, morph }) {
     );
 }
 
-function ChapterBuild({ m, morph }) {
+function ChapterBuild({ m, morph, hidden }) {
     return (
-        <Stage index={2} className="stage-build" m={m}>
+        <Stage index={2} hidden={hidden} className="stage-build" m={m}>
             {(c) => (
                 <>
                     <Caption
@@ -397,18 +391,33 @@ const agentColors = {
     mono: ["#232323", "#dddddd"],
 };
 
-// Dây nối agent → hub → hệ thống, tính theo vị trí thật của các ô (đo lại khi đổi kích thước).
-// Đo theo offset nên không bị lệch khi các ô đang chạy hiệu ứng.
+// Dây nối agent → hub → hệ thống, tính theo vị trí thật của các ô (đo lại khi đổi kích thước hoặc font xong).
+// Bỏ qua hoàn toàn khi .wires đang ẩn (màn <= 900px). Dùng useEffect để an toàn khi SSR.
 function useWires(mapRef) {
     const [paths, setPaths] = useState([]);
-    useLayoutEffect(() => {
+    useEffect(() => {
         const map = mapRef.current;
         if (!map) return;
+        let alive = true;
+        let raf = 0;
+
         const draw = () => {
+            if (!alive) return;
+            const wiresEl = map.querySelector(".wires");
+            if (
+                window.matchMedia("(max-width: 900px)").matches ||
+                map.offsetParent === null ||
+                map.offsetWidth < 10 ||
+                !wiresEl ||
+                getComputedStyle(wiresEl).display === "none"
+            ) {
+                setPaths((prev) => (prev.length ? [] : prev));
+                return;
+            }
             const hubEl = map.querySelector(".hub");
-            if (!hubEl || map.offsetWidth < 10) return;
+            if (!hubEl) return;
             const hub = offsetBox(hubEl, map);
-            // .hub được canh giữa bằng translate(-50%, -50%) nên offset là góc đã dời.
+            // .hub được canh giữa bằng translate(-50%, -50%) nên offset là tâm khi position: absolute.
             const centered = getComputedStyle(hubEl).position === "absolute";
             const hx = centered ? hub.x : hub.x + hub.w / 2;
             const ht = centered ? hub.y - hub.h / 2 : hub.y;
@@ -416,7 +425,10 @@ function useWires(mapRef) {
             const out = [];
             const wire = (x0, y0, x1, y1, hot) => {
                 const my = (y0 + y1) / 2;
-                out.push({ d: `M${x0.toFixed(1)},${y0.toFixed(1)} C${x0.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`, hot });
+                out.push({
+                    d: `M${x0.toFixed(1)},${y0.toFixed(1)} C${x0.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${my.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`,
+                    hot,
+                });
             };
             map.querySelectorAll(".agent").forEach((el, i) => {
                 const a = offsetBox(el, map);
@@ -428,27 +440,58 @@ function useWires(mapRef) {
             });
             setPaths(out);
         };
+
+        const schedule = () => {
+            if (!alive || raf) return;
+            raf = requestAnimationFrame(() => {
+                raf = 0;
+                draw();
+            });
+        };
+
         draw();
-        const ro = new ResizeObserver(draw);
+        const ro = new ResizeObserver(schedule);
         ro.observe(map);
-        return () => ro.disconnect();
+        document.fonts?.ready.then(schedule);
+        document.fonts?.addEventListener?.("loadingdone", schedule);
+
+        return () => {
+            alive = false;
+            if (raf) cancelAnimationFrame(raf);
+            ro.disconnect();
+            document.fonts?.removeEventListener?.("loadingdone", schedule);
+        };
     }, [mapRef]);
     return paths;
 }
 
-function ChapterAI({ m }) {
+function ChapterAI({ m, hidden }) {
     const mapRef = useRef(null);
     const paths = useWires(mapRef);
-    const dark = !m.film || m.L >= -15;
+    const [inView, setInView] = useState(false);
+
+    // Ở bản tĩnh, tạm dừng hoạt ảnh .pulse khi chương 4 nằm ngoài khung nhìn.
+    useEffect(() => {
+        if (m.film) return;
+        const map = mapRef.current;
+        if (!map) return;
+        const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting));
+        io.observe(map);
+        return () => io.disconnect();
+    }, [m.film]);
+
+    // Đồng bộ mốc chuyển giao diện tối với điểm giữa nền đêm của phim (F = 413).
+    const dark = !m.film || m.F >= 413;
     const pulseOn = m.in(58, 72);
+
     return (
-        <Stage index={3} dark={dark} className="stage-ai" m={m}>
+        <Stage index={3} dark={dark} hidden={hidden} className="stage-ai" m={m}>
             {(c) => (
                 <>
                     <div className="glow" aria-hidden="true" style={m.film ? { opacity: m.in(-20, 30) } : undefined} />
                     <div className="ai-left">
                         <Caption chapter={c} className="cap-side" headingId={`${c.id}-title`} style={fade(m, m.in(0, 24))} />
-                        <div className="log" aria-label="Nhật ký làm việc của các agent (minh hoạ)" style={fade(m, m.in(30, 46), 0, 14)}>
+                        <aside className="log" aria-label="Nhật ký làm việc của các agent (minh hoạ)" style={fade(m, m.in(30, 46), 0, 14)}>
                             <span className="h">
                                 <span>nhật ký hôm nay</span>
                                 <span>● đang chạy</span>
@@ -461,9 +504,9 @@ function ChapterAI({ m }) {
                                     <span className={row.ok ? "ok" : undefined}>{row.res}</span>
                                 </div>
                             ))}
-                        </div>
+                        </aside>
                     </div>
-                    <div className="map" ref={mapRef}>
+                    <div className={!m.film && inView ? "map is-inview" : "map"} ref={mapRef}>
                         <svg className="wires" aria-hidden="true">
                             {paths.map((p, i) => {
                                 const draw = m.in(28 + i * 2, 58 + i * 2, ease.inOut);
@@ -532,21 +575,38 @@ function ChapterAI({ m }) {
 }
 
 // Cả 4 chương. F = khung hình của phim (null = tĩnh); morph = độ lệch thẻ → ô hệ thống, do phim đo.
-export function Chapters({ F = null, morph }) {
+// Trong chế độ phim, chỉ giữ trong DOM các chương thuộc khoảng khung hoạt động (trừ lượt đo geometry 1 khung).
+export function Chapters({ F = null, morph, measureAll = false }) {
+    if (F == null) {
+        return (
+            <>
+                <ChapterChaos m={motion(null, 0)} />
+                <ChapterRead m={motion(null, CH)} />
+                <ChapterBuild m={motion(null, CH * 2)} />
+                <ChapterAI m={motion(null, CH * 3)} />
+            </>
+        );
+    }
+
+    const show0 = F <= 155;
+    const show1 = F >= 132 && F <= 292;
+    const show2 = F >= 284 && F <= 466;
+    const show3 = F >= 410;
+
     return (
         <>
-            <ChapterChaos m={motion(F, 0)} />
-            <ChapterRead m={motion(F, CH)} />
-            <ChapterBuild m={motion(F, CH * 2)} morph={morph} />
-            <ChapterAI m={motion(F, CH * 3)} />
+            {(show0 || measureAll) && <ChapterChaos m={motion(F, 0)} hidden={!show0} />}
+            {(show1 || measureAll) && <ChapterRead m={motion(F, CH)} hidden={!show1} />}
+            {(show2 || measureAll) && <ChapterBuild m={motion(F, CH * 2)} morph={morph} hidden={!show2} />}
+            {(show3 || measureAll) && <ChapterAI m={motion(F, CH * 3)} hidden={!show3} />}
         </>
     );
 }
 
 export function StaticStory() {
     return (
-        <div id="cau-chuyen" className="story" aria-label={storyIntro.label}>
+        <section id="cau-chuyen" className="story" aria-label={storyIntro.label}>
             <Chapters />
-        </div>
+        </section>
     );
 }

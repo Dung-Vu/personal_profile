@@ -98,7 +98,7 @@
     }
     .filters {
         margin: 28px calc(var(--pad) * -1) 18px;
-        padding: 0 var(--pad) 4px;
+        padding: 6px var(--pad);
         flex-wrap: nowrap;
         overflow-x: auto;
         scrollbar-width: none;

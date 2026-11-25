@@ -17,6 +17,15 @@
     descent-override: 25.4%;
     line-gap-override: 0%;
 }
+@font-face {
+    font-family: "JetBrains Mono Fallback";
+    src: local("Menlo"), local("Consolas"), local("Liberation Mono"), local("Courier New");
+    font-weight: 400 700;
+    size-adjust: 100%;
+    ascent-override: 102%;
+    descent-override: 30%;
+    line-gap-override: 0%;
+}
 
 /* ===== Design system v2: token, chữ, nút, pill ===== */
 :root {
@@ -43,7 +52,7 @@
     --mint: #7be8c8;
 
     --sans: "Be Vietnam Pro", "Be Vietnam Pro Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
     --pad: 56px;
     --max: 1328px;
@@ -193,17 +202,17 @@ h3 {
 .btn span[aria-hidden] {
     transition: transform 0.25s var(--ease);
 }
-.btn:hover span[aria-hidden] {
+.btn:not(:disabled):not([aria-disabled="true"]):hover span[aria-hidden] {
     transform: translateX(3px);
 }
-.btn:active {
+.btn:not(:disabled):not([aria-disabled="true"]):active {
     transform: scale(0.98);
 }
 .btn-ink {
     background: var(--ink);
     color: #fff;
 }
-.btn-ink:hover {
+.btn-ink:not(:disabled):not([aria-disabled="true"]):hover {
     background: #262a31;
     box-shadow: 0 12px 26px -14px rgba(15, 17, 21, 0.6);
 }
@@ -212,7 +221,7 @@ h3 {
     color: var(--ink);
     background: rgba(255, 255, 255, 0.5);
 }
-.btn-ghost:hover {
+.btn-ghost:not(:disabled):not([aria-disabled="true"]):hover {
     background: #fff;
     border-color: rgba(15, 17, 21, 0.2);
 }
@@ -220,7 +229,7 @@ h3 {
     background: var(--mint);
     color: var(--night);
 }
-.btn-mint:hover {
+.btn-mint:not(:disabled):not([aria-disabled="true"]):hover {
     background: #9af0d6;
     box-shadow: 0 0 0 6px rgba(123, 232, 200, 0.12);
 }
@@ -229,7 +238,7 @@ h3 {
     color: #fff;
     font-weight: 600;
 }
-.btn-line:hover {
+.btn-line:not(:disabled):not([aria-disabled="true"]):hover {
     border-color: rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.04);
 }
@@ -315,6 +324,8 @@ h3 {
     *::after {
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
+        animation-delay: 0s !important;
         animation-iteration-count: 1 !important;
+        animation-play-state: running !important;
     }
 }

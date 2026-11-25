@@ -4,11 +4,13 @@
   "packageManager": "pnpm@11.5.1",
   "version": "2.0.0",
   "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "prebuild": "node scripts/generate_sitemap.mjs",
-    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
-    "build:static": "npm run build",
+    "build": "node scripts/generate_sitemap.mjs && vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:static": "pnpm run build",
     "preview": "vite preview --host 127.0.0.1",
     "qa:perf": "node scripts/qa_perf.cjs",
     "qa:a11y": "node scripts/qa_a11y.cjs",
@@ -16,15 +18,13 @@
     "qa:shots": "node scripts/qa_shots.mjs"
   },
   "dependencies": {
-    "@remotion/player": "4.0.534",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "remotion": "4.0.534"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^5.1.1",
-    "axe-core": "^4.11.4",
-    "puppeteer-core": "^24.42.0",
-    "vite": "^7.3.0"
+    "@vitejs/plugin-react": "^5.2.0",
+    "axe-core": "^4.14.1",
+    "puppeteer-core": "^25.18.1",
+    "vite": "^7.3.8"
   }
 }

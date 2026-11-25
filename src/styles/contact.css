@@ -64,14 +64,15 @@
     font-size: 15px;
     color: var(--ink);
     background: #fff;
-    border: 1px solid var(--line);
+    border: 1px solid rgba(15, 17, 21, 0.46);
     border-radius: 14px;
     padding: 12px 14px;
     resize: vertical;
 }
 .bform textarea::placeholder,
 .bform input::placeholder {
-    color: #8a8e94;
+    color: #666a71;
+    opacity: 1;
 }
 .bform input:focus-visible,
 .bform textarea:focus-visible {
@@ -92,6 +93,30 @@
 .bform-status {
     font-size: 14px;
     color: var(--muted);
+}
+.bform-inline-link {
+    color: var(--ocean);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.bform-fallback {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: grid;
+    gap: 12px;
+}
+.bform-fallback textarea {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.55;
+    background: var(--paper);
+}
+.bform-fallback-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 /* Cách hợp tác */
@@ -254,7 +279,8 @@
         grid-template-columns: 1fr;
         padding: 18px;
     }
-    .bform-actions .btn {
+    .bform-actions .btn,
+    .bform-fallback-actions .btn {
         width: 100%;
     }
     .steps5,

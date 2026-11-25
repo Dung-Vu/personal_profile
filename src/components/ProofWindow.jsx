@@ -2,8 +2,26 @@ import { proofNote } from "../content/clips.js";
 import { rng } from "../lib/particles.jsx";
 
 // Ảnh minh hoạ giao diện: khung cửa sổ, sidebar, KPI và bảng.
-// Có rows/kpiValues thì hiện dữ liệu giả đọc được; không có thì làm mờ ô như cũ.
+// Có rows/kpiValues thì hiện dữ liệu giả đọc được; không có thì hiện thanh giữ chỗ phẳng (không blur).
+const kpiBarStyle = {
+    display: "block",
+    marginTop: 6,
+    height: 22,
+    width: "70%",
+    borderRadius: 6,
+    background: "var(--paper-2)",
+};
+
+const cellBarStyle = (width) => ({
+    display: "block",
+    height: 9,
+    width,
+    borderRadius: 5,
+    background: "var(--paper-2)",
+});
+
 export function ProofWindow({ proof, seed = 1, compact = false }) {
+    if (!proof) return null;
     const r = rng(seed);
     const w = () => `${Math.round(55 + r() * 35)}%`;
     const rows = proof.rows;
@@ -28,7 +46,7 @@ export function ProofWindow({ proof, seed = 1, compact = false }) {
                         {proof.kpis.map((k, i) => (
                             <div key={k}>
                                 {k}
-                                {proof.kpiValues ? <strong>{proof.kpiValues[i]}</strong> : <b />}
+                                {proof.kpiValues?.[i] != null ? <strong>{proof.kpiValues[i]}</strong> : <span style={kpiBarStyle} aria-hidden="true" />}
                             </div>
                         ))}
                     </div>
@@ -38,25 +56,26 @@ export function ProofWindow({ proof, seed = 1, compact = false }) {
                                 <span key={c}>{c}</span>
                             ))}
                         </div>
-                        {proof.statuses.map(([label, tone], i) =>
-                            rows ? (
+                        {proof.statuses.map(([label, tone], i) => {
+                            const row = rows?.[i];
+                            return row ? (
                                 <div key={i}>
-                                    <span className="mono">{rows[i][0]}</span>
-                                    <span>{rows[i][1]}</span>
-                                    <span>{rows[i][2]}</span>
+                                    <span className="mono">{row?.[0] ?? ""}</span>
+                                    <span>{row?.[1] ?? ""}</span>
+                                    <span>{row?.[2] ?? ""}</span>
                                     <em className={`t-${tone}`}>{label}</em>
-                                    <span className="muted">{rows[i][3]}</span>
+                                    <span className="muted">{row?.[3] ?? ""}</span>
                                 </div>
                             ) : (
                                 <div key={i}>
-                                    <i style={{ width: w() }} />
-                                    <i style={{ width: w() }} />
-                                    <i style={{ width: w() }} />
+                                    <span style={cellBarStyle(w())} aria-hidden="true" />
+                                    <span style={cellBarStyle(w())} aria-hidden="true" />
+                                    <span style={cellBarStyle(w())} aria-hidden="true" />
                                     <em className={`t-${tone}`}>{label}</em>
-                                    <i style={{ width: w() }} />
+                                    <span style={cellBarStyle(w())} aria-hidden="true" />
                                 </div>
-                            ),
-                        )}
+                            );
+                        })}
                     </div>
                 </div>
             </div>

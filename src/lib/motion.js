@@ -1,5 +1,4 @@
 // Dòng thời gian của phim cuộn (đơn vị: khung hình, 30fps). Mỗi chương dài CH khung.
-// Không import remotion ở đây để bản tĩnh không phải tải thư viện phim.
 export const FPS = 30;
 export const CH = 150;
 export const DURATION = CH * 4;
@@ -8,7 +7,7 @@ export const SUB = 2;
 export const FILM_FPS = FPS * SUB;
 export const FILM_FRAMES = DURATION * SUB;
 
-const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+export const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 export const ease = {
     lin: (t) => t,

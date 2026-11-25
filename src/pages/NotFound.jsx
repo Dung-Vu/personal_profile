@@ -2,7 +2,7 @@ import { Link } from "../lib/router.jsx";
 
 export default function NotFound() {
     return (
-        <main id="main" className="page page-404">
+        <main id="main" tabIndex={-1} className="page page-404">
             <div className="wrap">
                 <span className="label">
                     <span className="dot" />

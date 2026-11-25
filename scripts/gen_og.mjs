@@ -1,22 +1,28 @@
 // Sinh ảnh share 1200×630 (trang chủ + từng case) từ nội dung trong src/content/. Chạy tay khi đổi nội dung:
 //   node scripts/gen_og.mjs   → public/og/home.jpg, public/og/<slug>.jpg
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
 import { projects } from "../src/content/projects.js";
 import { site } from "../src/content/site.js";
+import { findChrome } from "./find_chrome.cjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "public/og");
-const exe = [
-    process.env.CHROME_PATH,
-    path.join(os.homedir(), ".cache/puppeteer/chrome-headless-shell/mac_arm-150.0.7871.24/chrome-headless-shell-mac-arm64/chrome-headless-shell"),
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-].find((c) => c && fs.existsSync(c));
+const FONTS_DIR = path.join(ROOT, "public/fonts");
+const exe = findChrome();
 const avatar = `data:image/webp;base64,${fs.readFileSync(path.join(ROOT, "public/assets/avatar-720.webp")).toString("base64")}`;
-const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// Nhúng font tự host trong public/fonts/*.woff2 dưới dạng data URI để chạy hoàn toàn offline.
+const localFontsCss = fs
+    .readFileSync(path.join(FONTS_DIR, "fonts.css"), "utf8")
+    .replace(/font-display:\s*swap;/g, "font-display: block;")
+    .replace(/url\(\/fonts\/([^)]+\.woff2)\)/g, (_, file) => {
+        const b64 = fs.readFileSync(path.join(FONTS_DIR, file)).toString("base64");
+        return `url(data:font/woff2;base64,${b64})`;
+    });
 
 const tones = {
     ocean: ["#1b6265", "#dcebea"],
@@ -79,17 +85,23 @@ const caseHtml = (p) => {
 
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: exe, headless: true });
-const jobs = [["home", homeHtml()], ...projects.map((p) => [p.slug, caseHtml(p)])];
-for (const [name, body] of jobs) {
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
-    await page.setContent(
-        `<!doctype html><html lang="vi"><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=block"><style>${css}</style></head><body>${body}</body></html>`,
-        { waitUntil: "load" },
-    );
-    await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: path.join(OUT, `${name}.jpg`), type: "jpeg", quality: 88 });
-    await page.close();
-    console.log(`  og/${name}.jpg`);
+try {
+    const jobs = [["home", homeHtml()], ...projects.map((p) => [p.slug, caseHtml(p)])];
+    for (const [name, body] of jobs) {
+        const page = await browser.newPage();
+        try {
+            await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
+            await page.setContent(
+                `<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>${localFontsCss}\n${css}</style></head><body>${body}</body></html>`,
+                { waitUntil: "load" },
+            );
+            await page.evaluate(() => document.fonts.ready);
+            await page.screenshot({ path: path.join(OUT, `${name}.jpg`), type: "jpeg", quality: 88 });
+            console.log(`  og/${name}.jpg`);
+        } finally {
+            await page.close();
+        }
+    }
+} finally {
+    await browser.close();
 }
-await browser.close();

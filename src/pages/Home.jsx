@@ -1,3 +1,4 @@
+import "../styles/home.css";
 import { Hero } from "../sections/Hero.jsx";
 import { StorySection } from "../sections/StorySection.jsx";
 import { CaseCard } from "../components/CaseCard.jsx";
@@ -9,8 +10,7 @@ const featured = projects.slice(0, 3);
 
 export default function Home() {
     return (
-        <>
-            <main id="main">
+        <main id="main" tabIndex={-1}>
             <Hero />
             <StorySection />
             <section className="featured" aria-labelledby="featured-title">
@@ -36,8 +36,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            </main>
             <ContactBlock />
-        </>
+        </main>
     );
 }

@@ -4,5 +4,5 @@ compatibility_date = "2026-05-09"
 
 [env.production]
 # Build config managed via Cloudflare Dashboard (Git-connected Pages)
-# Build command: npm run build
+# Build command: pnpm run build
 # Output directory: dist
